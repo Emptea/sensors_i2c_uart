@@ -434,6 +434,11 @@
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f0xx_it.c</FilePath>
             </File>
+            <File>
+              <FileName>zs05.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\zs05.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
