@@ -1,5 +1,5 @@
-#include "main.h"
+#include "i2c.h"
 
-#define ADDRESS_LM75BD	0x48
+#define LM75BD_ADDR	0x48
 
-float lm75bd_read_temp(void);
+float lm75bd_read_temp(void);	

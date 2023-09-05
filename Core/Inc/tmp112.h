@@ -1,4 +1,4 @@
-#include "main.h"
+#include "i2c.h"
 
 #define TMP112_ADDR 0x48 //SHOULD BE CHANGED
 float tmp112_read_temp(void);

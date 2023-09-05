@@ -86,5 +86,26 @@ void MX_I2C1_Init(void)
 }
 
 /* USER CODE BEGIN 1 */
+void i2c1_send (uint8_t data)
+{
+	while (!LL_I2C_IsActiveFlag_TXIS(I2C1))
+	{
+		if(LL_I2C_IsActiveFlag_NACK(I2C1)) return;
+	}
+	LL_I2C_TransmitData8(I2C1, data);
+}
+
+uint32_t i2c1_start_read(uint32_t addr, uint32_t len)
+{
+	LL_I2C_SetSlaveAddr(I2C1, addr);
+	LL_I2C_SetTransferRequest(I2C1, LL_I2C_REQUEST_READ);
+	LL_I2C_SetTransferSize(I2C1, len);
+	
+	LL_I2C_GenerateStartCondition(I2C1);
+	if (LL_I2C_IsActiveFlag_NACK(I2C1)) 
+		return 0;
+	else
+		return 1;
+}
 
 /* USER CODE END 1 */

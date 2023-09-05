@@ -2,18 +2,15 @@
 
 void tmp112_read(uint8_t* data, uint32_t nbytes)
 {
-	LL_I2C_SetSlaveAddr(I2C1,TMP112_ADDR);
-	LL_I2C_SetTransferRequest(I2C1, LL_I2C_REQUEST_READ);
-	LL_I2C_SetTransferSize(I2C1, nbytes);
-	
-	LL_I2C_GenerateStartCondition(I2C1);
-	for (uint32_t i = 0; i < nbytes; i++)
+	if(i2c1_start_read(TMP112_ADDR,nbytes))
 	{
-		LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-		while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
-		*data++ = LL_I2C_ReceiveData8(I2C1);
+		for (uint32_t i = 0; i < nbytes; i++)
+		{
+			LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
+			while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
+			*data++ = LL_I2C_ReceiveData8(I2C1);
+		}
 	}
-	
 	LL_I2C_GenerateStopCondition(I2C1);
 }
 
