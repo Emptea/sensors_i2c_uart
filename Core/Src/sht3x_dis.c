@@ -24,7 +24,7 @@ uint32_t calculate_crc (uint32_t *data, uint32_t len)
 	return (uint32_t) crc;
 }
 
-uint32_t check_crc (uint32_t sent_crc, uint32_t *data, uint32_t len)
+uint32_t sht3x_dis_check_crc (uint32_t sent_crc, uint32_t *data, uint32_t len)
 {
 	uint32_t real_crc = calculate_crc(data,len);
 	
@@ -40,18 +40,18 @@ float convert_temp (uint32_t data)
 	return -45.0f+175.0f*data/65535.0f;
 }
 
-void data_processing (struct sht3x_dis_temp_hum *processed ,uint32_t *buf)
+void sht3x_dis_data_processing (struct sht3x_dis_temp_hum *processed ,uint32_t *buf)
 {
 	uint32_t temp = *buf++ << 8;
 	temp &= *buf++;
 	processed->crc_temp = *buf++;
-	if (check_crc(processed->crc_temp, &temp, 2))
+	if (sht3x_dis_check_crc(processed->crc_temp, &temp, 2))
 		processed->temp = convert_temp(temp);
 	
 	uint32_t hum = *buf++ << 8;
 	hum &= *buf++;
 	processed->crc_hum = *buf++;
-	if (check_crc(processed->crc_temp, &hum, 2))
+	if (sht3x_dis_check_crc(processed->crc_temp, &hum, 2))
 		processed->hum = convert_hum(hum);
 }
 
@@ -88,7 +88,7 @@ void sht3x_dis_single_meas_no_stretching (struct sht3x_dis_temp_hum *data,enum m
 		buf[i] = LL_I2C_ReceiveData8(I2C1);
 	}
 	
-	data_processing(data, buf);
+	sht3x_dis_data_processing(data, buf);
 }
 
 
@@ -120,7 +120,7 @@ void sht3x_dis_single_meas_stretching (struct sht3x_dis_temp_hum *data,enum meas
 				buf[i] = LL_I2C_ReceiveData8(I2C1);
 			}
 	}
-	data_processing(data, buf);
+	sht3x_dis_data_processing(data, buf);
 }
 
 void sht3x_dis_enter_periodic_meas (enum meas_mode_periodic meas_mode)
@@ -141,7 +141,7 @@ uint32_t sht3x_dis_fetch_data (struct sht3x_dis_temp_hum *data)
 			buf[i] = LL_I2C_ReceiveData8(I2C1);
 		}
 	}
-	data_processing(data, buf);
+	sht3x_dis_data_processing(data, buf);
 	return 1;
 }
 
@@ -178,7 +178,7 @@ void sht3x_dis_read_status(void)
 			buf[i] = LL_I2C_ReceiveData8(I2C1);
 		}
 	}
-	if (check_crc (buf[2], buf, 2))
+	if (sht3x_dis_check_crc (buf[2], buf, 2))
 	{
 		//TODO parse status data and trasmit them to user;
 	}

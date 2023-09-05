@@ -1,6 +1,6 @@
 #include "zs05.h"
 
-uint32_t check_crc(uint32_t *data, uint32_t len,uint32_t sent_crc)
+uint32_t zs05_check_crc(uint32_t *data, uint32_t len,uint32_t sent_crc)
 {
 	uint32_t calculated_crc = 0;
 	while(len--)
@@ -10,7 +10,7 @@ uint32_t check_crc(uint32_t *data, uint32_t len,uint32_t sent_crc)
 	return (sent_crc == calculated_crc);
 }
 
-void data_processing(struct zs05_data *res, uint32_t *buf)
+void zs05_data_processing(struct zs05_data *res, uint32_t *buf)
 {
 	res->temp = *buf++;
 	if (*buf++ & 0x80) 
@@ -37,6 +37,6 @@ void zs05_read(struct zs05_data *res)
 	res->crc = LL_I2C_ReceiveData8(I2C1);
 	LL_I2C_GenerateStopCondition(I2C1);
 		
-	if(check_crc(buf, 4, res->crc))
-		data_processing(res, buf);
+	if(zs05_check_crc(buf, 4, res->crc))
+		zs05_data_processing(res, buf);
 }
