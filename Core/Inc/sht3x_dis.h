@@ -1,4 +1,4 @@
-#include "main.h"
+#include "i2c.h"
 
 #define SHT3X_DIS_ADDR 0x44
 
@@ -45,17 +45,56 @@
 #define SHT3X_DIS_CMD_READ_STATUS 0xF32D
 #define SHT3X_DIS_CMD_CLEAR_STATUS 0x3041
 
-enum meas_mode
+enum meas_mode_single
 {
 	HIGH,
 	MEDIUM,
 	LOW
-} meas_mode;
+};
+
+enum meas_mode_periodic
+{
+	HIGH_0_5_MPS = 0x2032,
+	MEDIUM_0_5_MPS = 0x2024,
+	LOW_0_5_MPS = 0x202F,
+	HIGH_1_MPS = 0x2130,
+	MEDIUM_1_MPS = 0x2126,
+	LOW_1_MPS = 0x212D,
+	HIGH_2_MPS = 0x2236,
+	MEDIUM_2_MPS = 0x2220,
+	LOW_2_MPS = 0x222B,
+	HIGH_4_MPS = 0x2334,
+	MEDIUM_4_MPS = 0x2322,
+	LOW_4_MPS = 0x2329,
+	HIGH_10_MPS = 0x2737,
+	MEDIUM_10_MPS = 0x2721,
+	LOW_10_MPS0x272A,
+};
+
 
 struct sht3x_dis_temp_hum
 {
-	uint32_t temp;
+	float temp;
 	uint32_t crc_temp;
-	uint32_t hum;
+	float hum;
 	uint32_t crc_hum;
 } sht3x_dis_temp_hum;
+
+
+void sht3x_dis_single_meas_no_stretching (struct sht3x_dis_temp_hum *data,enum meas_mode_single meas_mode);
+void sht3x_dis_single_meas_stretching (struct sht3x_dis_temp_hum *data,enum meas_mode_single meas_mode);
+
+void sht3x_dis_enter_periodic_meas (enum meas_mode_periodic meas_mode);
+uint32_t sht3x_dis_fetch_data (struct sht3x_dis_temp_hum *data);
+void sht3x_dis_stop_periodic_meas (void);
+
+void sht3x_dis_soft_reset (void);
+
+void sht3x_dis_enable_heater(void);
+void sht3x_dis_disable_heater(void);
+
+void sht3x_dis_read_status(void);
+void sht3x_dis_clear_status (void);
+
+
+
