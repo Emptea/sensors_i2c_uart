@@ -77,7 +77,7 @@ void MX_I2C1_Init(void)
   I2C_InitStruct.TypeAcknowledge = LL_I2C_ACK;
   I2C_InitStruct.OwnAddrSize = LL_I2C_OWNADDRESS1_7BIT;
   LL_I2C_Init(I2C1, &I2C_InitStruct);
-  LL_I2C_EnableAutoEndMode(I2C1);
+  LL_I2C_DisableAutoEndMode(I2C1);
   LL_I2C_SetOwnAddress2(I2C1, 0, LL_I2C_OWNADDRESS2_NOMASK);
   /* USER CODE BEGIN I2C1_Init 2 */
 
