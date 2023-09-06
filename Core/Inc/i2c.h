@@ -43,6 +43,11 @@ void i2c1_send (uint8_t data);
 uint32_t i2c1_start_read(uint32_t addr, uint32_t len);
 void i2c1_read(uint8_t *data);
 
+struct i2c_flags
+{
+	uint32_t bmp180_first_meas : 1;
+};
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

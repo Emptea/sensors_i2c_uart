@@ -24,7 +24,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "lm75bd.h"
+#include "tmp112.h"
+#include "sht3x_dis.h"
+#include "zs05.h"
+#include "bmp180.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +49,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+struct i2c_flags i2c_flags = {1};
+struct p_bmp180 p_bmp180 = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -95,6 +100,7 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+	uint32_t oss = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -102,7 +108,14 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+		
+		if (i2c_flags.bmp180_first_meas)
+		{
+			bmp180_get_cal_param(&p_bmp180);
+		}
+		bmp180_get_temp(&p_bmp180);
+		bmp180_get_press(&p_bmp180, oss);
+		
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
