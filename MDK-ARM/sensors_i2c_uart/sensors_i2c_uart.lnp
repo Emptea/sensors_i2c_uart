@@ -9,6 +9,7 @@
 "sensors_i2c_uart\usart.o"
 "sensors_i2c_uart\stm32f0xx_it.o"
 "sensors_i2c_uart\zs05.o"
+"sensors_i2c_uart\bmp180.o"
 "sensors_i2c_uart\stm32f0xx_ll_gpio.o"
 "sensors_i2c_uart\stm32f0xx_ll_i2c.o"
 "sensors_i2c_uart\stm32f0xx_ll_dma.o"

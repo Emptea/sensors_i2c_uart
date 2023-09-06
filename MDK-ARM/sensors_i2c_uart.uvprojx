@@ -439,6 +439,11 @@
               <FileType>1</FileType>
               <FilePath>.\zs05.c</FilePath>
             </File>
+            <File>
+              <FileName>bmp180.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\bmp180.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
