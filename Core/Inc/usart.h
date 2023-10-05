@@ -28,17 +28,22 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "uid_hash.h"
+#include "crc16.h"
 
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-#define PC_ID 0x0000
+#define PC_ID 0x00000000
+
 #define HEADER_SIZE 32
+#define CHUNK_HEADER_SIZE 6
+#define WHOAMI_BIT 2
+
 #define PROTOCOL_AURA 0x41525541
 
-struct usart_header
+typedef struct usart_header
 {
 	uint32_t protocol;
 	uint32_t cnt;
@@ -47,15 +52,37 @@ struct usart_header
 	uint32_t src;
 	uint32_t dest;
 	uint32_t path[4];
+} usart_header;
+
+enum sensor_type
+{
+	SENSOR_TYPE_LM75BD = 1,
+	SENSOR_TYPE_TMP112,
+	SENSOR_TYPE_SHT30,
+	SENSOR_TYPE_ZS05,
+	SENSOR_TYPE_BMP180
+};
+
+enum data_type
+{
+	DATA_TYPE_CHAR = 1,
+	DATA_TYPE_UCHAR,
+	DATA_TYPE_SHORT,
+	DATA_TYPE_USHORT,
+	DATA_TYPE_INT,
+	DATA_TYPE_UINT,
+	DATA_TYPE_FLOAT,
+	DATA_TYPE_DOUBLE,
+	DATA_TYPE_STRING
 };
 
 // should be sent before sending data
-struct usart_chunk_head
+typedef struct usart_chunk_head
 {
-	uint32_t id;
-	uint32_t type;
-	uint32_t payload_sz;
-};
+	uint32_t id: 16;
+	uint32_t type: 16;
+	uint32_t payload_sz: 16;
+} usart_chunk_head;
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);

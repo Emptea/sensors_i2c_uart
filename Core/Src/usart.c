@@ -92,35 +92,46 @@ void MX_USART1_UART_Init(void)
 
 /* USER CODE BEGIN 1 */
 
-static void usart_send (const char *s, uint32_t len)
+static void usart_send (const void *s, uint32_t len)
 {
 	do
 	{
-		LL_USART_TransmitData8(USART1, *s++);
+		LL_USART_TransmitData8(USART1, (*(uint8_t *)s++));
 	} while(len--);
 }
 
-void usart_send_header(struct usart_header *header)
+static void usart_receive (uint8_t *data, uint32_t len)
 {
+	do
+	{
+		*data++ = LL_USART_ReceiveData8(USART1);
+	} while (len--);
+}
+
+
+void usart_whoami(usart_header *header, usart_chunk_head *chunk_head)
+{
+	chunk_head->type = DATA_TYPE_CHAR;
+	chunk_head->payload_sz = 0;
 	
-	usart_send((const char *) header, HEADER_SIZE);
+	uint16_t crc = crc16(0, header, HEADER_SIZE);	
+	crc = crc16(crc, chunk_head, CHUNK_HEADER_SIZE);
+	SET_BIT(header->flags, WHOAMI_BIT);
+	
+	usart_send(header, HEADER_SIZE);
+	usart_send(chunk_head, CHUNK_HEADER_SIZE);
+	usart_send(&crc, 2);
+	
+	CLEAR_BIT(header->flags, WHOAMI_BIT);
 }
 
-void usart_whoami(struct usart_header *header)
-{
-	SET_BIT(header->flags, 2);
-	usart_send_header(header);
-	CLEAR_BIT(header->flags, 2);
-}
 
-
-void usart_init(struct usart_header *header)
+void usart_init(usart_header *header, usart_chunk_head *chunk_head)
 {
 	MX_USART1_UART_Init();
 	
 	header->src = uid_hash();
-	usart_whoami(header);
 	
-	
+	usart_whoami(header, chunk_head);
 }
 /* USER CODE END 1 */
