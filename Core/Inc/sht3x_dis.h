@@ -78,7 +78,7 @@ struct sht3x_dis_temp_hum
 	uint32_t crc_temp;
 	float hum;
 	uint32_t crc_hum;
-} sht3x_dis_temp_hum;
+};
 
 
 void sht3x_dis_single_meas_no_stretching (struct sht3x_dis_temp_hum *data,enum meas_mode_single meas_mode);
