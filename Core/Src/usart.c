@@ -92,4 +92,35 @@ void MX_USART1_UART_Init(void)
 
 /* USER CODE BEGIN 1 */
 
+static void usart_send (const char *s, uint32_t len)
+{
+	do
+	{
+		LL_USART_TransmitData8(USART1, *s++);
+	} while(len--);
+}
+
+void usart_send_header(struct usart_header *header)
+{
+	
+	usart_send((const char *) header, HEADER_SIZE);
+}
+
+void usart_whoami(struct usart_header *header)
+{
+	SET_BIT(header->flags, 2);
+	usart_send_header(header);
+	CLEAR_BIT(header->flags, 2);
+}
+
+
+void usart_init(struct usart_header *header)
+{
+	MX_USART1_UART_Init();
+	
+	header->src = uid_hash();
+	usart_whoami(header);
+	
+	
+}
 /* USER CODE END 1 */

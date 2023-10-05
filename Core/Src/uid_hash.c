@@ -51,7 +51,7 @@ static uint32_t Hash32Len5to12(const char *s, uint32_t len) {
   return fmix(Mur(c, Mur(b, Mur(a, d))));
 }
 
-uint32_t hash_uid()
+uint32_t uid_hash()
 {
 	union uidun
 {
