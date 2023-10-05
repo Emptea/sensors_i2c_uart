@@ -444,6 +444,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\bmp180.c</FilePath>
             </File>
+            <File>
+              <FileName>uid_hash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\uid_hash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
