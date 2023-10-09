@@ -54,15 +54,6 @@ typedef struct usart_header
 	uint32_t path[4];
 } usart_header;
 
-enum sensor_type
-{
-	SENSOR_TYPE_LM75BD = 1,
-	SENSOR_TYPE_TMP112,
-	SENSOR_TYPE_SHT30,
-	SENSOR_TYPE_ZS05,
-	SENSOR_TYPE_BMP180
-};
-
 enum data_type
 {
 	DATA_TYPE_CHAR = 1,
@@ -83,6 +74,19 @@ typedef struct usart_chunk_head
 	uint32_t type: 16;
 	uint32_t payload_sz: 16;
 } usart_chunk_head;
+
+typedef struct usart_data_header
+{
+	usart_header header;
+	usart_chunk_head chunk_header;
+} usart_data_header;
+
+enum mode
+{
+	MODE_IDLE,
+	MODE_RECEIVE,
+};
+
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);

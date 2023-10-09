@@ -19,6 +19,12 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
+#include "i2c.h"
+#include "lm75bd.h"
+#include "tmp112.h"
+#include "sht3x_dis.h"
+#include "zs05.h"
+#include "bmp180.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -100,38 +106,78 @@ static void usart_send (const void *s, uint32_t len)
 	} while(len--);
 }
 
-static void usart_receive (uint8_t *data, uint32_t len)
+//static void usart_receive (uint8_t *data, uint32_t len)
+//{
+//	do
+//	{
+//		*data++ = LL_USART_ReceiveData8(USART1);
+//	} while (len--);
+//}
+
+//static void usart_work (enum mode mode, usart_header *header, uint32_t uid)
+//{
+//	// should be usart_receive((uint8_t *)header, 32) before this func
+//	switch(mode)
+//	{
+//		case MODE_IDLE:
+//			if (header->protocol == PROTOCOL_AURA && header->dest == uid)
+//				mode = MODE_RECEIVE;
+//			break;
+//		case MODE_RECEIVE:
+//		{
+//			
+//			break;
+//		}
+//		default:
+//			break;
+//	}
+//}
+
+void usart_create_data(usart_data_header *data_header, uint32_t uid)
 {
-	do
-	{
-		*data++ = LL_USART_ReceiveData8(USART1);
-	} while (len--);
+	static uint32_t cnt = 0;
+
+	data_header->header.protocol = PROTOCOL_AURA;
+	data_header->header.cnt = ++cnt;
+	data_header->header.dist = 0;
+	data_header->header.flags = 0x2; //0b010
+	data_header->header.src = uid;
+	data_header->header.dest = PC_ID;
+	
 }
 
 
-void usart_whoami(usart_header *header, usart_chunk_head *chunk_head)
+
+void usart_whoami(usart_data_header *data_header)
 {
-	chunk_head->type = DATA_TYPE_CHAR;
-	chunk_head->payload_sz = 0;
+	data_header->chunk_header.type = DATA_TYPE_CHAR;
+	data_header->chunk_header.payload_sz = 0;
 	
-	uint16_t crc = crc16(0, header, HEADER_SIZE);	
-	crc = crc16(crc, chunk_head, CHUNK_HEADER_SIZE);
-	SET_BIT(header->flags, WHOAMI_BIT);
+	uint16_t crc = crc16(0, &(data_header->header), HEADER_SIZE);	
+	crc = crc16(crc, &(data_header->chunk_header), CHUNK_HEADER_SIZE);
+	SET_BIT(data_header->header.flags, WHOAMI_BIT);
 	
-	usart_send(header, HEADER_SIZE);
-	usart_send(chunk_head, CHUNK_HEADER_SIZE);
+	usart_send(&(data_header->header), HEADER_SIZE);
+	usart_send(&(data_header->chunk_header), CHUNK_HEADER_SIZE);
 	usart_send(&crc, 2);
 	
-	CLEAR_BIT(header->flags, WHOAMI_BIT);
+	CLEAR_BIT(data_header->header.flags, WHOAMI_BIT);
 }
 
 
-void usart_init(usart_header *header, usart_chunk_head *chunk_head)
+uint32_t usart_init(usart_data_header *data_header)
 {
 	MX_USART1_UART_Init();
 	
-	header->src = uid_hash();
+	data_header->header.src = uid_hash();
 	
-	usart_whoami(header, chunk_head);
+	usart_whoami(data_header);
+	
+	return data_header->header.src;
+}
+
+void usart_get_src()
+{
+	
 }
 /* USER CODE END 1 */

@@ -1,6 +1,6 @@
 #include "lm75bd.h"
 
-void lm75bd_read(uint8_t* data, uint32_t nbytes)
+static uint32_t lm75bd_read(uint8_t* data, uint32_t nbytes)
 {
 	if(i2c1_start_read(LM75BD_ADDR, nbytes))
 	{
@@ -10,16 +10,19 @@ void lm75bd_read(uint8_t* data, uint32_t nbytes)
 			while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
 			*data++ = LL_I2C_ReceiveData8(I2C1);
 		}
+		
+		// read last byte
+		LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_NACK);
+		while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
+		*data++ = LL_I2C_ReceiveData8(I2C1);
+		LL_I2C_GenerateStopCondition(I2C1);
+		return 1;
 	}
-	// read last byte
-	LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_NACK);
-	while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
-	*data++ = LL_I2C_ReceiveData8(I2C1);
-	LL_I2C_GenerateStopCondition(I2C1);
+	return 0;
 }
 
 
-int32_t two_complement_11bits(uint32_t num)
+static int32_t two_complement_11bits(uint32_t num)
 {
 	int32_t two_complement = (~num) + 1;
 	if (num & 0x80)

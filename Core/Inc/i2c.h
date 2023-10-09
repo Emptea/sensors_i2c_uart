@@ -33,7 +33,14 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-
+enum sensor_type
+{
+	SENSOR_TYPE_LM75BD = 1,
+	SENSOR_TYPE_TMP112,
+	SENSOR_TYPE_SHT30,
+	SENSOR_TYPE_ZS05,
+	SENSOR_TYPE_BMP180
+};
 /* USER CODE END Private defines */
 
 void MX_I2C1_Init(void);
