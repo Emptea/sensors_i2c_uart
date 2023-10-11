@@ -115,4 +115,21 @@ void i2c1_read(uint8_t *data)
 		*data = LL_I2C_ReceiveData8(I2C1);
 }
 
+uint32_t i2c1_scan(uint32_t *addr, uint32_t len)
+{
+	do
+	{
+	LL_I2C_SetSlaveAddr(I2C1, *addr);
+	LL_I2C_SetTransferRequest(I2C1, LL_I2C_REQUEST_READ);
+	LL_I2C_SetTransferSize(I2C1, 0);
+	
+	LL_I2C_GenerateStartCondition(I2C1);
+	if (LL_I2C_IsActiveFlag_NACK(I2C1)) 
+		addr++;
+	else
+		return *addr;
+	} while (len--);
+	return 0;
+}
+
 /* USER CODE END 1 */
