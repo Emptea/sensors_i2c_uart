@@ -106,7 +106,7 @@ static void usart_send (const void *s, uint32_t len)
 	} while(len--);
 }
 
-static uint32_t get_type()
+static uint32_t get_id()
 {
 	uint32_t addresses[5] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP180_ADDR};
 	
@@ -140,7 +140,7 @@ static uint32_t get_type()
 //	}
 //}
 
-void usart_create_data(usart_data_header *data_header, uint32_t uid)
+void usart_create_data(usart_data_header *data_header)
 {
 	static uint32_t cnt = 0;
 
@@ -148,7 +148,6 @@ void usart_create_data(usart_data_header *data_header, uint32_t uid)
 	data_header->header.cnt = ++cnt;
 	data_header->header.dist = 0;
 	data_header->header.flags = 0x2; //0b010
-	data_header->header.src = uid;
 	data_header->header.dest = PC_ID;
 	
 }
@@ -174,8 +173,10 @@ uint32_t usart_init(usart_data_header *data_header)
 {
 	MX_USART1_UART_Init();
 	
-	data_header->chunk_header.type = get_type();
+	data_header->chunk_header.id = get_id();
 	data_header->header.src = uid_hash();
+	
+	usart_create_data(data_header);
 	
 	usart_whoami(data_header);
 	

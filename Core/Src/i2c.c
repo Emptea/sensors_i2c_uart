@@ -68,7 +68,7 @@ void MX_I2C1_Init(void)
   */
   LL_I2C_DisableOwnAddress2(I2C1);
   LL_I2C_DisableGeneralCall(I2C1);
-  LL_I2C_EnableClockStretching(I2C1);
+  LL_I2C_DisableClockStretching(I2C1);
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
   I2C_InitStruct.Timing = 0x200009FE;
   I2C_InitStruct.AnalogFilter = LL_I2C_ANALOGFILTER_ENABLE;
@@ -80,7 +80,7 @@ void MX_I2C1_Init(void)
   LL_I2C_DisableAutoEndMode(I2C1);
   LL_I2C_SetOwnAddress2(I2C1, 0, LL_I2C_OWNADDRESS2_NOMASK);
   /* USER CODE BEGIN I2C1_Init 2 */
-
+	
   /* USER CODE END I2C1_Init 2 */
 
 }

@@ -51,6 +51,7 @@
 /* USER CODE BEGIN PV */
 struct i2c_flags i2c_flags = {1};
 struct p_bmp180 p_bmp180 = {0};
+uint32_t adresses[] = {BMP180_ADDR};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -108,13 +109,17 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-		
-		if (i2c_flags.bmp180_first_meas)
-		{
-			bmp180_get_cal_param(&p_bmp180);
-		}
-		bmp180_get_temp(&p_bmp180);
-		bmp180_get_press(&p_bmp180, oss);
+			i2c1_scan(adresses, 1);
+			LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
+			LL_mDelay(500);
+			LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
+			LL_mDelay(500);
+//		if (i2c_flags.bmp180_first_meas)
+//		{
+//			bmp180_get_cal_param(&p_bmp180);
+//		}
+//		bmp180_get_temp(&p_bmp180);
+//		bmp180_get_press(&p_bmp180, oss);
 		
     /* USER CODE BEGIN 3 */
   }

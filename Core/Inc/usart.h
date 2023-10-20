@@ -92,7 +92,7 @@ enum mode
 void MX_USART1_UART_Init(void);
 uint32_t usart_init(usart_data_header *data_header);
 void usart_whoami(usart_data_header *data_header);
-void usart_create_data(usart_data_header *data_header, uint32_t uid);
+void usart_create_data(usart_data_header *data_header);
 
 /* USER CODE BEGIN Prototypes */
 
