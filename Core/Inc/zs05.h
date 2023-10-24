@@ -1,6 +1,6 @@
 #include "i2c.h"
 
-#define ZS05_ADDR 0xB8
+#define ZS05_ADDR 0x5C
 
 struct zs05_data
 {

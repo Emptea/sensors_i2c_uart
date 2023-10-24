@@ -70,7 +70,7 @@ void MX_I2C1_Init(void)
   LL_I2C_DisableGeneralCall(I2C1);
   LL_I2C_DisableClockStretching(I2C1);
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
-  I2C_InitStruct.Timing = 0x200009FE;
+  I2C_InitStruct.Timing = 0x40003EFF;
   I2C_InitStruct.AnalogFilter = LL_I2C_ANALOGFILTER_ENABLE;
   I2C_InitStruct.DigitalFilter = 0;
   I2C_InitStruct.OwnAddress1 = 0;
@@ -119,16 +119,23 @@ uint32_t i2c1_scan(uint32_t *addr, uint32_t len)
 {
 	for (uint32_t i = 0; i < len; i++)
 	{
-		LL_I2C_SetSlaveAddr(I2C1, *addr);
+		LL_I2C_SetSlaveAddr(I2C1, (*addr << 1));
 		LL_I2C_SetTransferRequest(I2C1, LL_I2C_REQUEST_READ);
 		LL_I2C_SetTransferSize(I2C1, 0);
 		
 		LL_I2C_GenerateStartCondition(I2C1);
-		if (LL_I2C_IsActiveFlag_NACK(I2C1)) 
+		if (LL_I2C_IsActiveFlag_NACK(I2C1))
+		{
 			addr++;
+			LL_I2C_GenerateStopCondition(I2C1);			
+		}
 		else
-			return i;
+		{
+			LL_I2C_GenerateStopCondition(I2C1);
+			return i+1;
+		}
 	}
+	LL_I2C_GenerateStopCondition(I2C1);
 	return 0;
 }
 
