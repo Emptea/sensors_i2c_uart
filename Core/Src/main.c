@@ -51,7 +51,7 @@
 /* USER CODE BEGIN PV */
 struct i2c_flags i2c_flags = {1};
 struct p_bmp180 p_bmp180 = {0};
-uint32_t adresses[] = {BMP180_ADDR};
+uint32_t adresses[] = {LM75BD_ADDR};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -109,9 +109,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-			i2c1_scan(adresses, 1);
-			LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
-			LL_mDelay(500);
+			if(i2c1_scan(adresses, 1))
+			{
+				LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
+				LL_mDelay(500);
+			}
 			LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
 			LL_mDelay(500);
 //		if (i2c_flags.bmp180_first_meas)
