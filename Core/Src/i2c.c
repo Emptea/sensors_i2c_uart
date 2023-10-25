@@ -81,17 +81,22 @@ void MX_I2C1_Init(void)
   I2C_InitStruct.TypeAcknowledge = LL_I2C_ACK;
   I2C_InitStruct.OwnAddrSize = LL_I2C_OWNADDRESS1_7BIT;
   LL_I2C_Init(I2C1, &I2C_InitStruct);
-  LL_I2C_EnableAutoEndMode(I2C1);
+  //LL_I2C_EnableAutoEndMode(I2C1);
   LL_I2C_SetOwnAddress2(I2C1, 0, LL_I2C_OWNADDRESS2_NOMASK);
   /* USER CODE BEGIN I2C1_Init 2 */
+	LL_I2C_Enable(I2C1);
 	
+//	LL_I2C_EnableIT_RX(I2C1);
+//  LL_I2C_EnableIT_NACK(I2C1);
+//  LL_I2C_EnableIT_ERR(I2C1);
+//  LL_I2C_EnableIT_STOP(I2C1);
   /* USER CODE END I2C1_Init 2 */
 
 }
 
 /* USER CODE BEGIN 1 */
 void i2c1_send (uint8_t data)
-{
+{	
 	while (!LL_I2C_IsActiveFlag_TXIS(I2C1))
 	{
 		if(LL_I2C_IsActiveFlag_NACK(I2C1)) return;
@@ -99,48 +104,37 @@ void i2c1_send (uint8_t data)
 	LL_I2C_TransmitData8(I2C1, data);
 }
 
-uint32_t i2c1_start_read(uint32_t addr, uint32_t len)
+uint32_t i2c1_read(uint8_t *data, uint32_t addr, uint32_t nbytes)
 {
-	LL_I2C_SetSlaveAddr(I2C1, addr);
-	LL_I2C_SetTransferRequest(I2C1, LL_I2C_REQUEST_READ);
-	LL_I2C_SetTransferSize(I2C1, len);
-	
-	LL_I2C_GenerateStartCondition(I2C1);
-	if (LL_I2C_IsActiveFlag_NACK(I2C1)) 
-		return 0;
-	else
-		return 1;
-}
+	uint32_t cnt = 0;
+	LL_I2C_HandleTransfer(I2C1, (addr << 1), LL_I2C_ADDRSLAVE_7BIT, nbytes, LL_I2C_MODE_AUTOEND, LL_I2C_GENERATE_START_READ);
 
-void i2c1_read(uint8_t *data)
-{
-		LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-		while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
-		*data = LL_I2C_ReceiveData8(I2C1);
-}
-
-uint32_t i2c1_scan(uint32_t *addr, uint32_t len)
-{
-	for (uint32_t i = 0; i < len; i++)
-	{
-		LL_I2C_SetSlaveAddr(I2C1, (*addr << 1));
-		LL_I2C_SetTransferRequest(I2C1, LL_I2C_REQUEST_READ);
-		LL_I2C_SetTransferSize(I2C1, 0);
-		
-		LL_I2C_GenerateStartCondition(I2C1);
-		if (LL_I2C_IsActiveFlag_NACK(I2C1))
-		{
-			addr++;
-			LL_I2C_GenerateStopCondition(I2C1);			
-		}
-		else
-		{
-			LL_I2C_GenerateStopCondition(I2C1);
-			return i+1;
-		}
+	for (uint32_t i = 0; i < nbytes; i++){
+		while(!LL_I2C_IsActiveFlag_RXNE(I2C1));
+		*data++ = LL_I2C_ReceiveData8(I2C1);
+		cnt++;
 	}
-	LL_I2C_GenerateStopCondition(I2C1);
-	return 0;
+	
+	return cnt;
+}
+
+uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint32_t nbytes)
+{
+	uint32_t cnt = 0;
+	LL_I2C_HandleTransfer(I2C1, (addr << 1), LL_I2C_ADDRSLAVE_7BIT, 1, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_START_WRITE);
+	
+	while(!LL_I2C_IsActiveFlag_TXIS(I2C1));
+	LL_I2C_TransmitData8(I2C1, (uint8_t)pointer);
+	
+	LL_I2C_HandleTransfer(I2C1, (addr << 1), LL_I2C_ADDRSLAVE_7BIT, nbytes, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_RESTART_7BIT_READ);
+
+	for (uint32_t i = 0; i < nbytes; i++){
+		while(!LL_I2C_IsActiveFlag_RXNE(I2C1));
+		*data++ = LL_I2C_ReceiveData8(I2C1);
+		cnt++;
+	}
+	
+	return cnt;
 }
 
 /* USER CODE END 1 */

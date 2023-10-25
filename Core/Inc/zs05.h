@@ -8,3 +8,5 @@ struct zs05_data
 	uint32_t hum;
 	uint32_t crc;
 };
+
+void zs05_read(struct zs05_data *res);

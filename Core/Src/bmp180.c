@@ -31,11 +31,11 @@ void bmp180_get_cal_param(struct p_bmp180 *p_bmp180)
 		LL_I2C_GenerateStartCondition(I2C1);
 		i2c1_send(addr);
 		
-		if (i2c1_start_read(BMP180_ADDR, 2))
-		{
-			i2c1_read((uint8_t *)&p_bmp180->calibr.raw_data[i++]);
-			i2c1_read((uint8_t *)&p_bmp180->calibr.raw_data[i++]);
-		}
+//		if (i2c1_start_read(BMP180_ADDR, 2))
+//		{
+//			i2c1_read((uint8_t *)&p_bmp180->calibr.raw_data[i++]);
+//			i2c1_read((uint8_t *)&p_bmp180->calibr.raw_data[i++]);
+//		}
 	}
 	LL_I2C_GenerateStopCondition(I2C1);
 }
@@ -50,11 +50,11 @@ uint32_t bmp180_read_uncomp(void)
 	LL_I2C_GenerateStartCondition(I2C1);
 	i2c1_send(0xF6);
 	
-	if(i2c1_start_read(BMP180_ADDR, 2))
-	{
-		i2c1_read((uint8_t *)buf);
-		i2c1_read((uint8_t *)buf+1);
-	}
+//	if(i2c1_start_read(BMP180_ADDR, 2))
+//	{
+//		i2c1_read((uint8_t *)buf);
+//		i2c1_read((uint8_t *)buf+1);
+//	}
 	return ((buf[0] <<8) & buf[1]);
 }
 

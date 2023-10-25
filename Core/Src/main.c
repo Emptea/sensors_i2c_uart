@@ -103,18 +103,17 @@ int main(void)
 
 	uint32_t oss = 0;
 	float temp = 0;
+	
+	struct zs05_data zs05_data = {0};
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		/* Master Generate Start condition for a read request :              */
-		/*    - to the Slave with a 7-Bit SLAVE_OWN_ADDRESS                   */
-		/*    - with a auto stop condition generation when transmit all bytes */
-//		LL_I2C_HandleTransfer(I2C1, LM75BD_ADDR, LL_I2C_ADDRSLAVE_7BIT, 0, LL_I2C_MODE_AUTOEND, LL_I2C_GENERATE_START_READ);
-//		while(!LL_I2C_IsActiveFlag_STOP(I2C1));
+
 		temp = lm75bd_read_temp();
+		//zs05_read(&zs05_data);
 		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
 		LL_mDelay(500);
 		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);

@@ -145,8 +145,22 @@ void SysTick_Handler(void)
   */
 void I2C1_IRQHandler(void)
 {
+	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
   /* USER CODE BEGIN I2C1_IRQn 0 */
+/* Check RXNE flag value in ISR register */
+  if(LL_I2C_IsActiveFlag_RXNE(I2C1))
+  {
+    /* Call function Master Reception Callback */
+    //aReceiveBuffer[ubReceiveIndex++] = LL_I2C_ReceiveData8(I2C1);
+  }
+  /* Check STOP flag value in ISR register */
+  else if (LL_I2C_IsActiveFlag_STOP(I2C1))
+  {
+    /* End of Transfer */
+    LL_I2C_ClearFlag_STOP(I2C1);
 
+    LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
+  }
   /* USER CODE END I2C1_IRQn 0 */
 
   /* USER CODE BEGIN I2C1_IRQn 1 */

@@ -106,12 +106,6 @@ static void usart_send (const void *s, uint32_t len)
 	} while(len--);
 }
 
-static uint32_t get_id()
-{
-	uint32_t addresses[5] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP180_ADDR};
-	
-	return (1 + i2c1_scan(addresses, 5));
-}
 
 //static void usart_receive (uint8_t *data, uint32_t len)
 //{
@@ -173,7 +167,7 @@ uint32_t usart_init(usart_data_header *data_header)
 {
 	MX_USART1_UART_Init();
 	
-	data_header->chunk_header.id = get_id();
+	//data_header->chunk_header.id = get_id();
 	data_header->header.src = uid_hash();
 	
 	usart_create_data(data_header);
