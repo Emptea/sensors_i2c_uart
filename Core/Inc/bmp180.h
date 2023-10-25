@@ -21,19 +21,23 @@ struct p_bmp180
 	union {
 		struct
 		{
-			int32_t ac1;
-			int32_t ac2;
-			int32_t ac3;
-			uint32_t ac4;
-			uint32_t ac5;
-			uint32_t ac6;
-			int32_t b1;
-			int32_t b2;
-			int32_t mb;
-			int32_t mc;
-			int32_t md;
+			int16_t ac1;
+			int16_t ac2;
+			int16_t ac3;
+			uint16_t ac4;
+			uint16_t ac5;
+			uint16_t ac6;
+			int16_t b1;
+			int16_t b2;
+			int16_t mb;
+			int16_t mc;
+			int16_t md;
 		} params;
-		uint16_t raw_data[2*11];
+		union
+		{
+			uint16_t byte_data[11];
+			uint8_t raw_data[2*11];
+		} data;
 	} calibr;
 };
 

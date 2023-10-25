@@ -38,6 +38,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+//#define LM75BD
+//#define ZS05
+#define BMP180
 
 /* USER CODE END PD */
 
@@ -111,19 +114,29 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-		temp = lm75bd_read_temp();
-		//zs05_read(&zs05_data);
+		#ifdef LM75BD
+			temp = lm75bd_read_temp();
+		#endif
+		
+		#ifdef ZS05
+			zs05_read(&zs05_data);
+		#endif
+		
+		#ifdef BMP180
+			if (i2c_flags.bmp180_first_meas)
+			{
+				bmp180_get_cal_param(&p_bmp180);
+				i2c_flags.bmp180_first_meas = 0;
+			}
+			bmp180_get_temp(&p_bmp180);
+			bmp180_get_press(&p_bmp180, oss);
+		#endif
+		
 		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
 		LL_mDelay(500);
 		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
 		LL_mDelay(500);
-//		if (i2c_flags.bmp180_first_meas)
-//		{
-//			bmp180_get_cal_param(&p_bmp180);
-//		}
-//		bmp180_get_temp(&p_bmp180);
-//		bmp180_get_press(&p_bmp180, oss);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
