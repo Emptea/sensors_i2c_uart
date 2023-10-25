@@ -8,7 +8,7 @@
 void bmp180_start_meas(uint32_t mode)
 {
 	uint32_t cnt = 0;
-	LL_I2C_HandleTransfer(I2C1, (BMP180_ADDR << 1), LL_I2C_ADDRSLAVE_7BIT, 2, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_START_WRITE);
+	LL_I2C_HandleTransfer(I2C1, (BMP180_ADDR << 1), LL_I2C_ADDRSLAVE_7BIT, 2, LL_I2C_MODE_AUTOEND, LL_I2C_GENERATE_START_WRITE);
 	
 	while(!LL_I2C_IsActiveFlag_TXIS(I2C1));
 	LL_I2C_TransmitData8(I2C1, 0xF4);
@@ -31,13 +31,16 @@ uint32_t bmp180_read_uncomp(void)
 {
 
 	uint8_t buf[2] = {0};
-	LL_I2C_HandleTransfer(I2C1, (BMP180_ADDR << 1), LL_I2C_ADDRSLAVE_7BIT, 2, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_RESTART_7BIT_READ);
-	for (uint32_t i = 0; i < 2; i++)
-	{
-		while(!LL_I2C_IsActiveFlag_RXNE(I2C1));
-		buf[i] = LL_I2C_ReceiveData8(I2C1);
-	}
-	return ((buf[0] <<8) + buf[1]);
+//	LL_I2C_HandleTransfer(I2C1, (BMP180_ADDR << 1), LL_I2C_ADDRSLAVE_7BIT, 2, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_START_WRITE);
+//	
+//	LL_I2C_HandleTransfer(I2C1, (BMP180_ADDR << 1), LL_I2C_ADDRSLAVE_7BIT, 2, LL_I2C_MODE_AUTOEND, LL_I2C_GENERATE_RESTART_7BIT_READ);
+//	for (uint32_t i = 0; i < 2; i++)
+//	{
+//		while(!LL_I2C_IsActiveFlag_RXNE(I2C1));
+//		buf[i] = LL_I2C_ReceiveData8(I2C1);
+//	}
+	i2c1_pointer_read(buf+1,BMP180_ADDR,0xF6,2);
+	return ((buf[1] <<8) + buf[0]);
 }
 
 void bmp180_get_uncomp_temp(struct p_bmp180 *p_bmp180)
@@ -78,7 +81,7 @@ uint32_t bmp180_get_temp(struct p_bmp180 *p_bmp180)
 		return BMP180_INVALID_DATA;
 	int32_t x2 = (p_bmp180->calibr.params.mc << 11)/(x1+p_bmp180->calibr.params.md);
 	
-	p_bmp180->temp = ((x1+x2+8) >> 4);
+	p_bmp180->temp = ((x1+x2+8) >> 4)*0.1;
 	return BMP180_SUCCESS;
 }
 
