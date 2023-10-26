@@ -133,8 +133,10 @@ int main(void)
 		#endif
 		
 		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
+		LL_USART_TransmitData8(USART1, 48);
 		LL_mDelay(500);
 		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
+		LL_USART_TransmitData8(USART1, 49);
 		LL_mDelay(500);
 
     /* USER CODE END WHILE */

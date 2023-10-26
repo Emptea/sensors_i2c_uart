@@ -60,10 +60,6 @@ void MX_I2C1_Init(void)
   /* Peripheral clock enable */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C1);
 
-  /* I2C1 interrupt Init */
-  NVIC_SetPriority(I2C1_IRQn, 0);
-  NVIC_EnableIRQ(I2C1_IRQn);
-
   /* USER CODE BEGIN I2C1_Init 1 */
 
   /* USER CODE END I2C1_Init 1 */
@@ -81,7 +77,7 @@ void MX_I2C1_Init(void)
   I2C_InitStruct.TypeAcknowledge = LL_I2C_ACK;
   I2C_InitStruct.OwnAddrSize = LL_I2C_OWNADDRESS1_7BIT;
   LL_I2C_Init(I2C1, &I2C_InitStruct);
-  //LL_I2C_EnableAutoEndMode(I2C1);
+  LL_I2C_EnableAutoEndMode(I2C1);
   LL_I2C_SetOwnAddress2(I2C1, 0, LL_I2C_OWNADDRESS2_NOMASK);
   /* USER CODE BEGIN I2C1_Init 2 */
 	LL_I2C_Enable(I2C1);
