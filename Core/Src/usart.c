@@ -104,6 +104,7 @@ void MX_USART1_UART_Init(void)
 
 static void usart_send (const void *s, uint32_t len)
 {
+	len--;
 	do
 	{
 		while(!LL_USART_IsActiveFlag_TXE(USART1));

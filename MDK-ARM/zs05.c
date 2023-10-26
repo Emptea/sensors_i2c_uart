@@ -24,7 +24,7 @@ void zs05_data_processing(struct zs05_data *res, uint8_t *buf)
 void zs05_read(struct zs05_data *res)
 {
 	uint8_t buf[5] = {0};
-	i2c1_pointer_read(buf, ZS05_ADDR, 0, 5);
+	i2c1_pointer_read(buf + 4, ZS05_ADDR, 0, 5);
 	res->crc = buf[4];
 		
 	if(zs05_check_crc(buf, 4, res->crc))

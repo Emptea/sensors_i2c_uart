@@ -38,9 +38,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define LM75BD
+#define LM75BD
 //#define ZS05
-#define BMP180
+//#define BMP180
 
 /* USER CODE END PD */
 
@@ -53,9 +53,14 @@
 
 /* USER CODE BEGIN PV */
 struct i2c_flags i2c_flags = {1};
+
+struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
+
+
 uint32_t adresses[] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP180_ADDR};
 usart_data_header data_header = {0};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,18 +112,17 @@ int main(void)
 	uint32_t id = 0;
 	#ifdef LM75BD
 			id = SENSOR_TYPE_LM75BD;
-			float temp = 0;
 	#endif
 		
 	#ifdef ZS05
 		id = SENSOR_TYPE_ZS05;
-		struct zs05_data zs05_data = {0};
 	#endif
 		
 	#ifdef BMP180
 		id = SENSOR_TYPE_BMP180;
 		uint32_t oss = 0;
 	#endif
+	float temp = 0;
 	
 	usart_init(&data_header, id);
 	
@@ -131,6 +135,14 @@ int main(void)
   {
 		#ifdef LM75BD
 			temp = lm75bd_read_temp();
+			if (i2c_flags.first_meas)
+			{
+				i2c_flags.first_meas = 0;
+			}
+			else
+			{
+				//TODO send data by uart
+			}
 		#endif
 		
 		#ifdef ZS05
@@ -138,10 +150,10 @@ int main(void)
 		#endif
 		
 		#ifdef BMP180
-			if (i2c_flags.bmp180_first_meas)
+			if (i2c_flags.first_meas)
 			{
 				bmp180_get_cal_param(&p_bmp180);
-				i2c_flags.bmp180_first_meas = 0;
+				i2c_flags.first_meas = 0;
 			}
 			bmp180_get_temp(&p_bmp180);
 			bmp180_get_press(&p_bmp180, oss);

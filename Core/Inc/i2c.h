@@ -52,7 +52,7 @@ uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint3
 
 struct i2c_flags
 {
-	uint32_t bmp180_first_meas : 1;
+	uint32_t first_meas : 1;
 };
 
 /* USER CODE END Prototypes */

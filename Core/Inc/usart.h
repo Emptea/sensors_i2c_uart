@@ -72,7 +72,7 @@ typedef struct usart_chunk_head
 {
 	uint32_t id: 16;
 	uint32_t type: 16;
-	uint32_t payload_sz: 16;
+	uint16_t payload_sz;
 } usart_chunk_head;
 
 typedef struct usart_data_header
