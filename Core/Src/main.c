@@ -55,6 +55,7 @@
 struct i2c_flags i2c_flags = {1};
 struct p_bmp180 p_bmp180 = {0};
 uint32_t adresses[] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP180_ADDR};
+usart_data_header data_header = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,13 +102,27 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
-  MX_USART1_UART_Init();
+  //MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
-	uint32_t oss = 0;
-	float temp = 0;
+	uint32_t id = 0;
+	#ifdef LM75BD
+			id = SENSOR_TYPE_LM75BD;
+			float temp = 0;
+	#endif
+		
+	#ifdef ZS05
+		id = SENSOR_TYPE_ZS05;
+		struct zs05_data zs05_data = {0};
+	#endif
+		
+	#ifdef BMP180
+		id = SENSOR_TYPE_BMP180;
+		uint32_t oss = 0;
+	#endif
 	
-	struct zs05_data zs05_data = {0};
+	usart_init(&data_header, id);
+	
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

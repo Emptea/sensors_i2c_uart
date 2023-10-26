@@ -46,7 +46,7 @@ extern "C" {
 typedef struct usart_header
 {
 	uint32_t protocol;
-	uint32_t cnt;
+	uint32_t cnt : 16;
 	uint32_t dist : 8;
 	uint32_t flags : 8;
 	uint32_t src;
@@ -90,7 +90,7 @@ enum mode
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
-uint32_t usart_init(usart_data_header *data_header);
+void usart_init(usart_data_header *data_header, uint32_t id);
 void usart_whoami(usart_data_header *data_header);
 void usart_create_data(usart_data_header *data_header);
 
