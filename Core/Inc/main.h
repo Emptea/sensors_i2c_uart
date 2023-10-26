@@ -48,7 +48,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -88,7 +88,7 @@ void Error_Handler(void);
 #endif
 
 /* USER CODE BEGIN Private defines */
-
+extern struct usart_data_header data_header;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

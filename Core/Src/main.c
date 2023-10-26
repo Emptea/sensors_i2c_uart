@@ -20,7 +20,6 @@
 #include "main.h"
 #include "i2c.h"
 #include "tim.h"
-#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -128,7 +127,10 @@ int main(void)
 	float temp = 0;
 	
 	usart_init(&data_header, id);
-	
+	LL_TIM_EnableCounter(TIM2);
+	LL_TIM_EnableIT_UPDATE(TIM2);
+	LL_TIM_EnableCounter(TIM3);
+	LL_TIM_EnableIT_UPDATE(TIM3);
 
   /* USER CODE END 2 */
 
@@ -162,12 +164,7 @@ int main(void)
 			bmp180_get_press(&p_bmp180, oss);
 		#endif
 		
-		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
-		LL_USART_TransmitData8(USART1, 48);
-		LL_mDelay(500);
-		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
-		LL_USART_TransmitData8(USART1, 49);
-		LL_mDelay(500);
+
 
     /* USER CODE END WHILE */
 

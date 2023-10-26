@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+#include "stm32f0xx_ll_usart.h"
 #include "uid_hash.h"
 #include "crc16.h"
 

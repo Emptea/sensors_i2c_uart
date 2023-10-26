@@ -142,11 +142,29 @@ void SysTick_Handler(void)
 
 /**
   * @brief This function handles TIM2 global interrupt.
+	* TIM2 Update Event sends WHOAMI packet
   */
 void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
-
+	static uint32_t flag = 1;
+	if(LL_TIM_IsActiveFlag_UPDATE(TIM2))
+  {
+    LL_TIM_ClearFlag_UPDATE(TIM2);
+		usart_create_data(&data_header);
+		usart_whoami(&data_header);
+		//LL_USART_TransmitData8(USART1, 48);
+		if (flag)
+		{
+			LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
+			flag = 1;
+		}
+		else
+		{
+			LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
+			flag = 0;
+		}
+	}
   /* USER CODE END TIM2_IRQn 0 */
   /* USER CODE BEGIN TIM2_IRQn 1 */
 
@@ -155,11 +173,16 @@ void TIM2_IRQHandler(void)
 
 /**
   * @brief This function handles TIM3 global interrupt.
+	* TIM3 Update Event sends DATA packet
   */
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-
+	if(LL_TIM_IsActiveFlag_UPDATE(TIM3))
+  {
+    LL_TIM_ClearFlag_UPDATE(TIM3);
+		LL_USART_TransmitData8(USART1, 49);
+	}
   /* USER CODE END TIM3_IRQn 0 */
   /* USER CODE BEGIN TIM3_IRQn 1 */
 
