@@ -173,10 +173,10 @@ void usart_init(usart_data_header *data_header)
 	MX_USART1_UART_Init();
 
 	data_header->header.src = uid_hash();
-	
-	usart_create_data(data_header);
-	
-	usart_whoami(data_header);
+//	
+//	usart_create_data(data_header);
+//	
+//	usart_whoami(data_header);
 }
 
 /* USER CODE END 1 */
