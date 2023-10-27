@@ -102,7 +102,7 @@ void MX_USART1_UART_Init(void)
 
 /* USER CODE BEGIN 1 */
 
-static void usart_send (const void *s, uint32_t len)
+void usart_send (const void *s, uint32_t len)
 {
 	len--;
 	do
@@ -159,22 +159,19 @@ void usart_whoami(usart_data_header *data_header)
 	data_header->chunk_header.payload_sz = 0;
 	data_header->header.flags = (1 << WHOAMI_BIT);
 	
-	uint16_t crc = crc16(0, &(data_header->header), HEADER_SIZE);	
-	crc = crc16(crc, &(data_header->chunk_header), CHUNK_HEADER_SIZE);
+	uint16_t crc = crc16(0, data_header, HEADER_SIZE + CHUNK_HEADER_SIZE);
 	
-	usart_send(&(data_header->header), HEADER_SIZE);
-	usart_send(&(data_header->chunk_header), CHUNK_HEADER_SIZE);
+	usart_send(data_header, HEADER_SIZE + CHUNK_HEADER_SIZE);
 	usart_send(&crc, 2);
 	
 	CLEAR_BIT(data_header->header.flags, WHOAMI_BIT);
 }
 
 
-void usart_init(usart_data_header *data_header, uint32_t id)
+void usart_init(usart_data_header *data_header)
 {
 	MX_USART1_UART_Init();
-	
-	data_header->chunk_header.id = id;
+
 	data_header->header.src = uid_hash();
 	
 	usart_create_data(data_header);

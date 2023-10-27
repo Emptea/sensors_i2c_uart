@@ -39,6 +39,7 @@ extern "C" {
 
 #define HEADER_SIZE 32
 #define CHUNK_HEADER_SIZE 6
+#define DATA_SIZE 4*2
 #define WHOAMI_BIT 2
 
 #define PROTOCOL_AURA 0x41525541
@@ -67,6 +68,15 @@ enum data_type
 	DATA_TYPE_STRING
 };
 
+enum sensor_type
+{
+	SENSOR_TYPE_LM75BD = 1,
+	SENSOR_TYPE_TMP112,
+	SENSOR_TYPE_SHT30,
+	SENSOR_TYPE_ZS05,
+	SENSOR_TYPE_BMP180
+};
+
 // should be sent before sending data
 typedef struct usart_chunk_head
 {
@@ -81,6 +91,12 @@ typedef struct usart_data_header
 	usart_chunk_head chunk_header;
 } usart_data_header;
 
+extern struct data_pack
+{
+	float temp;
+	float hum_or_press;
+} data_pack;
+
 enum mode
 {
 	MODE_IDLE,
@@ -90,9 +106,10 @@ enum mode
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
-void usart_init(usart_data_header *data_header, uint32_t id);
+void usart_init(usart_data_header *data_header);
 void usart_whoami(usart_data_header *data_header);
 void usart_create_data(usart_data_header *data_header);
+void usart_send (const void *s, uint32_t len);
 
 /* USER CODE BEGIN Prototypes */
 

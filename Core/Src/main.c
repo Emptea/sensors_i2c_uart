@@ -38,8 +38,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LM75BD
-//#define ZS05
+//#define LM75BD
+#define ZS05
 //#define BMP180
 
 /* USER CODE END PD */
@@ -56,6 +56,7 @@ struct i2c_flags i2c_flags = {1};
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
+struct data_pack data_pack = {0};
 
 
 uint32_t adresses[] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP180_ADDR};
@@ -111,22 +112,22 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-	uint32_t id = 0;
 	#ifdef LM75BD
-			id = SENSOR_TYPE_LM75BD;
+			data_header.chunk_header.id = SENSOR_TYPE_LM75BD;
 	#endif
 		
 	#ifdef ZS05
-		id = SENSOR_TYPE_ZS05;
+		data_header.chunk_header.id = SENSOR_TYPE_ZS05;
+		i2c_flags.first_meas = 0;
 	#endif
 		
 	#ifdef BMP180
-		id = SENSOR_TYPE_BMP180;
+		data_header.chunk_header.id = SENSOR_TYPE_BMP180;
 		uint32_t oss = 0;
 	#endif
 	float temp = 0;
 	
-	usart_init(&data_header, id);
+	usart_init(&data_header);
 	LL_TIM_EnableCounter(TIM2);
 	LL_TIM_EnableIT_UPDATE(TIM2);
 	LL_TIM_EnableCounter(TIM3);
@@ -139,19 +140,25 @@ int main(void)
   while (1)
   {
 		#ifdef LM75BD
-			temp = lm75bd_read_temp();
 			if (i2c_flags.first_meas)
 			{
 				i2c_flags.first_meas = 0;
+				lm75bd_read_temp();
 			}
 			else
 			{
 				//TODO send data by uart
+				data_header.chunk_header.type = DATA_TYPE_FLOAT;
+				data_pack.temp = lm75bd_read_temp();
+				data_pack.hum_or_press = 0;
 			}
 		#endif
 		
 		#ifdef ZS05
-			zs05_read(&zs05_data);
+			data_header.chunk_header.id = SENSOR_TYPE_ZS05;
+			data_header.chunk_header.type = DATA_TYPE_FLOAT;
+			data_header.chunk_header.payload_sz = DATA_SIZE;
+			zs05_read(&data_pack);
 		#endif
 		
 		#ifdef BMP180
@@ -162,6 +169,11 @@ int main(void)
 			}
 			bmp180_get_temp(&p_bmp180);
 			bmp180_get_press(&p_bmp180, oss);
+			data_header.chunk_header.id = SENSOR_TYPE_BMP180;
+			data_header.chunk_header.type = DATA_TYPE_FLOAT;
+			data_header.chunk_header.payload_sz = DATA_SIZE;
+			data_pack.temp = p_bmp180.temp;
+			data_pack.hum_or_press = p_bmp180.press;
 		#endif
 		
 

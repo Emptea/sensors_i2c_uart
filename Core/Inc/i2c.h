@@ -33,14 +33,7 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-enum sensor_type
-{
-	SENSOR_TYPE_LM75BD = 1,
-	SENSOR_TYPE_TMP112,
-	SENSOR_TYPE_SHT30,
-	SENSOR_TYPE_ZS05,
-	SENSOR_TYPE_BMP180
-};
+
 /* USER CODE END Private defines */
 
 void MX_I2C1_Init(void);
@@ -50,10 +43,6 @@ void i2c1_send (uint8_t data);
 uint32_t i2c1_read(uint8_t *data, uint32_t addr, uint32_t nbytes);
 uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint32_t nbytes);
 
-struct i2c_flags
-{
-	uint32_t first_meas : 1;
-};
 
 /* USER CODE END Prototypes */
 
