@@ -89,6 +89,10 @@ void HardFault_Handler(void)
   while (1)
   {
     /* USER CODE BEGIN W1_HardFault_IRQn 0 */
+		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_13);
+		LL_mDelay(500);
+		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_13);
+		LL_mDelay(500);
     /* USER CODE END W1_HardFault_IRQn 0 */
   }
 }
@@ -153,17 +157,8 @@ void TIM2_IRQHandler(void)
     LL_TIM_ClearFlag_UPDATE(TIM2);
 		usart_create_data(&data_header);
 		usart_whoami(&data_header);
-		//LL_USART_TransmitData8(USART1, 48);
-		if (flag)
-		{
-			LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
-			flag = 1;
-		}
-		else
-		{
-			LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
-			flag = 0;
-		}
+		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
+
 	}
   /* USER CODE END TIM2_IRQn 0 */
   /* USER CODE BEGIN TIM2_IRQn 1 */
@@ -192,6 +187,8 @@ void TIM3_IRQHandler(void)
 			usart_send(&data_header, HEADER_SIZE + CHUNK_HEADER_SIZE);
 			usart_send(&data_pack, DATA_SIZE);
 			usart_send(&crc, 2);
+			
+			LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
 		}
 	}
   /* USER CODE END TIM3_IRQn 0 */

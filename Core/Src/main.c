@@ -142,16 +142,12 @@ int main(void)
 		#ifdef LM75BD
 			if (i2c_flags.first_meas)
 			{
-				i2c_flags.first_meas = 0;
 				lm75bd_read_temp();
 			}
-			else
-			{
-				//TODO send data by uart
-				data_header.chunk_header.type = DATA_TYPE_FLOAT;
-				data_pack.temp = lm75bd_read_temp();
-				data_pack.hum_or_press = 0;
-			}
+			data_header.chunk_header.type = DATA_TYPE_FLOAT;
+			data_pack.temp = lm75bd_read_temp();
+			data_pack.hum_or_press = 0;
+			if (i2c_flags.first_meas) i2c_flags.first_meas = 0;
 		#endif
 		
 		#ifdef ZS05
@@ -165,7 +161,6 @@ int main(void)
 			if (i2c_flags.first_meas)
 			{
 				bmp180_get_cal_param(&p_bmp180);
-				i2c_flags.first_meas = 0;
 			}
 			bmp180_get_temp(&p_bmp180);
 			bmp180_get_press(&p_bmp180, oss);
@@ -174,6 +169,7 @@ int main(void)
 			data_header.chunk_header.payload_sz = DATA_SIZE;
 			data_pack.temp = p_bmp180.temp;
 			data_pack.hum_or_press = p_bmp180.press;
+			if (i2c_flags.first_meas) i2c_flags.first_meas = 0;
 		#endif
 		
 
@@ -240,6 +236,10 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_13);
+		LL_mDelay(500);
+		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_13);
+		LL_mDelay(500);
   }
   /* USER CODE END Error_Handler_Debug */
 }
