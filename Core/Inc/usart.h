@@ -78,14 +78,14 @@ enum sensor_type
 };
 
 // should be sent before sending data
-typedef struct usart_chunk_head
+typedef struct __attribute__((packed)) usart_chunk_head
 {
 	uint32_t id: 16;
 	uint32_t type: 16;
 	uint16_t payload_sz;
 } usart_chunk_head;
 
-typedef struct usart_data_header
+typedef struct  __attribute__((packed)) usart_data_header
 {
 	usart_header header;
 	usart_chunk_head chunk_header;
