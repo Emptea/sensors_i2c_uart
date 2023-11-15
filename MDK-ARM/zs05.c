@@ -1,6 +1,6 @@
 #include "zs05.h"
 
-static uint32_t zs05_check_crc(uint8_t *data, uint32_t len,uint32_t sent_crc)
+static uint32_t zs05_check_crc(uint8_t *data, uint32_t len, uint8_t sent_crc)
 {
 	uint32_t calculated_crc = 0;
 	while(len--)
@@ -26,8 +26,8 @@ uint32_t zs05_read(struct data_pack *res)
 {
 	uint8_t buf[5] = {0};
 	i2c1_pointer_read(buf + 4, ZS05_ADDR, 0, 5);
-	uint16_t crc = buf[0];
-		
+	uint8_t crc = buf[0];
+	LL_mDelay(50);	
 	if(zs05_check_crc(buf+1, 4, crc))
 	{
 		zs05_data_processing(res, buf+1);

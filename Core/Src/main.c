@@ -155,6 +155,7 @@ int main(void)
 			data_header.chunk_header.type = DATA_TYPE_FLOAT;
 			data_header.chunk_header.payload_sz = DATA_SIZE;
 			zs05_read(&data_pack);
+			LL_mDelay(50);
 		#endif
 		
 		#ifdef BMP180
