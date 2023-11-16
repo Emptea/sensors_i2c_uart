@@ -25,7 +25,7 @@ static void zs05_data_processing(struct data_pack *res, uint8_t *buf)
 uint32_t zs05_read(struct data_pack *res)
 {
 	uint8_t buf[5] = {0};
-	i2c1_pointer_read(buf + 4, ZS05_ADDR, 0, 5);
+	if (!i2c1_pointer_read(buf + 4, ZS05_ADDR, 0, 5)) return 0;
 	uint8_t crc = buf[0];
 	LL_mDelay(50);	
 	if(zs05_check_crc(buf+1, 4, crc))

@@ -43,7 +43,7 @@ void MX_I2C1_Init(void)
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_8;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
@@ -51,7 +51,7 @@ void MX_I2C1_Init(void)
 
   GPIO_InitStruct.Pin = LL_GPIO_PIN_9;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
@@ -114,10 +114,17 @@ uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint3
 	uint32_t cnt = 0;
 	LL_I2C_HandleTransfer(I2C1, (addr << 1), LL_I2C_ADDRSLAVE_7BIT, 1, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_START_WRITE);
 	
-	while(!LL_I2C_IsActiveFlag_TXIS(I2C1));
+	while(!LL_I2C_IsActiveFlag_TXIS(I2C1))
+	{
+		if (LL_I2C_IsActiveFlag_NACK(I2C1))
+		{
+			LL_I2C_ClearFlag_NACK(I2C1);
+			return 0;
+		}
+	}
 	LL_I2C_TransmitData8(I2C1, (uint8_t)pointer);
 	
-	LL_I2C_HandleTransfer(I2C1, (addr << 1), LL_I2C_ADDRSLAVE_7BIT, nbytes, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_RESTART_7BIT_READ);
+	LL_I2C_HandleTransfer(I2C1, (addr << 1), LL_I2C_ADDRSLAVE_7BIT, nbytes, LL_I2C_MODE_AUTOEND, LL_I2C_GENERATE_RESTART_7BIT_READ);
 
 	for (uint32_t i = 0; i < nbytes; i++){
 		while(!LL_I2C_IsActiveFlag_RXNE(I2C1));

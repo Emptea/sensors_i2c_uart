@@ -89,11 +89,6 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 extern struct usart_data_header data_header;
-
-extern struct i2c_flags
-{
-	uint32_t first_meas : 1;
-} i2c_flags;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

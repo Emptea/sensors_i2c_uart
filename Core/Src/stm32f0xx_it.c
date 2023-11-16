@@ -176,20 +176,18 @@ void TIM3_IRQHandler(void)
 	if(LL_TIM_IsActiveFlag_UPDATE(TIM3))
   {
     LL_TIM_ClearFlag_UPDATE(TIM3);
-		if (!i2c_flags.first_meas)
-		{
-			usart_create_data(&data_header);
-			data_header.chunk_header.payload_sz = DATA_SIZE;
 
-			uint16_t crc = crc16(0, &(data_header), HEADER_SIZE + CHUNK_HEADER_SIZE);
-			crc = crc16(crc, &(data_pack), DATA_SIZE);
-			
-			usart_send(&data_header, HEADER_SIZE + CHUNK_HEADER_SIZE);
-			usart_send(&data_pack, DATA_SIZE);
-			usart_send(&crc, 2);
-			
-			LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
-		}
+		usart_create_data(&data_header);
+		data_header.chunk_header.payload_sz = DATA_SIZE;
+
+		uint16_t crc = crc16(0, &(data_header), HEADER_SIZE + CHUNK_HEADER_SIZE);
+		crc = crc16(crc, &(data_pack), DATA_SIZE);
+		
+		usart_send(&data_header, HEADER_SIZE + CHUNK_HEADER_SIZE);
+		usart_send(&data_pack, DATA_SIZE);
+		usart_send(&crc, 2);
+		
+		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
 	}
   /* USER CODE END TIM3_IRQn 0 */
   /* USER CODE BEGIN TIM3_IRQn 1 */

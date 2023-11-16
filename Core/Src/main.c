@@ -20,6 +20,7 @@
 #include "main.h"
 #include "i2c.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -52,7 +53,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-struct i2c_flags i2c_flags = {1};
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
@@ -112,25 +112,43 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+	usart_init(&data_header);
+	
 	#ifdef LM75BD
-			data_header.chunk_header.id = SENSOR_TYPE_LM75BD;
+		data_header.chunk_header.id = SENSOR_TYPE_LM75BD;
+		lm75bd_read_temp();
+		data_header.chunk_header.type = DATA_TYPE_FLOAT;
+		data_pack.temp = lm75bd_read_temp();
+		data_pack.hum_or_press = 0;
 	#endif
 		
 	#ifdef ZS05
 		data_header.chunk_header.id = SENSOR_TYPE_ZS05;
-		i2c_flags.first_meas = 0;
+		data_header.chunk_header.type = DATA_TYPE_FLOAT;
+		data_header.chunk_header.payload_sz = DATA_SIZE;
+		LL_mDelay(4000);
+		while(!zs05_read(&data_pack))
+			LL_mDelay(500);
 	#endif
 		
 	#ifdef BMP180
 		data_header.chunk_header.id = SENSOR_TYPE_BMP180;
 		uint32_t oss = 0;
+		bmp180_get_cal_param(&p_bmp180);
+		bmp180_get_temp(&p_bmp180);
+		bmp180_get_press(&p_bmp180, oss);
+		data_header.chunk_header.id = SENSOR_TYPE_BMP180;
+		data_header.chunk_header.type = DATA_TYPE_FLOAT;
+		data_header.chunk_header.payload_sz = DATA_SIZE;
+		data_pack.temp = p_bmp180.temp;
+		data_pack.hum_or_press = p_bmp180.press;
 	#endif
-	float temp = 0;
-	
-	usart_init(&data_header);
-	LL_TIM_EnableCounter(TIM2);
+
 	LL_TIM_EnableIT_UPDATE(TIM2);
+	LL_TIM_EnableCounter(TIM2);
+
 	LL_TIM_EnableCounter(TIM3);
+	LL_TIM_ClearFlag_UPDATE(TIM3);
 	LL_TIM_EnableIT_UPDATE(TIM3);
 
   /* USER CODE END 2 */
@@ -140,29 +158,17 @@ int main(void)
   while (1)
   {
 		#ifdef LM75BD
-			if (i2c_flags.first_meas)
-			{
-				lm75bd_read_temp();
-			}
 			data_header.chunk_header.type = DATA_TYPE_FLOAT;
 			data_pack.temp = lm75bd_read_temp();
 			data_pack.hum_or_press = 0;
-			if (i2c_flags.first_meas) i2c_flags.first_meas = 0;
 		#endif
 		
 		#ifdef ZS05
-			data_header.chunk_header.id = SENSOR_TYPE_ZS05;
-			data_header.chunk_header.type = DATA_TYPE_FLOAT;
-			data_header.chunk_header.payload_sz = DATA_SIZE;
 			zs05_read(&data_pack);
-			LL_mDelay(50);
+			LL_mDelay(500);
 		#endif
 		
 		#ifdef BMP180
-			if (i2c_flags.first_meas)
-			{
-				bmp180_get_cal_param(&p_bmp180);
-			}
 			bmp180_get_temp(&p_bmp180);
 			bmp180_get_press(&p_bmp180, oss);
 			data_header.chunk_header.id = SENSOR_TYPE_BMP180;
@@ -170,7 +176,6 @@ int main(void)
 			data_header.chunk_header.payload_sz = DATA_SIZE;
 			data_pack.temp = p_bmp180.temp;
 			data_pack.hum_or_press = p_bmp180.press;
-			if (i2c_flags.first_meas) i2c_flags.first_meas = 0;
 		#endif
 		
 
