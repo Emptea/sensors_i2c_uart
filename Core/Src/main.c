@@ -56,11 +56,11 @@
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
-struct data_pack data_pack = {0};
 
 
 uint32_t adresses[] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP180_ADDR};
-usart_data_header data_header = {0};
+usart_packet pack = {0};
+struct flags flags = {0};
 
 /* USER CODE END PV */
 
@@ -112,44 +112,48 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-	usart_init(&data_header);
+	usart_init(&pack);
 	
 	#ifdef LM75BD
-		data_header.chunk_header.id = SENSOR_TYPE_LM75BD;
+		pack.chunk_header.id = SENSOR_TYPE_LM75BD;
 		lm75bd_read_temp();
-		data_header.chunk_header.type = DATA_TYPE_FLOAT;
-		data_pack.temp = lm75bd_read_temp();
-		data_pack.hum_or_press = 0;
+		pack.chunk_header.type = DATA_TYPE_FLOAT;
+		pack.data.temp = lm75bd_read_temp();
+		pack.data.hum_or_press = 0;
 	#endif
 		
 	#ifdef ZS05
-		data_header.chunk_header.id = SENSOR_TYPE_ZS05;
-		data_header.chunk_header.type = DATA_TYPE_FLOAT;
-		data_header.chunk_header.payload_sz = DATA_SIZE;
+		pack.chunk_header.id = SENSOR_TYPE_ZS05;
+		pack.chunk_header.type = DATA_TYPE_FLOAT;
+		pack.chunk_header.payload_sz = DATA_SIZE;
 		LL_mDelay(4000);
-		while(!zs05_read(&data_pack))
+		while(!zs05_read(&pack.data))
 			LL_mDelay(500);
 	#endif
 		
 	#ifdef BMP180
-		data_header.chunk_header.id = SENSOR_TYPE_BMP180;
+		pack.chunk_header.id = SENSOR_TYPE_BMP180;
 		uint32_t oss = 0;
 		bmp180_get_cal_param(&p_bmp180);
 		bmp180_get_temp(&p_bmp180);
 		bmp180_get_press(&p_bmp180, oss);
-		data_header.chunk_header.id = SENSOR_TYPE_BMP180;
-		data_header.chunk_header.type = DATA_TYPE_FLOAT;
-		data_header.chunk_header.payload_sz = DATA_SIZE;
-		data_pack.temp = p_bmp180.temp;
-		data_pack.hum_or_press = p_bmp180.press;
+		pack.chunk_header.id = SENSOR_TYPE_BMP180;
+		pack.chunk_header.type = DATA_TYPE_FLOAT;
+		pack.chunk_header.payload_sz = DATA_SIZE;
+		pack.data.temp = p_bmp180.temp;
+		pack.data.hum_or_press = p_bmp180.press;
 	#endif
 
-	LL_TIM_EnableIT_UPDATE(TIM2);
-	LL_TIM_EnableCounter(TIM2);
+//	LL_TIM_EnableIT_UPDATE(TIM2);
+//	LL_TIM_EnableCounter(TIM2);
 
-	LL_TIM_EnableCounter(TIM3);
-	LL_TIM_ClearFlag_UPDATE(TIM3);
-	LL_TIM_EnableIT_UPDATE(TIM3);
+//	LL_TIM_EnableCounter(TIM3);
+//	LL_TIM_ClearFlag_UPDATE(TIM3);
+//	LL_TIM_EnableIT_UPDATE(TIM3);
+	
+	LL_USART_EnableIT_RXNE(USART1);
+	LL_USART_EnableIT_TXE(USART1);
+	LL_USART_EnableIT_TC(USART1);
 
   /* USER CODE END 2 */
 
@@ -158,26 +162,32 @@ int main(void)
   while (1)
   {
 		#ifdef LM75BD
-			data_header.chunk_header.type = DATA_TYPE_FLOAT;
-			data_pack.temp = lm75bd_read_temp();
-			data_pack.hum_or_press = 0;
+			pack.chunk_header.type = DATA_TYPE_FLOAT;
+			pack.data.temp = lm75bd_read_temp();
+			pack.data.hum_or_press = 0;
 		#endif
 		
 		#ifdef ZS05
-			zs05_read(&data_pack);
+			zs05_read(&pack.data);
 			LL_mDelay(500);
 		#endif
 		
 		#ifdef BMP180
 			bmp180_get_temp(&p_bmp180);
 			bmp180_get_press(&p_bmp180, oss);
-			data_header.chunk_header.id = SENSOR_TYPE_BMP180;
-			data_header.chunk_header.type = DATA_TYPE_FLOAT;
-			data_header.chunk_header.payload_sz = DATA_SIZE;
-			data_pack.temp = p_bmp180.temp;
-			data_pack.hum_or_press = p_bmp180.press;
+			pack.chunk_header.id = SENSOR_TYPE_BMP180;
+			pack.chunk_header.type = DATA_TYPE_FLOAT;
+			pack.chunk_header.payload_sz = DATA_SIZE;
+			pack.data.temp = p_bmp180.temp;
+			pack.data.hum_or_press = p_bmp180.press;
 		#endif
 		
+		if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
+		{
+			flags.usart1_tx_busy = 1;
+			usart_txe_callback(&pack);
+			LL_USART_EnableIT_TXE(USART1);
+		}
 
 
     /* USER CODE END WHILE */

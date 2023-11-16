@@ -53,11 +53,11 @@ void MX_USART1_UART_Init(void)
   PA3   ------> USART1_RX
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_1;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;//LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW; //LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  //GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
+  GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   GPIO_InitStruct.Pin = LL_GPIO_PIN_2;
@@ -76,6 +76,10 @@ void MX_USART1_UART_Init(void)
   GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /* USART1 interrupt Init */
+  NVIC_SetPriority(USART1_IRQn, 0);
+  NVIC_EnableIRQ(USART1_IRQn);
+
   /* USER CODE BEGIN USART1_Init 1 */
 
   /* USER CODE END USART1_Init 1 */
@@ -87,11 +91,10 @@ void MX_USART1_UART_Init(void)
   USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
   USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
   LL_USART_Init(USART1, &USART_InitStruct);
-//  LL_USART_EnableDEMode(USART1);
-//  LL_USART_SetDESignalPolarity(USART1, LL_USART_DE_POLARITY_HIGH);
-//  LL_USART_SetDEAssertionTime(USART1, 0);
-//  LL_USART_SetDEDeassertionTime(USART1, 0);
-	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_1);
+  LL_USART_EnableDEMode(USART1);
+  LL_USART_SetDESignalPolarity(USART1, LL_USART_DE_POLARITY_HIGH);
+  LL_USART_SetDEAssertionTime(USART1, 0);
+  LL_USART_SetDEDeassertionTime(USART1, 0);
   LL_USART_ConfigAsyncMode(USART1);
   LL_USART_Enable(USART1);
   /* USER CODE BEGIN USART1_Init 2 */
@@ -140,16 +143,16 @@ void usart_send (const void *s, uint32_t len)
 //	}
 //}
 
-void usart_create_data(usart_data_header *data_header)
+void usart_create_data(usart_packet *pack)
 {
 	static uint32_t cnt = 0;
 
-	data_header->header.protocol = PROTOCOL_AURA;
-	data_header->header.cnt = cnt;
+	pack->header.protocol = PROTOCOL_AURA;
+	pack->header.cnt = cnt;
 	cnt = (cnt+1)&0xFFFF; //0...65535
-	data_header->header.dist = 0;
-	data_header->header.flags = 0x2; //0b010
-	data_header->header.dest = PC_ID;
+	pack->header.dist = 0;
+	pack->header.flags = 0x2; //0b010
+	pack->header.dest = PC_ID;
 	
 }
 
@@ -168,15 +171,105 @@ void usart_whoami(usart_data_header *data_header)
 }
 
 
-void usart_init(usart_data_header *data_header)
+void usart_init(usart_packet *pack)
 {
 	MX_USART1_UART_Init();
 
-	data_header->header.src = uid_hash();
-//	
-//	usart_create_data(data_header);
+	pack->header.src = uid_hash();
+	usart_create_data(pack);
 //	
 //	usart_whoami(data_header);
 }
+
+
+static uint32_t usart_sending (const void *data, uint32_t sz)
+{
+	static uint32_t cnt = 0;
+	
+	if (sz == 0)
+		return 1;
+	
+	LL_USART_TransmitData8(USART1,*(uint8_t *)(data+cnt));
+	cnt++;
+	
+	if (cnt > sz - 1) {
+		cnt = 0;
+		return 1;
+	}
+	
+	return 0;
+}
+
+void usart_txe_callback(usart_packet *pack)
+{
+	static enum usart_send_state usart_send_state = STATE_SEND_HEADER;
+	
+	switch(usart_send_state)
+	{
+		case STATE_SEND_HEADER:
+			usart_send_state += usart_sending(pack, HEADER_SIZE);
+			break;
+		case STATE_SEND_DATA:
+			usart_send_state += usart_sending(&pack->data, pack->chunk_header.payload_sz);
+			break;
+		case STATE_SEND_CRC:
+			usart_send_state += usart_sending(&pack->crc, 2);
+			break;
+		case STATE_END:
+			LL_USART_DisableIT_TXE(USART1);
+			LL_USART_EnableIT_TC(USART1);
+			usart_send_state = 	STATE_SEND_HEADER;
+			break;
+	}
+}
+
+/** RXNE FUNCTIONS **/
+static uint32_t usart_receiving(uint8_t *data, USART_TypeDef *USARTx, uint32_t sz)
+{
+	static uint32_t counter = {0};
+	
+	if (sz == 0) 
+		return 1;
+	
+	if(LL_USART_IsActiveFlag_RXNE(USARTx) && LL_USART_IsEnabledIT_RXNE(USARTx))
+  {
+		*(data + counter) = LL_USART_ReceiveData8(USARTx);
+		counter++;
+		
+		if (counter > sz - 1)
+		{
+			counter = 0;
+			return 1;
+		}
+	}
+	return 0;
+}
+
+uint32_t usart_rxne_callback(usart_packet *pack, USART_TypeDef *USARTx)
+{
+	static enum usart_rcv_state usart_rcv_state = {STATE_RCV_HEADER};
+	
+	switch (usart_rcv_state){
+		case STATE_RCV_HEADER:
+			usart_rcv_state += usart_receiving((uint8_t *)pack, USARTx, HEADER_SIZE);
+			break;
+		case STATE_RCV_DATA:
+			usart_rcv_state += usart_receiving((uint8_t *)&pack->data, USARTx, pack->chunk_header.payload_sz);
+			break;
+		case STATE_RCV_CRC:
+			usart_rcv_state -= 2*usart_receiving((uint8_t *)&pack->crc, USARTx, 2);
+			if (usart_rcv_state == STATE_RCV_HEADER && pack->crc == crc16(0, pack ,HEADER_SIZE+pack->chunk_header.payload_sz))
+			{
+				/**TODO processing of PC commands especially the request one**/
+				return 1;
+			}
+			break;
+	}
+	
+	return 0;
+}
+
+
+
 
 /* USER CODE END 1 */

@@ -77,6 +77,21 @@ enum sensor_type
 	SENSOR_TYPE_BMP180
 };
 
+enum usart_rcv_state
+{
+	STATE_RCV_HEADER = 0,
+	STATE_RCV_DATA,
+	STATE_RCV_CRC,
+};
+
+enum usart_send_state
+{
+	STATE_SEND_HEADER = 0,
+	STATE_SEND_DATA,
+	STATE_SEND_CRC,
+	STATE_END,
+};
+
 // should be sent before sending data
 typedef struct __attribute__((packed)) usart_chunk_head
 {
@@ -91,25 +106,38 @@ typedef struct  __attribute__((packed)) usart_data_header
 	usart_chunk_head chunk_header;
 } usart_data_header;
 
-extern struct data_pack
+typedef struct __attribute__((packed)) data_pack
 {
 	float temp;
 	float hum_or_press;
 } data_pack;
 
-enum mode
+typedef struct __attribute__((packed)) usart_packet
 {
-	MODE_IDLE,
-	MODE_RECEIVE,
-};
+	usart_header header;
+	usart_chunk_head chunk_header;
+	data_pack data;
+	uint16_t crc;
+} usart_packet;
+extern usart_packet pack;
+
+extern struct flags
+{
+	uint32_t usart1_tx_busy : 1;
+	uint32_t usart1_rx_end : 1;
+} flags;
 
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
-void usart_init(usart_data_header *data_header);
+void usart_init(usart_packet *pack);
 void usart_whoami(usart_data_header *data_header);
-void usart_create_data(usart_data_header *data_header);
+void usart_create_data(usart_packet *pack);
+
 void usart_send (const void *s, uint32_t len);
+
+uint32_t usart_rxne_callback(usart_packet *pack, USART_TypeDef *USARTx);
+void usart_txe_callback(usart_packet *pack);
 
 /* USER CODE BEGIN Prototypes */
 
