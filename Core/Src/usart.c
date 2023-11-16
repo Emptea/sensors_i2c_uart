@@ -150,26 +150,9 @@ void usart_create_data(usart_packet *pack)
 	pack->header.protocol = PROTOCOL_AURA;
 	pack->header.cnt = cnt;
 	cnt = (cnt+1)&0xFFFF; //0...65535
-	pack->header.dist = 0;
-	pack->header.flags = 0x2; //0b010
 	pack->header.dest = PC_ID;
 	
 }
-
-void usart_whoami(usart_data_header *data_header)
-{
-	data_header->chunk_header.type = DATA_TYPE_CHAR;
-	data_header->chunk_header.payload_sz = 0;
-	data_header->header.flags = (1 << WHOAMI_BIT);
-	
-	uint16_t crc = crc16(0, data_header, HEADER_SIZE + CHUNK_HEADER_SIZE);
-	
-	usart_send(data_header, HEADER_SIZE + CHUNK_HEADER_SIZE);
-	usart_send(&crc, 2);
-	
-	CLEAR_BIT(data_header->header.flags, WHOAMI_BIT);
-}
-
 
 void usart_init(usart_packet *pack)
 {

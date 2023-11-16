@@ -37,8 +37,7 @@ extern "C" {
 /* USER CODE BEGIN Private defines */
 #define PC_ID 0x00000000
 
-#define HEADER_SIZE 32
-#define CHUNK_HEADER_SIZE 6
+#define HEADER_SIZE 32+6
 #define DATA_SIZE 4*2
 #define WHOAMI_BIT 2
 
@@ -47,9 +46,7 @@ extern "C" {
 typedef struct usart_header
 {
 	uint32_t protocol;
-	uint32_t cnt : 16;
-	uint32_t dist : 8;
-	uint32_t flags : 8;
+	uint32_t cnt;
 	uint32_t src;
 	uint32_t dest;
 	uint32_t path[4];
@@ -96,8 +93,7 @@ enum usart_send_state
 typedef struct __attribute__((packed)) usart_chunk_head
 {
 	uint32_t id: 16;
-	uint32_t type: 16;
-	uint16_t payload_sz;
+	uint32_t payload_sz : 16;
 } usart_chunk_head;
 
 typedef struct  __attribute__((packed)) usart_data_header
