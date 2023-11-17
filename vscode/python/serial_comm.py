@@ -7,8 +7,8 @@ cmd.extend(bytearray(4))
 cmd.extend(bytearray(4))
 cmd.extend(bytearray(4))
 # chunk header
-cmd.extend(bytearray([1])) #for data
-# cmd.extend(bytearray(1]) #for whoami
+#cmd.extend(bytearray([1])) #for data
+cmd.extend(bytearray(1)) #for whoami
 cmd.extend(bytearray(1))
 cmd.extend(bytearray(2))
 print(cmd)
@@ -20,7 +20,7 @@ print(hex(crc))
 ser = serial.Serial()
 ser.baudrate= 115200
 ser.port = 'COM6'
-ser.timeout = 5
+ser.timeout = 1
 ser.open()
 
 ser.write(cmd)

@@ -139,8 +139,6 @@ extern struct flags
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
-void usart_init(usart_packet *pack);
-void usart_whoami(usart_data_header *data_header);
 
 void usart_send (const void *s, uint32_t len);
 

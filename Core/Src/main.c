@@ -39,8 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LM75BD
-//#define ZS05
+//#define LM75BD
+#define ZS05
 //#define BMP180
 
 /* USER CODE END PD */
