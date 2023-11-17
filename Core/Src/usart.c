@@ -115,14 +115,6 @@ static void usart_create_data(usart_data_header *hdr)
 	hdr->header.dest = PC_ID;
 }
 
-void usart_init(usart_packet *pack)
-{
-	MX_USART1_UART_Init();
-
-	pack->hdr.header.src = uid_hash();
-	usart_create_data(&pack->hdr);
-}
-
 
 static uint32_t usart_sending (const void *data, uint32_t sz)
 {
@@ -189,7 +181,8 @@ static uint32_t usart_receiving(uint8_t *data, USART_TypeDef *USARTx, uint32_t s
 }
 static uint32_t check_req(usart_packet *pack)
 {
-	return (pack->crc == crc16(0, pack ,HEADER_SIZE+pack->hdr.chunk_header.payload_sz)) && (pack->hdr.chunk_header.type == 0)&&(pack->hdr.chunk_header.payload_sz == 0);
+	uint16_t checking_crc =  crc16(0xFFFF, pack ,HEADER_SIZE+pack->hdr.chunk_header.payload_sz);
+	return (pack->crc == checking_crc) && (pack->hdr.chunk_header.type == 0)&&(pack->hdr.chunk_header.payload_sz == 0);
 }
 
 static void rxne_check_whoami (usart_packet *pack, struct flags *flags)

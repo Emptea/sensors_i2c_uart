@@ -108,43 +108,33 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
-  //MX_USART1_UART_Init();
+  MX_USART1_UART_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-	usart_init(&pack);
+	uint32_t uid = uid_hash();
+	uint32_t sensor_type = 0;
 	
 	#ifdef LM75BD
+		sensor_type = SENSOR_TYPE_LM75BD;
 		lm75bd_read_temp();
-		pack.data.temp = lm75bd_read_temp();
 		pack.data.hum_or_press = 0;
 	#endif
 		
 	#ifdef ZS05
+		sensor_type = SENSOR_TYPE_ZS05;
 		LL_mDelay(4000);
 		while(!zs05_read(&pack.data))
 			LL_mDelay(500);
 	#endif
 		
 	#ifdef BMP180
+		sensor_type = SENSOR_TYPE_BMP180;
 		uint32_t oss = 0;
 		bmp180_get_cal_param(&p_bmp180);
-		bmp180_get_temp(&p_bmp180);
-		bmp180_get_press(&p_bmp180, oss);
-		pack.data.temp = p_bmp180.temp;
-		pack.data.hum_or_press = p_bmp180.press;
 	#endif
-
-//	LL_TIM_EnableIT_UPDATE(TIM2);
-//	LL_TIM_EnableCounter(TIM2);
-
-//	LL_TIM_EnableCounter(TIM3);
-//	LL_TIM_ClearFlag_UPDATE(TIM3);
-//	LL_TIM_EnableIT_UPDATE(TIM3);
 	
 	LL_USART_EnableIT_RXNE(USART1);
-	LL_USART_EnableIT_TXE(USART1);
-	LL_USART_EnableIT_TC(USART1);
 
   /* USER CODE END 2 */
 
@@ -172,13 +162,27 @@ int main(void)
 		if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
 		{
 			flags.usart1_tx_busy = 1;
+			pack.hdr.header.src = uid;
+			
 			if (flags.whoami)
 			{
 				pack.hdr.chunk_header.id = FCN_ID_WHOAMI;
 				pack.hdr.chunk_header.type = DATA_TYPE_UINT;
-				pack.hdr.chunk_header.payload_sz = 4;
-				
+				pack.hdr.chunk_header.payload_sz = 20;
+				pack.whoami.sensor_type = sensor_type;
+				pack.crc = crc16(0xFFFF,&pack, HEADER_SIZE);
+				pack.crc = crc16(pack.crc, &pack.whoami, pack.hdr.chunk_header.payload_sz);
 			}
+			else
+			{
+				pack.hdr.chunk_header.id = FCN_ID_DATA;
+				pack.hdr.chunk_header.type = DATA_TYPE_FLOAT;
+				pack.hdr.chunk_header.payload_sz = 8;
+				pack.crc = crc16(0xFFFF,&pack, HEADER_SIZE);
+				pack.crc = crc16(pack.crc, &pack.data, pack.hdr.chunk_header.payload_sz);
+			}
+			
+			
 			usart_txe_callback(&pack);
 			LL_USART_EnableIT_TXE(USART1);
 		}

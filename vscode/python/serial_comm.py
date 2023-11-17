@@ -1,7 +1,4 @@
 import serial
-from ctypes import *
-from dataclasses import dataclass
-from crc import *
 import crcmod
 
 #header
@@ -21,11 +18,15 @@ print(hex(crc))
 
 ser = serial.Serial()
 ser.baudrate= 115200
-ser.port = 'COM11'
+ser.port = 'COM6'
+ser.timeout = 5
 ser.open()
 
 ser.write(cmd)
-ser.write(crc.to_bytes(2,'big'))
+ser.write(crc.to_bytes(2,'little'))
 
-response = ser.read(36)
-print(response)
+response = ser.read(16+24+2)
+print(' '.join(format(x, '02x') for x in response))
+
+check_crc = crc16(response[0:40])
+print(hex(check_crc))

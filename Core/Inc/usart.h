@@ -37,7 +37,7 @@ extern "C" {
 /* USER CODE BEGIN Private defines */
 #define PC_ID 0x00000000
 
-#define HEADER_SIZE 32+4
+#define HEADER_SIZE 16+4
 #define DATA_SIZE 4*2
 #define WHOAMI_BIT 2
 
