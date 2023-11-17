@@ -182,7 +182,6 @@ int main(void)
 				pack.crc = crc16(pack.crc, &pack.data, pack.hdr.chunk_header.payload_sz);
 			}
 			
-			
 			usart_txe_callback(&pack);
 			LL_USART_EnableIT_TXE(USART1);
 		}

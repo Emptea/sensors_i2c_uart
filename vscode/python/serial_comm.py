@@ -7,7 +7,8 @@ cmd.extend(bytearray(4))
 cmd.extend(bytearray(4))
 cmd.extend(bytearray(4))
 # chunk header
-cmd.extend(bytearray(1))
+cmd.extend(bytearray([1])) #for data
+# cmd.extend(bytearray(1]) #for whoami
 cmd.extend(bytearray(1))
 cmd.extend(bytearray(2))
 print(cmd)
@@ -28,5 +29,5 @@ ser.write(crc.to_bytes(2,'little'))
 response = ser.read(16+24+2)
 print(' '.join(format(x, '02x') for x in response))
 
-check_crc = crc16(response[0:40])
+check_crc = crc16(response[0:len(response)-2])
 print(hex(check_crc))
