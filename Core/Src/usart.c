@@ -105,63 +105,22 @@ void MX_USART1_UART_Init(void)
 
 /* USER CODE BEGIN 1 */
 
-void usart_send (const void *s, uint32_t len)
-{
-	len--;
-	do
-	{
-		while(!LL_USART_IsActiveFlag_TXE(USART1));
-		LL_USART_TransmitData8(USART1, (*(uint8_t *)s++));
-	} while(len--);
-}
-
-
-//static void usart_receive (uint8_t *data, uint32_t len)
-//{
-//	do
-//	{
-//		*data++ = LL_USART_ReceiveData8(USART1);
-//	} while (len--);
-//}
-
-//static void usart_work (enum mode mode, usart_header *header, uint32_t uid)
-//{
-//	// should be usart_receive((uint8_t *)header, 32) before this func
-//	switch(mode)
-//	{
-//		case MODE_IDLE:
-//			if (header->protocol == PROTOCOL_AURA && header->dest == uid)
-//				mode = MODE_RECEIVE;
-//			break;
-//		case MODE_RECEIVE:
-//		{
-//			
-//			break;
-//		}
-//		default:
-//			break;
-//	}
-//}
-
-void usart_create_data(usart_packet *pack)
+static void usart_create_data(usart_data_header *hdr)
 {
 	static uint32_t cnt = 0;
 
-	pack->header.protocol = PROTOCOL_AURA;
-	pack->header.cnt = cnt;
+	hdr->header.protocol = PROTOCOL_AURA;
+	hdr->header.cnt = cnt;
 	cnt = (cnt+1)&0xFFFF; //0...65535
-	pack->header.dest = PC_ID;
-	
+	hdr->header.dest = PC_ID;
 }
 
 void usart_init(usart_packet *pack)
 {
 	MX_USART1_UART_Init();
 
-	pack->header.src = uid_hash();
-	usart_create_data(pack);
-//	
-//	usart_whoami(data_header);
+	pack->hdr.header.src = uid_hash();
+	usart_create_data(&pack->hdr);
 }
 
 
@@ -193,7 +152,8 @@ void usart_txe_callback(usart_packet *pack)
 			usart_send_state += usart_sending(pack, HEADER_SIZE);
 			break;
 		case STATE_SEND_DATA:
-			usart_send_state += usart_sending(&pack->data, pack->chunk_header.payload_sz);
+			if(flags.whoami) usart_send_state += usart_sending(&pack->whoami, pack->hdr.chunk_header.payload_sz);
+			else usart_send_state += usart_sending(&pack->data, pack->hdr.chunk_header.payload_sz);
 			break;
 		case STATE_SEND_CRC:
 			usart_send_state += usart_sending(&pack->crc, 2);
@@ -227,8 +187,17 @@ static uint32_t usart_receiving(uint8_t *data, USART_TypeDef *USARTx, uint32_t s
 	}
 	return 0;
 }
+static uint32_t check_req(usart_packet *pack)
+{
+	return (pack->crc == crc16(0, pack ,HEADER_SIZE+pack->hdr.chunk_header.payload_sz)) && (pack->hdr.chunk_header.type == 0)&&(pack->hdr.chunk_header.payload_sz == 0);
+}
 
-uint32_t usart_rxne_callback(usart_packet *pack, USART_TypeDef *USARTx)
+static void rxne_check_whoami (usart_packet *pack, struct flags *flags)
+{
+	flags->whoami = (pack->hdr.chunk_header.id == 0);
+}
+
+uint32_t usart_rxne_callback(usart_packet *pack, struct flags *flags, USART_TypeDef *USARTx)
 {
 	static enum usart_rcv_state usart_rcv_state = {STATE_RCV_HEADER};
 	
@@ -237,13 +206,13 @@ uint32_t usart_rxne_callback(usart_packet *pack, USART_TypeDef *USARTx)
 			usart_rcv_state += usart_receiving((uint8_t *)pack, USARTx, HEADER_SIZE);
 			break;
 		case STATE_RCV_DATA:
-			usart_rcv_state += usart_receiving((uint8_t *)&pack->data, USARTx, pack->chunk_header.payload_sz);
+			usart_rcv_state += usart_receiving((uint8_t *)&pack->data, USARTx, pack->hdr.chunk_header.payload_sz);
 			break;
 		case STATE_RCV_CRC:
 			usart_rcv_state -= 2*usart_receiving((uint8_t *)&pack->crc, USARTx, 2);
-			if (usart_rcv_state == STATE_RCV_HEADER && pack->crc == crc16(0, pack ,HEADER_SIZE+pack->chunk_header.payload_sz))
+			if (usart_rcv_state == STATE_RCV_HEADER && check_req(pack))
 			{
-				/**TODO processing of PC commands especially the request one**/
+				rxne_check_whoami(pack, flags);
 				return 1;
 			}
 			break;

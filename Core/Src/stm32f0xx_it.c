@@ -214,7 +214,7 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   /* USER CODE BEGIN USART1_IRQn 1 */
 	/**RECEPTION**/
-	flags.usart1_rx_end = usart_rxne_callback(&pack, USART1);
+	flags.usart1_rx_end = usart_rxne_callback(&pack, &flags, USART1);
   /* USER CODE END USART1_IRQn 1 */
 }
 

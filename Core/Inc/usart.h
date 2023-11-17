@@ -37,7 +37,7 @@ extern "C" {
 /* USER CODE BEGIN Private defines */
 #define PC_ID 0x00000000
 
-#define HEADER_SIZE 32+6
+#define HEADER_SIZE 32+4
 #define DATA_SIZE 4*2
 #define WHOAMI_BIT 2
 
@@ -49,7 +49,6 @@ typedef struct usart_header
 	uint32_t cnt;
 	uint32_t src;
 	uint32_t dest;
-	uint32_t path[4];
 } usart_header;
 
 enum data_type
@@ -74,6 +73,12 @@ enum sensor_type
 	SENSOR_TYPE_BMP180
 };
 
+enum fcn_id
+{
+	FCN_ID_WHOAMI = 0,
+	FCN_ID_DATA
+};
+
 enum usart_rcv_state
 {
 	STATE_RCV_HEADER = 0,
@@ -90,29 +95,36 @@ enum usart_send_state
 };
 
 // should be sent before sending data
-typedef struct __attribute__((packed)) usart_chunk_head
+typedef struct
 {
-	uint32_t id: 16;
+	uint32_t id: 8;
+	uint32_t type: 8;
 	uint32_t payload_sz : 16;
 } usart_chunk_head;
 
-typedef struct  __attribute__((packed)) usart_data_header
+typedef struct
 {
 	usart_header header;
 	usart_chunk_head chunk_header;
 } usart_data_header;
 
-typedef struct __attribute__((packed)) data_pack
+typedef struct
 {
 	float temp;
 	float hum_or_press;
 } data_pack;
 
-typedef struct __attribute__((packed)) usart_packet
+typedef struct 
 {
-	usart_header header;
-	usart_chunk_head chunk_header;
+	uint32_t sensor_type;
+	uint32_t path[4];
+} whoami_pack;
+
+typedef struct
+{
+	usart_data_header hdr;
 	data_pack data;
+	whoami_pack whoami;
 	uint16_t crc;
 } usart_packet;
 extern usart_packet pack;
@@ -121,6 +133,7 @@ extern struct flags
 {
 	uint32_t usart1_tx_busy : 1;
 	uint32_t usart1_rx_end : 1;
+	uint32_t whoami : 1;
 } flags;
 
 /* USER CODE END Private defines */
@@ -128,11 +141,10 @@ extern struct flags
 void MX_USART1_UART_Init(void);
 void usart_init(usart_packet *pack);
 void usart_whoami(usart_data_header *data_header);
-void usart_create_data(usart_packet *pack);
 
 void usart_send (const void *s, uint32_t len);
 
-uint32_t usart_rxne_callback(usart_packet *pack, USART_TypeDef *USARTx);
+uint32_t usart_rxne_callback(usart_packet *pack, struct flags *flags, USART_TypeDef *USARTx);
 void usart_txe_callback(usart_packet *pack);
 
 /* USER CODE BEGIN Prototypes */

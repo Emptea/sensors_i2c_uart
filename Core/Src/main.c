@@ -39,8 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define LM75BD
-#define ZS05
+#define LM75BD
+//#define ZS05
 //#define BMP180
 
 /* USER CODE END PD */
@@ -115,28 +115,22 @@ int main(void)
 	usart_init(&pack);
 	
 	#ifdef LM75BD
-		pack.chunk_header.id = SENSOR_TYPE_LM75BD;
 		lm75bd_read_temp();
 		pack.data.temp = lm75bd_read_temp();
 		pack.data.hum_or_press = 0;
 	#endif
 		
 	#ifdef ZS05
-		pack.chunk_header.id = SENSOR_TYPE_ZS05;
-		pack.chunk_header.payload_sz = DATA_SIZE;
 		LL_mDelay(4000);
 		while(!zs05_read(&pack.data))
 			LL_mDelay(500);
 	#endif
 		
 	#ifdef BMP180
-		pack.chunk_header.id = SENSOR_TYPE_BMP180;
 		uint32_t oss = 0;
 		bmp180_get_cal_param(&p_bmp180);
 		bmp180_get_temp(&p_bmp180);
 		bmp180_get_press(&p_bmp180, oss);
-		pack.chunk_header.id = SENSOR_TYPE_BMP180;
-		pack.chunk_header.payload_sz = DATA_SIZE;
 		pack.data.temp = p_bmp180.temp;
 		pack.data.hum_or_press = p_bmp180.press;
 	#endif
@@ -178,6 +172,13 @@ int main(void)
 		if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
 		{
 			flags.usart1_tx_busy = 1;
+			if (flags.whoami)
+			{
+				pack.hdr.chunk_header.id = FCN_ID_WHOAMI;
+				pack.hdr.chunk_header.type = DATA_TYPE_UINT;
+				pack.hdr.chunk_header.payload_sz = 4;
+				
+			}
 			usart_txe_callback(&pack);
 			LL_USART_EnableIT_TXE(USART1);
 		}
