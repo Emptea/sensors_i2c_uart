@@ -216,6 +216,7 @@ uint32_t usart_rxne_callback(usart_packet *pack, struct flags *flags, USART_Type
 
 void usart_set_params_whoami(usart_packet *pack, uint32_t sensor_type, uint32_t uid)
 {
+	usart_create_data(&pack->hdr, uid);
 	pack->hdr.header.src = uid;
 	pack->hdr.chunk_header.id = FCN_ID_WHOAMI;
 	pack->hdr.chunk_header.type = DATA_TYPE_UINT;

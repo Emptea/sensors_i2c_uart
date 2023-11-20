@@ -44,7 +44,7 @@ extern "C" {
 void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void GPIO_EXTI_Enable();
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

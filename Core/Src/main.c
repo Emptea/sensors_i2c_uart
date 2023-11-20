@@ -38,9 +38,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define LM75BD
+#define LM75BD
 //#define ZS05
-#define BMP180
+//#define BMP180
 
 /* USER CODE END PD */
 
@@ -134,6 +134,8 @@ int main(void)
 	
 	LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
 	LL_USART_EnableIT_RXNE(USART1);
+
+	GPIO_EXTI_Enable();
 
   /* USER CODE END 2 */
 

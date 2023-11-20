@@ -129,11 +129,17 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  NVIC_SetPriority(EXTI4_15_IRQn, 0);
-  NVIC_EnableIRQ(EXTI4_15_IRQn);
+	//LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_14);
+  //NVIC_SetPriority(EXTI4_15_IRQn, 0);
+  //NVIC_EnableIRQ(EXTI4_15_IRQn);
 
 }
 
 /* USER CODE BEGIN 2 */
-
+void GPIO_EXTI_Enable()
+{
+	LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_14);
+  NVIC_SetPriority(EXTI4_15_IRQn, 0);
+  NVIC_EnableIRQ(EXTI4_15_IRQn);
+}
 /* USER CODE END 2 */
