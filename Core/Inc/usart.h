@@ -136,6 +136,8 @@ extern struct flags
 	uint32_t whoami : 1;
 } flags;
 
+extern uint32_t sensor_type;
+extern uint32_t uid;
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
@@ -144,6 +146,10 @@ void usart_send (const void *s, uint32_t len);
 
 uint32_t usart_rxne_callback(usart_packet *pack, struct flags *flags, USART_TypeDef *USARTx);
 void usart_txe_callback(usart_packet *pack);
+
+
+void usart_set_params_whoami(usart_packet *pack, uint32_t sensor_type, uint32_t uid);
+void usart_set_params_data(usart_packet *pack, uint32_t uid);
 
 /* USER CODE BEGIN Prototypes */
 

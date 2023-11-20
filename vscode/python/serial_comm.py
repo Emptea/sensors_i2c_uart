@@ -3,7 +3,8 @@ import crcmod
 
 #header
 cmd = bytearray('AURA'.encode())
-cmd.extend(bytearray(4))
+cmd.extend(bytearray([3]))
+cmd.extend(bytearray(3))
 cmd.extend(bytearray(4))
 cmd.extend(bytearray(4))
 # chunk header

@@ -19,7 +19,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
-#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -40,8 +39,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 //#define LM75BD
-#define ZS05
-//#define BMP180
+//#define ZS05
+#define BMP180
 
 /* USER CODE END PD */
 
@@ -56,11 +55,13 @@
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
+uint32_t uid = 0;
 
 
 uint32_t adresses[] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP180_ADDR};
 usart_packet pack = {0};
 struct flags flags = {0};
+uint32_t sensor_type = 0;
 
 /* USER CODE END PV */
 
@@ -109,11 +110,8 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_USART1_UART_Init();
-  MX_TIM2_Init();
-  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-	uint32_t uid = uid_hash();
-	uint32_t sensor_type = 0;
+	uid = uid_hash();
 	
 	#ifdef LM75BD
 		sensor_type = SENSOR_TYPE_LM75BD;
@@ -134,6 +132,7 @@ int main(void)
 		bmp180_get_cal_param(&p_bmp180);
 	#endif
 	
+	LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
 	LL_USART_EnableIT_RXNE(USART1);
 
   /* USER CODE END 2 */
@@ -162,24 +161,14 @@ int main(void)
 		if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
 		{
 			flags.usart1_tx_busy = 1;
-			pack.hdr.header.src = uid;
 			
 			if (flags.whoami)
 			{
-				pack.hdr.chunk_header.id = FCN_ID_WHOAMI;
-				pack.hdr.chunk_header.type = DATA_TYPE_UINT;
-				pack.hdr.chunk_header.payload_sz = 20;
-				pack.whoami.sensor_type = sensor_type;
-				pack.crc = crc16(0xFFFF,&pack, HEADER_SIZE);
-				pack.crc = crc16(pack.crc, &pack.whoami, pack.hdr.chunk_header.payload_sz);
+				usart_set_params_whoami(&pack, sensor_type, uid);
 			}
 			else
 			{
-				pack.hdr.chunk_header.id = FCN_ID_DATA;
-				pack.hdr.chunk_header.type = DATA_TYPE_FLOAT;
-				pack.hdr.chunk_header.payload_sz = 8;
-				pack.crc = crc16(0xFFFF,&pack, HEADER_SIZE);
-				pack.crc = crc16(pack.crc, &pack.data, pack.hdr.chunk_header.payload_sz);
+				usart_set_params_data(&pack, uid);
 			}
 			
 			usart_txe_callback(&pack);
@@ -249,9 +238,9 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_13);
+		LL_GPIO_SetOutputPin(GPIO_LED, PIN_RED_LED);
 		LL_mDelay(500);
-		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_13);
+		LL_GPIO_ResetOutputPin(GPIO_LED, PIN_RED_LED);
 		LL_mDelay(500);
   }
   /* USER CODE END Error_Handler_Debug */

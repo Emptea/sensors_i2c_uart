@@ -105,13 +105,13 @@ void MX_USART1_UART_Init(void)
 
 /* USER CODE BEGIN 1 */
 
-static void usart_create_data(usart_data_header *hdr)
+static void usart_create_data(usart_data_header *hdr, uint32_t uid)
 {
 	static uint32_t cnt = 0;
-
+	pack.hdr.header.src = uid;
 	hdr->header.protocol = PROTOCOL_AURA;
 	hdr->header.cnt = cnt;
-	cnt = (cnt+1)&0xFFFF; //0...65535
+	cnt = (cnt+1);//&0xFFFF; //0...65535
 	hdr->header.dest = PC_ID;
 }
 
@@ -214,7 +214,25 @@ uint32_t usart_rxne_callback(usart_packet *pack, struct flags *flags, USART_Type
 	return 0;
 }
 
+void usart_set_params_whoami(usart_packet *pack, uint32_t sensor_type, uint32_t uid)
+{
+	pack->hdr.header.src = uid;
+	pack->hdr.chunk_header.id = FCN_ID_WHOAMI;
+	pack->hdr.chunk_header.type = DATA_TYPE_UINT;
+	pack->hdr.chunk_header.payload_sz = 20;
+	pack->whoami.sensor_type = sensor_type;
+	pack->crc = crc16(0xFFFF,&pack, HEADER_SIZE);
+	pack->crc = crc16(pack->crc, &pack->whoami, pack->hdr.chunk_header.payload_sz);
+}
 
-
+void usart_set_params_data(usart_packet *pack, uint32_t uid)
+{
+	usart_create_data(&pack->hdr, uid);
+	pack->hdr.chunk_header.id = FCN_ID_DATA;
+	pack->hdr.chunk_header.type = DATA_TYPE_FLOAT;
+	pack->hdr.chunk_header.payload_sz = 8;
+	pack->crc = crc16(0xFFFF,&pack, HEADER_SIZE);
+	pack->crc = crc16(pack->crc, &pack->data, pack->hdr.chunk_header.payload_sz);
+}
 
 /* USER CODE END 1 */

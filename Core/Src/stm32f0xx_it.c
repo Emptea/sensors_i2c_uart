@@ -145,52 +145,31 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles TIM2 global interrupt.
+  * @brief This function handles EXTI line 4 to 15 interrupts.
   */
-void TIM2_IRQHandler(void)
+void EXTI4_15_IRQHandler(void)
 {
-  /* USER CODE BEGIN TIM2_IRQn 0 */
-//	static uint32_t flag = 1;
-//	if(LL_TIM_IsActiveFlag_UPDATE(TIM2))
-//  {
-//    LL_TIM_ClearFlag_UPDATE(TIM2);
-//		usart_create_data(&data_header);
-//		usart_whoami(&data_header);
-//		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
+  /* USER CODE BEGIN EXTI4_15_IRQn 0 */
 
-//	}
-  /* USER CODE END TIM2_IRQn 0 */
-  /* USER CODE BEGIN TIM2_IRQn 1 */
+  /* USER CODE END EXTI4_15_IRQn 0 */
+  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_14) != RESET)
+  {
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_14);
+    /* USER CODE BEGIN LL_EXTI_LINE_14 */
+		if (!flags.usart1_tx_busy)
+		{
+			flags.usart1_tx_busy = 1;
+			flags.whoami = 0;
+			usart_set_params_data(&pack, uid);
+			usart_txe_callback(&pack);
+			LL_USART_EnableIT_TXE(USART1);
+		}
+		
+    /* USER CODE END LL_EXTI_LINE_14 */
+  }
+  /* USER CODE BEGIN EXTI4_15_IRQn 1 */
 
-  /* USER CODE END TIM2_IRQn 1 */
-}
-
-/**
-  * @brief This function handles TIM3 global interrupt.
-  */
-void TIM3_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM3_IRQn 0 */
-//	if(LL_TIM_IsActiveFlag_UPDATE(TIM3))
-//  {
-//    LL_TIM_ClearFlag_UPDATE(TIM3);
-
-//		usart_create_data(&data_header);
-//		data_header.chunk_header.payload_sz = DATA_SIZE;
-
-//		uint16_t crc = crc16(0, &(data_header), HEADER_SIZE + CHUNK_HEADER_SIZE);
-//		crc = crc16(crc, &(data_pack), DATA_SIZE);
-//		
-//		usart_send(&data_header, HEADER_SIZE + CHUNK_HEADER_SIZE);
-//		usart_send(&data_pack, DATA_SIZE);
-//		usart_send(&crc, 2);
-//		
-//		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
-//	}
-  /* USER CODE END TIM3_IRQn 0 */
-  /* USER CODE BEGIN TIM3_IRQn 1 */
-
-  /* USER CODE END TIM3_IRQn 1 */
+  /* USER CODE END EXTI4_15_IRQn 1 */
 }
 
 /**

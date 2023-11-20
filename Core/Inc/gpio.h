@@ -33,7 +33,12 @@ extern "C" {
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-
+#define GPIO_LED GPIOB
+#define PIN_GREEN_LED LL_GPIO_PIN_12
+#define PIN_RED_LED LL_GPIO_PIN_13
+#define GPIO_BTN_EXTI GPIOC
+#define PIN_EXTI LL_GPIO_PIN_13
+#define PIN_BTN LL_GPIO_PIN_14
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);
