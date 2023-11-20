@@ -12,8 +12,8 @@ static uint32_t zs05_check_crc(uint8_t *data, uint32_t len, uint8_t sent_crc)
 
 static void zs05_data_processing(data_pack *res, uint8_t *buf)
 {
-	if (*buf++ & 0x80) 	res->temp = -*buf++;
-	else 	res->temp = *buf++;
+	if (*buf++ & 0x80) 	res->temp_or_wet.temp = -*buf++;
+	else 	res->temp_or_wet.temp = *buf++;
 	buf++;
 	res->hum_or_press = *buf++;
 	

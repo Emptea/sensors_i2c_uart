@@ -22,6 +22,7 @@
 #include "stm32f0xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "gpio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -152,6 +153,21 @@ void EXTI4_15_IRQHandler(void)
   /* USER CODE BEGIN EXTI4_15_IRQn 0 */
 
   /* USER CODE END EXTI4_15_IRQn 0 */
+  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_13) != RESET)
+  {
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
+    /* USER CODE BEGIN LL_EXTI_LINE_13 */
+		if (LL_GPIO_IsInputPinSet(GPIO_BTN_EXTI, PIN_EXTI))
+		{
+			pack.data.temp_or_wet.wet = 0xFFFF;
+		}
+		else
+		{
+			pack.data.temp_or_wet.wet  = 0x0000;
+		}
+		
+    /* USER CODE END LL_EXTI_LINE_13 */
+  }
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_14) != RESET)
   {
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_14);
@@ -160,11 +176,10 @@ void EXTI4_15_IRQHandler(void)
 		{
 			flags.usart1_tx_busy = 1;
 			flags.whoami = 0;
-			usart_set_params_data(&pack, uid);
+			usart_set_params_data(&pack, uid, payload_sz);
 			usart_txe_callback(&pack);
 			LL_USART_EnableIT_TXE(USART1);
 		}
-		
     /* USER CODE END LL_EXTI_LINE_14 */
   }
   /* USER CODE BEGIN EXTI4_15_IRQn 1 */

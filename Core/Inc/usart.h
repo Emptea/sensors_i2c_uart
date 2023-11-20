@@ -70,7 +70,8 @@ enum sensor_type
 	SENSOR_TYPE_TMP112,
 	SENSOR_TYPE_SHT30,
 	SENSOR_TYPE_ZS05,
-	SENSOR_TYPE_BMP180
+	SENSOR_TYPE_BMP180,
+	SENSOR_TYPE_WET_SENSOR = 9
 };
 
 enum fcn_id
@@ -110,7 +111,10 @@ typedef struct
 
 typedef struct
 {
-	float temp;
+	union {
+		float temp;
+		uint32_t wet;
+	} temp_or_wet;
 	float hum_or_press;
 } data_pack;
 
@@ -138,6 +142,7 @@ extern struct flags
 
 extern uint32_t sensor_type;
 extern uint32_t uid;
+extern uint32_t payload_sz;
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
@@ -149,7 +154,7 @@ void usart_txe_callback(usart_packet *pack);
 
 
 void usart_set_params_whoami(usart_packet *pack, uint32_t sensor_type, uint32_t uid);
-void usart_set_params_data(usart_packet *pack, uint32_t uid);
+void usart_set_params_data(usart_packet *pack, uint32_t uid, uint32_t payload_sz);
 
 /* USER CODE BEGIN Prototypes */
 

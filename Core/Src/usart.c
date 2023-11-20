@@ -226,12 +226,12 @@ void usart_set_params_whoami(usart_packet *pack, uint32_t sensor_type, uint32_t 
 	pack->crc = crc16(pack->crc, &pack->whoami, pack->hdr.chunk_header.payload_sz);
 }
 
-void usart_set_params_data(usart_packet *pack, uint32_t uid)
+void usart_set_params_data(usart_packet *pack, uint32_t uid, uint32_t payload_sz)
 {
 	usart_create_data(&pack->hdr, uid);
 	pack->hdr.chunk_header.id = FCN_ID_DATA;
 	pack->hdr.chunk_header.type = DATA_TYPE_FLOAT;
-	pack->hdr.chunk_header.payload_sz = 8;
+	pack->hdr.chunk_header.payload_sz = payload_sz;
 	pack->crc = crc16(0xFFFF,&pack, HEADER_SIZE);
 	pack->crc = crc16(pack->crc, &pack->data, pack->hdr.chunk_header.payload_sz);
 }

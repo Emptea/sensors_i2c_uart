@@ -38,9 +38,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LM75BD
-//#define ZS05
+//#define LM75BD
+#define ZS05
 //#define BMP180
+//#define WET_SENSOR
 
 /* USER CODE END PD */
 
@@ -62,6 +63,7 @@ uint32_t adresses[] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP1
 usart_packet pack = {0};
 struct flags flags = {0};
 uint32_t sensor_type = 0;
+uint32_t payload_sz = 0;
 
 /* USER CODE END PV */
 
@@ -135,6 +137,12 @@ int main(void)
 	LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
 	LL_USART_EnableIT_RXNE(USART1);
 
+	#ifdef WET_SENSOR
+		LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
+		payload_sz = 4;
+	#else
+		payload_sz = 8;
+	#endif
 	GPIO_EXTI_Enable();
 
   /* USER CODE END 2 */
@@ -144,7 +152,7 @@ int main(void)
   while (1)
   {
 		#ifdef LM75BD
-			pack.data.temp = lm75bd_read_temp();
+			pack.data.temp_or_wet.temp = lm75bd_read_temp();
 			pack.data.hum_or_press = 0;
 		#endif
 		
@@ -156,7 +164,7 @@ int main(void)
 		#ifdef BMP180
 			bmp180_get_temp(&p_bmp180);
 			bmp180_get_press(&p_bmp180, oss);
-			pack.data.temp = p_bmp180.temp;
+			pack.data.temp_or_wet.temp = p_bmp180.temp;
 			pack.data.hum_or_press = p_bmp180.press;
 		#endif
 		
@@ -170,7 +178,7 @@ int main(void)
 			}
 			else
 			{
-				usart_set_params_data(&pack, uid);
+				usart_set_params_data(&pack, uid, payload_sz);
 			}
 			
 			usart_txe_callback(&pack);

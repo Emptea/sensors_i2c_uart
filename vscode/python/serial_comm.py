@@ -8,8 +8,8 @@ cmd.extend(bytearray(3))
 cmd.extend(bytearray(4))
 cmd.extend(bytearray(4))
 # chunk header
-cmd.extend(bytearray([1])) #for data
-#cmd.extend(bytearray(1)) #for whoami
+#cmd.extend(bytearray([1])) #for data
+cmd.extend(bytearray(1)) #for whoami
 cmd.extend(bytearray(1))
 cmd.extend(bytearray(2))
 print(cmd)
