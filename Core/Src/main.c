@@ -38,8 +38,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define LM75BD
-#define ZS05
+#define LM75BD
+//#define ZS05
 //#define BMP180
 //#define WET_SENSOR
 
@@ -110,7 +110,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_I2C1_Init();
+	#ifndef WET_SENSOR
+		MX_I2C1_Init();
+	#endif
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 	uid = uid_hash();
@@ -140,6 +142,7 @@ int main(void)
 	#ifdef WET_SENSOR
 		LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
 		payload_sz = 4;
+		pack.data.temp_or_wet.wet  = 0x0000;
 	#else
 		payload_sz = 8;
 	#endif

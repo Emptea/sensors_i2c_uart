@@ -157,7 +157,7 @@ void EXTI4_15_IRQHandler(void)
   {
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
     /* USER CODE BEGIN LL_EXTI_LINE_13 */
-		if (LL_GPIO_IsInputPinSet(GPIO_BTN_EXTI, PIN_EXTI))
+		if (!LL_GPIO_IsInputPinSet(GPIO_BTN_EXTI, PIN_EXTI))
 		{
 			pack.data.temp_or_wet.wet = 0xFFFF;
 		}
