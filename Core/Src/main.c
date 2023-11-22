@@ -39,9 +39,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define LM75BD
+#define LM75BD
 //#define ZS05
-#define BMP180
+//#define BMP180
 //#define WET_SENSOR
 
 /* USER CODE END PD */
@@ -66,7 +66,7 @@ usart_packet data_pack[2];
 uint32_t sensor_type = 0;
 enum wetsens_state wetsens_state = 0;
 enum cmd cmd = CMD_NONE;
-uint16_t crc;
+uint16_t pack_crc = 0;
 
 struct flags flags = {0};
 /* USER CODE END PV */
@@ -189,7 +189,7 @@ int main(void)
 	hdr.dest = PC_ID;
 	hdr.cnt = 0;
 	
-	whoami_pack.chunk_hdr.id = CHUNK_ID_UIDS;
+	whoami_pack.chunk_hdr.id = CHUNK_ID_TYPE;
 	whoami_pack.chunk_hdr.type = DATA_TYPE_UINT32;
 	whoami_pack.chunk_hdr.payload_sz = 4;
 	memcpy_u8(&sensor_type, whoami_pack.data, 4);
@@ -229,17 +229,10 @@ int main(void)
 			switch(hdr.cmd)
 			{
 				case CMD_ANS_WHOAMI:
-					hdr.data_sz = 8;
-					crc = usart_calc_crc(&hdr, &whoami_pack, chunk_cnt);
-					usart_txe_callback(&hdr, &whoami_pack, crc, chunk_cnt);
-					LL_USART_EnableIT_TXE(USART1);
+					chunk_cnt = usart_start_data_sending (&hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
 					break;
 				case CMD_ANS_DATA:
-					hdr.data_sz = 0;
-					usart_calc_data_sz (&hdr, data_pack, chunk_cnt);
-					crc = usart_calc_crc(&hdr, data_pack, chunk_cnt);
-					usart_txe_callback(&hdr, data_pack, crc, chunk_cnt);			
-					LL_USART_EnableIT_TXE(USART1);
+					chunk_cnt = usart_start_data_sending (&hdr, data_pack, &pack_crc, sensor_type);
 					break;
 				default:
 					break;

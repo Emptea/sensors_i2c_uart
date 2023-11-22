@@ -68,6 +68,7 @@ enum chunk_id
 
 enum sensor_type
 {
+	SENSOR_TYPE_NONE,
 	SENSOR_TYPE_LM75BD = 1,
 	SENSOR_TYPE_TMP112,
 	SENSOR_TYPE_SHT30,
@@ -94,8 +95,10 @@ extern enum cmd cmd;
 enum usart_rcv_state
 {
 	STATE_RCV_HEADER = 1,
+	STATE_RCV_CHECK_SZ,
 	STATE_RCV_CHUNK_HEADER,
 	STATE_RCV_DATA,
+	STATE_RCV_LOOP_CHUNK,
 	STATE_RCV_CRC,
 };
 
@@ -104,7 +107,7 @@ enum usart_send_state
 	STATE_SEND_HDR = 1,
 	STATE_SEND_CHUNK_HDR,
 	STATE_SEND_DATA,
-	STATE_LOOP_CHUNK,
+	STATE_SEND_LOOP_CHUNK,
 	STATE_SEND_CRC,
 	STATE_END,
 };
@@ -135,7 +138,7 @@ typedef struct
 } usart_packet;
 extern usart_packet data_pack[2], whoami_pack;
 
-extern uint16_t crc;
+extern uint16_t pack_crc;
 
 extern struct flags
 {
@@ -154,6 +157,8 @@ void usart_calc_data_sz (usart_header *hdr, usart_packet pack[], uint32_t chunk_
 
 uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *cmd, USART_TypeDef *USARTx);
 void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc, uint32_t pack_count);
+
+uint32_t usart_start_data_sending (usart_header *hdr, usart_packet pack[], uint16_t *crc, uint32_t sensor_type);
 /* USER CODE BEGIN Prototypes */
 
 /* USER CODE END Prototypes */

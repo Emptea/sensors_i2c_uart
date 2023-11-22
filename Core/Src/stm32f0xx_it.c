@@ -174,13 +174,9 @@ void EXTI4_15_IRQHandler(void)
     /* USER CODE BEGIN LL_EXTI_LINE_14 */
 		if (!flags.usart1_tx_busy)
 		{
-			hdr.cmd = CMD_ANS_DATA;
 			flags.usart1_tx_busy = 1;
-			crc = usart_calc_crc(&hdr, data_pack, chunk_cnt);
-			hdr.data_sz = 0;
-			usart_calc_data_sz (&hdr, data_pack, chunk_cnt);
-			usart_txe_callback(&hdr, data_pack, crc, chunk_cnt);	
-			LL_USART_EnableIT_TXE(USART1);
+			hdr.cmd = CMD_ANS_DATA;
+			chunk_cnt = usart_start_data_sending (&hdr, data_pack, &pack_crc, sensor_type);
 		}
     /* USER CODE END LL_EXTI_LINE_14 */
   }
@@ -201,10 +197,10 @@ void USART1_IRQHandler(void)
 		switch(hdr.cmd)
 		{
 			case CMD_ANS_WHOAMI:
-				usart_txe_callback(&hdr, &whoami_pack, crc, chunk_cnt);
+				usart_txe_callback(&hdr, &whoami_pack, pack_crc, chunk_cnt);
 				break;
 			case CMD_ANS_DATA:
-				usart_txe_callback(&hdr, data_pack, crc, chunk_cnt);
+				usart_txe_callback(&hdr, data_pack, pack_crc, chunk_cnt);
 				break;
 			default:
 				break;

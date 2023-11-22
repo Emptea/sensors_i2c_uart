@@ -139,7 +139,7 @@ void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc, ui
 		case STATE_SEND_DATA:
 			usart_send_state += usart_sending(&pack[pack_counter].data, pack[pack_counter].chunk_hdr.payload_sz);
 			break;
-		case STATE_LOOP_CHUNK:
+		case STATE_SEND_LOOP_CHUNK:
 			if(pack_counter < pack_count - 1)
 				{
 					usart_send_state = STATE_SEND_CHUNK_HDR;
@@ -156,6 +156,7 @@ void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc, ui
 		case STATE_END:
 			LL_USART_DisableIT_TXE(USART1);
 			LL_USART_EnableIT_TC(USART1);
+			hdr->cnt++;
 			usart_send_state = 	STATE_SEND_HDR;
 			break;
 	}
@@ -186,10 +187,10 @@ static uint32_t usart_receiving(uint8_t *data, USART_TypeDef *USARTx, uint32_t s
 uint16_t usart_calc_crc (usart_header *hdr, usart_packet pack[], uint32_t chunk_cnt)
 {
 	uint16_t crc =  crc16(0xFFFF, hdr ,HEADER_SIZE);
-	do
+	while(chunk_cnt--)
 	{
 		crc =  crc16(crc, &pack[chunk_cnt], CHUNK_HEADER_SIZE + pack[chunk_cnt].chunk_hdr.payload_sz);
-	} while(chunk_cnt--);
+	}
 	
 	return crc;
 }
@@ -206,39 +207,41 @@ uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *c
 	static uint32_t cnt = 0;
 	static uint32_t chunk_cnt = 0;
 	
-	uint16_t crc = 0;
+	static uint16_t crc = 0;
 	
 	switch (usart_rcv_state){
 		case STATE_RCV_HEADER:
-			usart_rcv_state += usart_receiving((uint8_t *)pack, USARTx, HEADER_SIZE);
+			usart_rcv_state += usart_receiving((uint8_t *)hdr, USARTx, HEADER_SIZE);
 			cnt = 0;
 			chunk_cnt = 0;
+			crc = 0;
+			break;
+		case STATE_RCV_CHECK_SZ:
+			if (!hdr->data_sz) usart_rcv_state = STATE_RCV_CRC;
+			else usart_rcv_state = STATE_RCV_CHUNK_HEADER;
 			break;
 		case STATE_RCV_CHUNK_HEADER:
-			if(usart_receiving((uint8_t *)&pack[chunk_cnt], USARTx, CHUNK_HEADER_SIZE))
-			{
-				usart_rcv_state = STATE_RCV_DATA;
-			}
+			usart_rcv_state += usart_receiving((uint8_t *)&pack[chunk_cnt].chunk_hdr, USARTx, CHUNK_HEADER_SIZE);
 			cnt++;
 			break;
 		case STATE_RCV_DATA:
+			usart_rcv_state += usart_receiving((uint8_t *)&pack[chunk_cnt].data, USARTx, pack[chunk_cnt].chunk_hdr.payload_sz);
+			cnt++;
+			break;
+		case STATE_RCV_LOOP_CHUNK:
+			if (cnt < hdr->data_sz-1)
 			{
-				uint32_t flag = usart_receiving((uint8_t *)&pack[chunk_cnt].data, USARTx, pack[chunk_cnt].chunk_hdr.payload_sz);
-				cnt++;
-				if (flag && (cnt < hdr->data_sz))
-				{
-					usart_rcv_state = STATE_RCV_CHUNK_HEADER;
-					chunk_cnt++;
-				}
-				else
-					usart_rcv_state = STATE_RCV_CRC;
-				break;
+				usart_rcv_state = STATE_RCV_CHUNK_HEADER;
+				chunk_cnt++;
 			}
+			else
+				usart_rcv_state = STATE_RCV_CRC;
+			break;
 		case STATE_RCV_CRC:
-			usart_rcv_state -= 2*usart_receiving((uint8_t *)&crc, USARTx, 2);
-			if (usart_rcv_state == STATE_RCV_HEADER && check_crc(hdr, pack, crc, chunk_cnt))
+			if (usart_receiving((uint8_t *)&crc, USARTx, 2) && check_crc(hdr, pack, crc, chunk_cnt))
 			{
 				*cmd = hdr->cmd+1; //switch from req to ans
+				usart_rcv_state = STATE_RCV_HEADER;
 				return 1;
 			}
 			break;
@@ -255,4 +258,20 @@ void usart_calc_data_sz (usart_header *hdr, usart_packet pack[], uint32_t chunk_
 		} while(chunk_cnt);
 }
 
+uint32_t usart_start_data_sending (usart_header *hdr, usart_packet pack[], uint16_t *crc, uint32_t sensor_type)
+{
+	uint32_t cnt = 0;
+	hdr->data_sz = 0;
+	if(sensor_type > SENSOR_TYPE_TMP112 && sensor_type < SENSOR_TYPE_DOORKNOT)
+		cnt = 2;
+	else
+		cnt = 1;
+	usart_calc_data_sz(hdr, pack, cnt);
+	
+	*crc = usart_calc_crc(hdr, pack, cnt);
+	
+	usart_txe_callback(hdr, pack, *crc, cnt);			
+	LL_USART_EnableIT_TXE(USART1);
+	return cnt;
+}
 /* USER CODE END 1 */
