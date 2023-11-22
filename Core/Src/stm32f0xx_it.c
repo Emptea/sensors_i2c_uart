@@ -159,11 +159,11 @@ void EXTI4_15_IRQHandler(void)
     /* USER CODE BEGIN LL_EXTI_LINE_13 */
 		if (!LL_GPIO_IsInputPinSet(GPIO_BTN_EXTI, PIN_EXTI))
 		{
-			pack.data.temp_or_wet.wet = 0xFFFF;
+			wetsens_state = WETSENS_STATE_WET;
 		}
 		else
 		{
-			pack.data.temp_or_wet.wet  = 0x0000;
+			wetsens_state = WETSENS_STATE_DRY;
 		}
 		
     /* USER CODE END LL_EXTI_LINE_13 */
@@ -174,10 +174,12 @@ void EXTI4_15_IRQHandler(void)
     /* USER CODE BEGIN LL_EXTI_LINE_14 */
 		if (!flags.usart1_tx_busy)
 		{
+			hdr.cmd = CMD_ANS_DATA;
 			flags.usart1_tx_busy = 1;
-			flags.whoami = 0;
-			usart_set_params_data(&pack, uid, payload_sz);
-			usart_txe_callback(&pack);
+			crc = usart_calc_crc(&hdr, data_pack, chunk_cnt);
+			hdr.data_sz = 0;
+			usart_calc_data_sz (&hdr, data_pack, chunk_cnt);
+			usart_txe_callback(&hdr, data_pack, crc, chunk_cnt);	
 			LL_USART_EnableIT_TXE(USART1);
 		}
     /* USER CODE END LL_EXTI_LINE_14 */
@@ -191,12 +193,22 @@ void EXTI4_15_IRQHandler(void)
   * @brief This function handles USART1 global interrupt / USART1 wake-up interrupt through EXTI line 25.
   */
 void USART1_IRQHandler(void)
-{
+{	
   /* USER CODE BEGIN USART1_IRQn 0 */
 	/**TRANSMISSION**/
 	if(LL_USART_IsActiveFlag_TXE(USART1) && LL_USART_IsEnabledIT_TXE(USART1) && flags.usart1_tx_busy)
 	{
-		usart_txe_callback(&pack);
+		switch(hdr.cmd)
+		{
+			case CMD_ANS_WHOAMI:
+				usart_txe_callback(&hdr, &whoami_pack, crc, chunk_cnt);
+				break;
+			case CMD_ANS_DATA:
+				usart_txe_callback(&hdr, data_pack, crc, chunk_cnt);
+				break;
+			default:
+				break;
+		};
 	}
 	
 	if (LL_USART_IsActiveFlag_TC(USART1) && LL_USART_IsEnabledIT_TC(USART1))
@@ -208,7 +220,10 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   /* USER CODE BEGIN USART1_IRQn 1 */
 	/**RECEPTION**/
-	flags.usart1_rx_end = usart_rxne_callback(&pack, &flags, USART1);
+	static usart_header recv_hdr = {0};
+	static usart_packet recv_pack = {0};
+	
+	flags.usart1_rx_end = usart_rxne_callback(&recv_hdr, &recv_pack, &cmd, USART1);
   /* USER CODE END USART1_IRQn 1 */
 }
 

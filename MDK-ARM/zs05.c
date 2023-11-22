@@ -10,19 +10,19 @@ static uint32_t zs05_check_crc(uint8_t *data, uint32_t len, uint8_t sent_crc)
 	return (sent_crc == calculated_crc);
 }
 
-static void zs05_data_processing(data_pack *res, uint8_t *buf)
+static void zs05_data_processing(float res[2], uint8_t *buf)
 {
-	if (*buf++ & 0x80) 	res->temp_or_wet.temp = -*buf++;
-	else 	res->temp_or_wet.temp = *buf++;
+	if (*buf++ & 0x80) 	res[0] = -*buf++;
+	else 	res[0] = *buf++;
 	buf++;
-	res->hum_or_press = *buf++;
+	res[1] = *buf++;
 	
 //	res->temp = *buf++;
 //	if (*buf++ & 0x80) 
 //		res->temp = -res->temp;
 }
 
-uint32_t zs05_read(data_pack *res)
+uint32_t zs05_read(float res[2])
 {
 	uint8_t buf[5] = {0};
 	if (!i2c1_pointer_read(buf + 4, ZS05_ADDR, 0, 5)) return 0;

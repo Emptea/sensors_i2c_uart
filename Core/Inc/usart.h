@@ -37,31 +37,33 @@ extern "C" {
 /* USER CODE BEGIN Private defines */
 #define PC_ID 0x00000000
 
-#define HEADER_SIZE 16+4
-#define DATA_SIZE 4*2
-#define WHOAMI_BIT 2
+#define HEADER_SIZE 20
+#define CHUNK_HEADER_SIZE 4
 
 #define PROTOCOL_AURA 0x41525541
 
-typedef struct usart_header
-{
-	uint32_t protocol;
-	uint32_t cnt;
-	uint32_t src;
-	uint32_t dest;
-} usart_header;
-
 enum data_type
 {
-	DATA_TYPE_CHAR = 1,
-	DATA_TYPE_UCHAR,
-	DATA_TYPE_SHORT,
-	DATA_TYPE_USHORT,
-	DATA_TYPE_INT,
-	DATA_TYPE_UINT,
-	DATA_TYPE_FLOAT,
-	DATA_TYPE_DOUBLE,
+	DATA_TYPE_INT8 = 1,
+	DATA_TYPE_UINT8,
+	DATA_TYPE_INT16,
+	DATA_TYPE_UINT16,
+	DATA_TYPE_INT32,
+	DATA_TYPE_UINT32,
+	DATA_TYPE_FLOAT32,
+	DATA_TYPE_FLOAR64,
 	DATA_TYPE_STRING
+};
+
+enum chunk_id
+{
+	CHUNK_ID_TYPE = 1,
+	CHUNK_ID_UIDS,
+	CHUNK_ID_ON_OFF,
+	CHUNK_ID_TEMP,
+	CHUNK_ID_HUM,
+	CHUNK_ID_PRESS,
+	CHUNK_ID_WETSENS
 };
 
 enum sensor_type
@@ -71,31 +73,54 @@ enum sensor_type
 	SENSOR_TYPE_SHT30,
 	SENSOR_TYPE_ZS05,
 	SENSOR_TYPE_BMP180,
-	SENSOR_TYPE_WET_SENSOR = 9
+	SENSOR_TYPE_LPS22HB,
+	SENSOR_TYPE_DOORKNOT,
+	SENSOR_TYPE_EXPANDER,
+	SENSOR_TYPE_WETSENS
 };
 
-enum fcn_id
+enum cmd
 {
-	FCN_ID_WHOAMI = 0,
-	FCN_ID_DATA
+	CMD_NONE,
+	CMD_REQ_WHOAMI = 1,
+	CMD_ANS_WHOAMI,
+	CMD_REQ_DATA,
+	CMD_ANS_DATA,
+	CMD_CNT
 };
+extern enum cmd cmd;
 
+/** FSMs **/
 enum usart_rcv_state
 {
-	STATE_RCV_HEADER = 0,
+	STATE_RCV_HEADER = 1,
+	STATE_RCV_CHUNK_HEADER,
 	STATE_RCV_DATA,
 	STATE_RCV_CRC,
 };
 
 enum usart_send_state
 {
-	STATE_SEND_HEADER = 0,
+	STATE_SEND_HDR = 1,
+	STATE_SEND_CHUNK_HDR,
 	STATE_SEND_DATA,
+	STATE_LOOP_CHUNK,
 	STATE_SEND_CRC,
 	STATE_END,
 };
 
-// should be sent before sending data
+/**UART STRUCTs **/
+typedef struct
+{
+	uint32_t protocol;
+	uint32_t cnt;
+	uint32_t src;
+	uint32_t dest;
+	uint32_t cmd: 16;
+	uint32_t data_sz : 16;
+} usart_header;
+extern usart_header hdr;
+
 typedef struct
 {
 	uint32_t id: 8;
@@ -105,57 +130,30 @@ typedef struct
 
 typedef struct
 {
-	usart_header header;
-	usart_chunk_head chunk_header;
-} usart_data_header;
-
-typedef struct
-{
-	union {
-		float temp;
-		uint32_t wet;
-	} temp_or_wet;
-	float hum_or_press;
-} data_pack;
-
-typedef struct 
-{
-	uint32_t sensor_type;
-	uint32_t path[4];
-} whoami_pack;
-
-typedef struct
-{
-	usart_data_header hdr;
-	data_pack data;
-	whoami_pack whoami;
-	uint16_t crc;
+	usart_chunk_head chunk_hdr;
+	uint8_t data[16];
 } usart_packet;
-extern usart_packet pack;
+extern usart_packet data_pack[2], whoami_pack;
+
+extern uint16_t crc;
 
 extern struct flags
 {
 	uint32_t usart1_tx_busy : 1;
 	uint32_t usart1_rx_end : 1;
-	uint32_t whoami : 1;
 } flags;
 
+extern uint32_t chunk_cnt;
 extern uint32_t sensor_type;
-extern uint32_t uid;
-extern uint32_t payload_sz;
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
 
-void usart_send (const void *s, uint32_t len);
+uint16_t usart_calc_crc (usart_header *hdr, usart_packet pack[], uint32_t chunk_cnt);
+void usart_calc_data_sz (usart_header *hdr, usart_packet pack[], uint32_t chunk_cnt);
 
-uint32_t usart_rxne_callback(usart_packet *pack, struct flags *flags, USART_TypeDef *USARTx);
-void usart_txe_callback(usart_packet *pack);
-
-
-void usart_set_params_whoami(usart_packet *pack, uint32_t sensor_type, uint32_t uid);
-void usart_set_params_data(usart_packet *pack, uint32_t uid, uint32_t payload_sz);
-
+uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *cmd, USART_TypeDef *USARTx);
+void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc, uint32_t pack_count);
 /* USER CODE BEGIN Prototypes */
 
 /* USER CODE END Prototypes */

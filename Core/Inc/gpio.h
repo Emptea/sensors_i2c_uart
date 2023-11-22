@@ -39,6 +39,12 @@ extern "C" {
 #define GPIO_BTN_EXTI GPIOC
 #define PIN_EXTI LL_GPIO_PIN_13
 #define PIN_BTN LL_GPIO_PIN_14
+
+extern enum wetsens_state
+{
+	WETSENS_STATE_DRY = 0,
+	WETSENS_STATE_WET = 0xFFFF
+} wetsens_state;
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);

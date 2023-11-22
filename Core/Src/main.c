@@ -29,6 +29,7 @@
 #include "sht3x_dis.h"
 #include "zs05.h"
 #include "bmp180.h"
+#include "tools.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,9 +39,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LM75BD
+//#define LM75BD
 //#define ZS05
-//#define BMP180
+#define BMP180
 //#define WET_SENSOR
 
 /* USER CODE END PD */
@@ -56,15 +57,18 @@
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
-uint32_t uid = 0;
+uint32_t chunk_cnt = 0;
 
+usart_header hdr = {0};
+usart_packet whoami_pack;
+usart_packet data_pack[2];
 
-uint32_t adresses[] = {LM75BD_ADDR, TMP112_ADDR, SHT3X_DIS_ADDR, ZS05_ADDR, BMP180_ADDR};
-usart_packet pack = {0};
-struct flags flags = {0};
 uint32_t sensor_type = 0;
-uint32_t payload_sz = 0;
+enum wetsens_state wetsens_state = 0;
+enum cmd cmd = CMD_NONE;
+uint16_t crc;
 
+struct flags flags = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -115,22 +119,49 @@ int main(void)
 	#endif
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	uid = uid_hash();
 	
 	#ifdef LM75BD
+		float lm75bd_temp = 0;
+		
+		data_pack[0].chunk_hdr.id = CHUNK_ID_TEMP;
+		data_pack[0].chunk_hdr.type = DATA_TYPE_FLOAT32;
+		data_pack[0].chunk_hdr.payload_sz = 4;
+		
+		chunk_cnt = 1;
+		
 		sensor_type = SENSOR_TYPE_LM75BD;
 		lm75bd_read_temp();
-		pack.data.hum_or_press = 0;
 	#endif
 		
 	#ifdef ZS05
+		float zs05_data[2] = {0};
+		data_pack[0].chunk_hdr.id = CHUNK_ID_TEMP;
+		data_pack[0].chunk_hdr.type = DATA_TYPE_FLOAT32;
+		data_pack[0].chunk_hdr.payload_sz = 4;
+		
+		data_pack[1].chunk_hdr.id = CHUNK_ID_HUM;
+		data_pack[1].chunk_hdr.type = DATA_TYPE_FLOAT32;
+		data_pack[1].chunk_hdr.payload_sz = 4;
+		
+		chunk_cnt = 2;
+	
 		sensor_type = SENSOR_TYPE_ZS05;
 		LL_mDelay(4000);
-		while(!zs05_read(&pack.data))
+		while(!zs05_read(zs05_data))
 			LL_mDelay(500);
 	#endif
 		
 	#ifdef BMP180
+		data_pack[0].chunk_hdr.id = CHUNK_ID_TEMP;
+		data_pack[0].chunk_hdr.type = DATA_TYPE_FLOAT32;
+		data_pack[0].chunk_hdr.payload_sz = 4;
+		
+		data_pack[1].chunk_hdr.id = CHUNK_ID_PRESS;
+		data_pack[1].chunk_hdr.type = DATA_TYPE_FLOAT32;
+		data_pack[1].chunk_hdr.payload_sz = 4;
+		
+		chunk_cnt = 2;
+	
 		sensor_type = SENSOR_TYPE_BMP180;
 		uint32_t oss = 0;
 		bmp180_get_cal_param(&p_bmp180);
@@ -140,12 +171,29 @@ int main(void)
 	LL_USART_EnableIT_RXNE(USART1);
 
 	#ifdef WET_SENSOR
+		data_pack[0].chunk_hdr.id = CHUNK_ID_WETSENS;
+		data_pack[0].chunk_hdr.type = DATA_TYPE_UINT16;
+		data_pack[0].chunk_hdr.payload_sz = 2;
+		
+		chunk_cnt = 1;
+	
+		uint16_t null = 0;
+		memcpy_u8(&null, data_pack[0].data, 2);
+		sensor_type = SENSOR_TYPE_WETSENS;
+		
 		LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
-		payload_sz = 4;
-		pack.data.temp_or_wet.wet  = 0x0000;
-	#else
-		payload_sz = 8;
 	#endif
+	
+	hdr.protocol = PROTOCOL_AURA;
+	hdr.src = uid_hash();
+	hdr.dest = PC_ID;
+	hdr.cnt = 0;
+	
+	whoami_pack.chunk_hdr.id = CHUNK_ID_UIDS;
+	whoami_pack.chunk_hdr.type = DATA_TYPE_UINT32;
+	whoami_pack.chunk_hdr.payload_sz = 4;
+	memcpy_u8(&sensor_type, whoami_pack.data, 4);
+	
 	GPIO_EXTI_Enable();
 
   /* USER CODE END 2 */
@@ -155,37 +203,47 @@ int main(void)
   while (1)
   {
 		#ifdef LM75BD
-			pack.data.temp_or_wet.temp = lm75bd_read_temp();
-			pack.data.hum_or_press = 0;
+			lm75bd_temp = lm75bd_read_temp();
+			memcpy_u8(&lm75bd_temp, data_pack[0].data, 4);
 		#endif
 		
 		#ifdef ZS05
-			zs05_read(&pack.data);
+			zs05_read(zs05_data);
+			memcpy_u8(&zs05_data[0], data_pack[0].data, 4);
+			memcpy_u8(&zs05_data[1], data_pack[1].data, 4);
 			LL_mDelay(500);
 		#endif
 		
 		#ifdef BMP180
 			bmp180_get_temp(&p_bmp180);
 			bmp180_get_press(&p_bmp180, oss);
-			pack.data.temp_or_wet.temp = p_bmp180.temp;
-			pack.data.hum_or_press = p_bmp180.press;
+			memcpy_u8(&p_bmp180.temp, data_pack[0].data, 4);
+			memcpy_u8(& p_bmp180.press, data_pack[1].data, 4);
 		#endif
 		
 		if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
 		{
 			flags.usart1_tx_busy = 1;
+			hdr.cmd = cmd;
 			
-			if (flags.whoami)
+			switch(hdr.cmd)
 			{
-				usart_set_params_whoami(&pack, sensor_type, uid);
-			}
-			else
-			{
-				usart_set_params_data(&pack, uid, payload_sz);
-			}
-			
-			usart_txe_callback(&pack);
-			LL_USART_EnableIT_TXE(USART1);
+				case CMD_ANS_WHOAMI:
+					hdr.data_sz = 8;
+					crc = usart_calc_crc(&hdr, &whoami_pack, chunk_cnt);
+					usart_txe_callback(&hdr, &whoami_pack, crc, chunk_cnt);
+					LL_USART_EnableIT_TXE(USART1);
+					break;
+				case CMD_ANS_DATA:
+					hdr.data_sz = 0;
+					usart_calc_data_sz (&hdr, data_pack, chunk_cnt);
+					crc = usart_calc_crc(&hdr, data_pack, chunk_cnt);
+					usart_txe_callback(&hdr, data_pack, crc, chunk_cnt);			
+					LL_USART_EnableIT_TXE(USART1);
+					break;
+				default:
+					break;
+			};
 		}
 
 

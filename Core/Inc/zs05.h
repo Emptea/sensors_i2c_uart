@@ -9,4 +9,4 @@ extern struct zs05_data
 	uint32_t crc;
 } zs05_data;
 
-uint32_t zs05_read(data_pack *res);
+uint32_t zs05_read(float res[2]);
