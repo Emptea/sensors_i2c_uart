@@ -187,9 +187,11 @@ static uint32_t usart_receiving(uint8_t *data, USART_TypeDef *USARTx, uint32_t s
 uint16_t usart_calc_crc (usart_header *hdr, usart_packet pack[], uint32_t chunk_cnt)
 {
 	uint16_t crc =  crc16(0xFFFF, hdr ,HEADER_SIZE);
+	uint32_t cnt = 0;
 	while(chunk_cnt--)
 	{
-		crc =  crc16(crc, &pack[chunk_cnt], CHUNK_HEADER_SIZE + pack[chunk_cnt].chunk_hdr.payload_sz);
+		crc =  crc16(crc, &pack[cnt], CHUNK_HEADER_SIZE + pack[cnt].chunk_hdr.payload_sz);
+		cnt++;
 	}
 	
 	return crc;

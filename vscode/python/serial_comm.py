@@ -7,7 +7,7 @@ cmd.extend(bytearray([3]))
 cmd.extend(bytearray(3))
 cmd.extend(bytearray(4))
 cmd.extend(bytearray(4))
-cmd.extend(bytearray([1])) #1 - whoami, 3 - data
+cmd.extend(bytearray([3])) #1 - whoami, 3 - data
 cmd.extend(bytearray(1))
 cmd.extend(bytearray(2))
 # chunk header
