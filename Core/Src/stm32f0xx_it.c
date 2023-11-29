@@ -175,8 +175,8 @@ void EXTI4_15_IRQHandler(void)
 		if (!flags.usart1_tx_busy)
 		{
 			flags.usart1_tx_busy = 1;
-			hdr.cmd = CMD_ANS_DATA;
-			chunk_cnt = usart_start_data_sending (&hdr, data_pack, &pack_crc, sensor_type);
+			send_hdr.cmd = CMD_ANS_DATA;
+			chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
 		}
     /* USER CODE END LL_EXTI_LINE_14 */
   }
@@ -191,16 +191,17 @@ void EXTI4_15_IRQHandler(void)
 void USART1_IRQHandler(void)
 {	
   /* USER CODE BEGIN USART1_IRQn 0 */
+    LL_GPIO_ResetOutputPin(GPIO_LED, PIN_RED_LED);
 	/**TRANSMISSION**/
 	if(LL_USART_IsActiveFlag_TXE(USART1) && LL_USART_IsEnabledIT_TXE(USART1) && flags.usart1_tx_busy)
 	{
-		switch(hdr.cmd)
+		switch(send_hdr.cmd)
 		{
 			case CMD_ANS_WHOAMI:
-				usart_txe_callback(&hdr, &whoami_pack, pack_crc, chunk_cnt);
+				usart_txe_callback(&send_hdr, &whoami_pack, pack_crc, chunk_cnt);
 				break;
 			case CMD_ANS_DATA:
-				usart_txe_callback(&hdr, data_pack, pack_crc, chunk_cnt);
+				usart_txe_callback(&send_hdr, data_pack, pack_crc, chunk_cnt);
 				break;
 			default:
 				break;
@@ -213,14 +214,24 @@ void USART1_IRQHandler(void)
 		flags.usart1_tx_busy = 0;
 		LL_USART_DisableIT_TC(USART1);
 	}
-  /* USER CODE END USART1_IRQn 0 */
-  /* USER CODE BEGIN USART1_IRQn 1 */
+
 	/**RECEPTION**/
 	static usart_header recv_hdr = {0};
 	static usart_packet recv_pack = {0};
 	
 	flags.usart1_rx_end = usart_rxne_callback(&recv_hdr, &recv_pack, &cmd, USART1);
-  /* USER CODE END USART1_IRQn 1 */
+
+    /**TIMEOUT**/
+    if (LL_USART_IsActiveFlag_RTO(USART1)) {
+        LL_USART_ClearFlag_RTO(USART1);
+        usart_recv_timeout_callback(USART1);
+    }
+    
+    if(LL_USART_IsActiveFlag_ORE(USART1))
+    {
+        LL_USART_ClearFlag_ORE(USART1);
+        LL_GPIO_SetOutputPin(GPIO_LED, PIN_RED_LED);
+    }
 }
 
 /* USER CODE BEGIN 1 */

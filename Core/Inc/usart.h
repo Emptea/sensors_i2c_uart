@@ -122,7 +122,7 @@ typedef struct
 	uint32_t cmd: 16;
 	uint32_t data_sz : 16;
 } usart_header;
-extern usart_header hdr;
+extern usart_header send_hdr;
 
 typedef struct
 {
@@ -156,9 +156,12 @@ uint16_t usart_calc_crc (usart_header *hdr, usart_packet pack[], uint32_t chunk_
 void usart_calc_data_sz (usart_header *hdr, usart_packet pack[], uint32_t chunk_cnt);
 
 uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *cmd, USART_TypeDef *USARTx);
-void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc, uint32_t pack_count);
+void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc_send, uint32_t pack_count);
 
 uint32_t usart_start_data_sending (usart_header *hdr, usart_packet pack[], uint16_t *crc, uint32_t sensor_type);
+
+void usart_recv_timeout_callback(USART_TypeDef *USARTx);
+
 /* USER CODE BEGIN Prototypes */
 
 /* USER CODE END Prototypes */

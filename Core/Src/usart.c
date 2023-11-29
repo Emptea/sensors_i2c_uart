@@ -96,11 +96,30 @@ void MX_USART1_UART_Init(void)
   LL_USART_SetDEAssertionTime(USART1, 0);
   LL_USART_SetDEDeassertionTime(USART1, 0);
   LL_USART_ConfigAsyncMode(USART1);
+  LL_USART_SetRxTimeout(USART1, 200);
+  
+  LL_USART_EnableIT_RTO(USART1);
+  
   LL_USART_Enable(USART1);
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
 
+}
+static enum usart_rcv_state usart_rcv_state = {STATE_RCV_HEADER};
+static uint32_t recv_cnt = {0};
+static uint16_t crc = 0;
+
+static void usart_stop_recv(void)
+{
+    LL_USART_DisableRxTimeout(USART1);
+}
+
+void usart_recv_timeout_callback(USART_TypeDef *USARTx)
+{
+    usart_rcv_state = STATE_RCV_HEADER;
+    recv_cnt = 0;
+    usart_stop_recv();
 }
 
 /* USER CODE BEGIN 1 */
@@ -122,7 +141,7 @@ static uint32_t usart_sending (const void *data, uint32_t sz)
 	return 0;
 }
 
-void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc, uint32_t pack_count)
+void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc_send, uint32_t pack_count)
 {
 	static enum usart_send_state usart_send_state = STATE_SEND_HDR;
 	static uint32_t pack_counter = 0;
@@ -151,7 +170,7 @@ void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc, ui
 				}
 			break;
 		case STATE_SEND_CRC:
-			usart_send_state += usart_sending(&crc, 2);
+			usart_send_state += usart_sending(&crc_send, 2);
 			break;
 		case STATE_END:
 			LL_USART_DisableIT_TXE(USART1);
@@ -165,19 +184,17 @@ void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc, ui
 /** RXNE FUNCTIONS **/
 static uint32_t usart_receiving(uint8_t *data, USART_TypeDef *USARTx, uint32_t sz)
 {
-	static uint32_t counter = {0};
-	
 	if (sz == 0) 
 		return 1;
 	
 	if(LL_USART_IsActiveFlag_RXNE(USARTx) && LL_USART_IsEnabledIT_RXNE(USARTx))
   {
-		*(data + counter) = LL_USART_ReceiveData8(USARTx);
-		counter++;
+		*(data + recv_cnt) = LL_USART_ReceiveData8(USARTx);
+		recv_cnt++;
 		
-		if (counter > sz - 1)
+		if (recv_cnt > sz - 1)
 		{
-			counter = 0;
+			recv_cnt = 0;
 			return 1;
 		}
 	}
@@ -203,16 +220,26 @@ static uint32_t check_crc(usart_header *hdr, usart_packet pack[], uint16_t crc, 
 	return (crc == checking_crc);
 }
 
+static void enable_recv_timeout(USART_TypeDef *USARTx)
+{
+    if(LL_USART_IsActiveFlag_RXNE(USARTx) && LL_USART_IsEnabledIT_RXNE(USARTx)) 
+        LL_USART_EnableRxTimeout(USARTx);
+}
+static uint32_t check_adr(usart_header *hdr)
+{
+    if (hdr->dest == send_hdr.src || hdr->dest == 0x00) return 1;
+    else return 0;
+}
+    
 uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *cmd, USART_TypeDef *USARTx)
 {
-	static enum usart_rcv_state usart_rcv_state = {STATE_RCV_HEADER};
+	
 	static uint32_t cnt = 0;
 	static uint32_t chunk_cnt = 0;
 	
-	static uint16_t crc = 0;
-	
 	switch (usart_rcv_state){
 		case STATE_RCV_HEADER:
+            enable_recv_timeout(USARTx);
 			usart_rcv_state += usart_receiving((uint8_t *)hdr, USARTx, HEADER_SIZE);
 			cnt = 0;
 			chunk_cnt = 0;
@@ -240,11 +267,15 @@ uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *c
 				usart_rcv_state = STATE_RCV_CRC;
 			break;
 		case STATE_RCV_CRC:
-			if (usart_receiving((uint8_t *)&crc, USARTx, 2) && check_crc(hdr, pack, crc, chunk_cnt))
+			if (usart_receiving((uint8_t *)&crc, USARTx, 2))
 			{
-				*cmd = hdr->cmd+1; //switch from req to ans
-				usart_rcv_state = STATE_RCV_HEADER;
-				return 1;
+                usart_recv_timeout_callback(USARTx);
+                if(check_crc(hdr, pack, crc, chunk_cnt)&&check_adr(hdr))
+                {
+                    *cmd = hdr->cmd+1; //switch from req to ans
+                    usart_rcv_state = STATE_RCV_HEADER;
+                    return 1;
+                }
 			}
 			break;
 	}

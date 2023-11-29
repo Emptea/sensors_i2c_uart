@@ -39,8 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define LM75BD
-#define ZS05
+#define LM75BD
+//#define ZS05
 //#define BMP180
 //#define WET_SENSOR
 
@@ -59,7 +59,7 @@ struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
 uint32_t chunk_cnt = 0;
 
-usart_header hdr = {0};
+usart_header send_hdr = {0};
 usart_packet whoami_pack;
 usart_packet data_pack[2];
 
@@ -117,10 +117,11 @@ int main(void)
 	#ifndef WET_SENSOR
 		MX_I2C1_Init();
 	#endif
-  MX_USART1_UART_Init();
+
   /* USER CODE BEGIN 2 */
 	
 	#ifdef LM75BD
+		LL_mDelay(100);
 		float lm75bd_temp = 0;
 		
 		data_pack[0].chunk_hdr.id = CHUNK_ID_TEMP;
@@ -167,6 +168,7 @@ int main(void)
 		bmp180_get_cal_param(&p_bmp180);
 	#endif
 	
+	MX_USART1_UART_Init();
 	LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
 	LL_USART_EnableIT_RXNE(USART1);
 
@@ -184,10 +186,10 @@ int main(void)
 		LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
 	#endif
 	
-	hdr.protocol = PROTOCOL_AURA;
-	hdr.src = uid_hash();
-	hdr.dest = PC_ID;
-	hdr.cnt = 0;
+	send_hdr.protocol = PROTOCOL_AURA;
+	send_hdr.src = uid_hash();
+	send_hdr.dest = PC_ID;
+	send_hdr.cnt = 0;
 	
 	whoami_pack.chunk_hdr.id = CHUNK_ID_TYPE;
 	whoami_pack.chunk_hdr.type = DATA_TYPE_UINT32;
@@ -203,6 +205,7 @@ int main(void)
   while (1)
   {
 		#ifdef LM75BD
+            LL_mDelay(50);
 			lm75bd_temp = lm75bd_read_temp();
 			memcpy_u8(&lm75bd_temp, data_pack[0].data, 4);
 		#endif
@@ -224,15 +227,15 @@ int main(void)
 		if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
 		{
 			flags.usart1_tx_busy = 1;
-			hdr.cmd = cmd;
+			send_hdr.cmd = cmd;
 			
-			switch(hdr.cmd)
+			switch(send_hdr.cmd)
 			{
 				case CMD_ANS_WHOAMI:
-					chunk_cnt = usart_start_data_sending (&hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
+					chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
 					break;
 				case CMD_ANS_DATA:
-					chunk_cnt = usart_start_data_sending (&hdr, data_pack, &pack_crc, sensor_type);
+					chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
 					break;
 				default:
 					break;
