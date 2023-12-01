@@ -39,8 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LM75BD
-//#define ZS05
+//#define LM75BD
+#define ZS05
 //#define BMP180
 //#define WET_SENSOR
 
@@ -147,9 +147,9 @@ int main(void)
 		chunk_cnt = 2;
 	
 		sensor_type = SENSOR_TYPE_ZS05;
-		LL_mDelay(4000);
-		while(!zs05_read(zs05_data))
-			LL_mDelay(500);
+//		LL_mDelay(4000);
+//		while(!zs05_read(zs05_data))
+//			LL_mDelay(500);
 	#endif
 		
 	#ifdef BMP180
@@ -169,7 +169,7 @@ int main(void)
 	#endif
 	
 	MX_USART1_UART_Init();
-	LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
+	
 	LL_USART_EnableIT_RXNE(USART1);
 
 	#ifdef WET_SENSOR
@@ -197,7 +197,9 @@ int main(void)
 	memcpy_u8(&sensor_type, whoami_pack.data, 4);
 	
 	GPIO_EXTI_Enable();
-
+    #ifndef ZS05
+        LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
+    #endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -211,10 +213,11 @@ int main(void)
 		#endif
 		
 		#ifdef ZS05
-			zs05_read(zs05_data);
+			if(zs05_read(zs05_data))
+                LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
 			memcpy_u8(&zs05_data[0], data_pack[0].data, 4);
 			memcpy_u8(&zs05_data[1], data_pack[1].data, 4);
-			LL_mDelay(500);
+			LL_mDelay(100);
 		#endif
 		
 		#ifdef BMP180
