@@ -133,7 +133,11 @@ uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint3
         uint32_t timeout = 100;
 		while(!LL_I2C_IsActiveFlag_RXNE(I2C1))
         {
-            if (!timeout--) return 0;
+            if (!timeout)
+            {
+                timeout--;                
+                return 0;
+            }
         }
 		*data-- = LL_I2C_ReceiveData8(I2C1);
 		cnt++;
