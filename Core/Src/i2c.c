@@ -103,7 +103,7 @@ uint32_t i2c1_read(uint8_t *data, uint32_t addr, uint32_t nbytes)
 	for (uint32_t i = 0; i < nbytes; i++){
         while(!LL_I2C_IsActiveFlag_RXNE(I2C1))
         {
-            if (!timeout--) return 0;
+            if (!(timeout--)) return 0;
         }
 		*data-- = LL_I2C_ReceiveData8(I2C1);
 		cnt++;
@@ -130,14 +130,11 @@ uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint3
 	LL_I2C_HandleTransfer(I2C1, (addr << 1), LL_I2C_ADDRSLAVE_7BIT, nbytes, LL_I2C_MODE_AUTOEND, LL_I2C_GENERATE_RESTART_7BIT_READ);
 
 	for (uint32_t i = 0; i < nbytes; i++){
-        uint32_t timeout = 100;
+        uint32_t timeout = 10000;
 		while(!LL_I2C_IsActiveFlag_RXNE(I2C1))
         {
-            if (!timeout)
-            {
-                timeout--;                
+            if (!(timeout--)) 
                 return 0;
-            }
         }
 		*data-- = LL_I2C_ReceiveData8(I2C1);
 		cnt++;
