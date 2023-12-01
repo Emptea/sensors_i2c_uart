@@ -53,19 +53,17 @@ cmd_write_exp.extend(crc16(cmd_write_exp).to_bytes(2,'little'))
 
 ser = serial.Serial()
 ser.baudrate= 115200
-ser.port = 'COM7'
-ser.timeout = 1
+ser.port = 'COM6'
+ser.timeout = 0.03
 ser.open()
 
-ser.write(cmd_whoami)
-response  = ser.read(20+8+2) #whoami from temp sens
-print(' '.join(format(x, '02x') for x in response))
+# ser.write(cmd_whoami)
+# response  = ser.read(20+8+2) #whoami from temp sens
+# print(' '.join(format(x, '02x') for x in response))
 
-# ser.write (cmd_whoami)
-# ser.write(crc16(cmd_whoami).to_bytes(2,'little'))
-for i in range (10):
+for i in range (100000):
     ser.write(cmd_data)
-    response  = ser.read(20+8+2) #whoami from temp sens
+    response  = ser.read(20+8*2+2) #whoami from temp sens
     print(' '.join(format(x, '02x') for x in response))
 
 # for i in range(2):

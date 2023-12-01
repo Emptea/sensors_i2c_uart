@@ -144,6 +144,7 @@ extern struct flags
 {
 	uint32_t usart1_tx_busy : 1;
 	uint32_t usart1_rx_end : 1;
+    uint32_t start_meas : 1;
 } flags;
 
 extern uint32_t chunk_cnt;

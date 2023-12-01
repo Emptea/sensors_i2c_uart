@@ -21,15 +21,10 @@
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
-
+#include "tim.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "lm75bd.h"
-#include "tmp112.h"
-#include "sht3x_dis.h"
-#include "zs05.h"
-#include "bmp180.h"
-#include "tools.h"
+#include "sensors.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -39,10 +34,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-//#define LM75BD
-#define ZS05
-//#define BMP180
-//#define WET_SENSOR
+
 
 /* USER CODE END PD */
 
@@ -113,79 +105,15 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
+    MX_GPIO_Init();
 	#ifndef WET_SENSOR
 		MX_I2C1_Init();
 	#endif
-
+    MX_USART1_UART_Init();
+    sensors_init();
+    MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-	
-	#ifdef LM75BD
-		LL_mDelay(100);
-		float lm75bd_temp = 0;
-		
-		data_pack[0].chunk_hdr.id = CHUNK_ID_TEMP;
-		data_pack[0].chunk_hdr.type = DATA_TYPE_FLOAT32;
-		data_pack[0].chunk_hdr.payload_sz = 4;
-		
-		chunk_cnt = 1;
-		
-		sensor_type = SENSOR_TYPE_LM75BD;
-		lm75bd_read_temp();
-	#endif
-		
-	#ifdef ZS05
-		float zs05_data[2] = {0};
-		data_pack[0].chunk_hdr.id = CHUNK_ID_TEMP;
-		data_pack[0].chunk_hdr.type = DATA_TYPE_FLOAT32;
-		data_pack[0].chunk_hdr.payload_sz = 4;
-		
-		data_pack[1].chunk_hdr.id = CHUNK_ID_HUM;
-		data_pack[1].chunk_hdr.type = DATA_TYPE_FLOAT32;
-		data_pack[1].chunk_hdr.payload_sz = 4;
-		
-		chunk_cnt = 2;
-	
-		sensor_type = SENSOR_TYPE_ZS05;
-//		LL_mDelay(4000);
-//		while(!zs05_read(zs05_data))
-//			LL_mDelay(500);
-	#endif
-		
-	#ifdef BMP180
-		data_pack[0].chunk_hdr.id = CHUNK_ID_TEMP;
-		data_pack[0].chunk_hdr.type = DATA_TYPE_FLOAT32;
-		data_pack[0].chunk_hdr.payload_sz = 4;
-		
-		data_pack[1].chunk_hdr.id = CHUNK_ID_PRESS;
-		data_pack[1].chunk_hdr.type = DATA_TYPE_FLOAT32;
-		data_pack[1].chunk_hdr.payload_sz = 4;
-		
-		chunk_cnt = 2;
-	
-		sensor_type = SENSOR_TYPE_BMP180;
-		uint32_t oss = 0;
-		bmp180_get_cal_param(&p_bmp180);
-	#endif
-	
-	MX_USART1_UART_Init();
-	
-	LL_USART_EnableIT_RXNE(USART1);
-
-	#ifdef WET_SENSOR
-		data_pack[0].chunk_hdr.id = CHUNK_ID_WETSENS;
-		data_pack[0].chunk_hdr.type = DATA_TYPE_UINT16;
-		data_pack[0].chunk_hdr.payload_sz = 2;
-		
-		chunk_cnt = 1;
-	
-		uint16_t null = 0;
-		memcpy_u8(&null, data_pack[0].data, 2);
-		sensor_type = SENSOR_TYPE_WETSENS;
-		
-		LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
-	#endif
-	
+    
 	send_hdr.protocol = PROTOCOL_AURA;
 	send_hdr.src = uid_hash();
 	send_hdr.dest = PC_ID;
@@ -195,60 +123,21 @@ int main(void)
 	whoami_pack.chunk_hdr.type = DATA_TYPE_UINT32;
 	whoami_pack.chunk_hdr.payload_sz = 4;
 	memcpy_u8(&sensor_type, whoami_pack.data, 4);
+    
+	LL_USART_EnableIT_RXNE(USART1);
 	
 	GPIO_EXTI_Enable();
     #ifndef ZS05
         LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
     #endif
   /* USER CODE END 2 */
-
+    //LL_TIM_EnableCounter(TIM2);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		#ifdef LM75BD
-            LL_mDelay(50);
-			lm75bd_temp = lm75bd_read_temp();
-			memcpy_u8(&lm75bd_temp, data_pack[0].data, 4);
-		#endif
-		
-		#ifdef ZS05
-			if(zs05_read(zs05_data))
-                LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
-			memcpy_u8(&zs05_data[0], data_pack[0].data, 4);
-			memcpy_u8(&zs05_data[1], data_pack[1].data, 4);
-			LL_mDelay(100);
-		#endif
-		
-		#ifdef BMP180
-			bmp180_get_temp(&p_bmp180);
-			bmp180_get_press(&p_bmp180, oss);
-			memcpy_u8(&p_bmp180.temp, data_pack[0].data, 4);
-			memcpy_u8(& p_bmp180.press, data_pack[1].data, 4);
-		#endif
-		
-		if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
-		{
-			flags.usart1_tx_busy = 1;
-			send_hdr.cmd = cmd;
-			
-			switch(send_hdr.cmd)
-			{
-				case CMD_ANS_WHOAMI:
-					chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
-					break;
-				case CMD_ANS_DATA:
-					chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
-					break;
-				default:
-					break;
-			};
-		}
-
-
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+    LL_mDelay(50);
+    sensors_measure(data_pack);
   }
   /* USER CODE END 3 */
 }

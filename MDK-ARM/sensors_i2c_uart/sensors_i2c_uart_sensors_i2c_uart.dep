@@ -1,10 +1,10 @@
 Dependencies for Project 'sensors_i2c_uart', Target 'sensors_i2c_uart': (DO NOT MODIFY !)
 CompilerVersion: 6190000::V6.19::ARMCLANG
-F (startup_stm32f031x6.s)(0x655B30AB)(--target=arm-arm-none-eabi -mcpu=cortex-m0 -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"STM32F031x6 SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o sensors_i2c_uart/startup_stm32f031x6.o)
-F (..\Core\Src\lm75bd.c)(0x6539049D)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/lm75bd.o -MD)
+F (startup_stm32f031x6.s)(0x6569F36B)(--target=arm-arm-none-eabi -mcpu=cortex-m0 -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"STM32F031x6 SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o sensors_i2c_uart/startup_stm32f031x6.o)
+F (..\Core\Src\lm75bd.c)(0x6539049D)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/lm75bd.o -MD)
 I (..\Core\Inc\lm75bd.h)(0x64F826C0)
 I (..\Core\Inc\i2c.h)(0x653B7941)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -27,13 +27,14 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-F (..\Core\Src\tmp112.c)(0x6538E420)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/tmp112.o -MD)
+F (..\Core\Src\tmp112.c)(0x6538E420)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/tmp112.o -MD)
 I (..\Core\Inc\tmp112.h)(0x651ED016)
 I (..\Core\Inc\i2c.h)(0x653B7941)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -56,13 +57,14 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-F (..\Core\Src\sht3x_dis.c)(0x653A77C3)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/sht3x_dis.o -MD)
+F (..\Core\Src\sht3x_dis.c)(0x653A77C3)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/sht3x_dis.o -MD)
 I (..\Core\Inc\sht3x_dis.h)(0x64F86DFD)
 I (..\Core\Inc\i2c.h)(0x653B7941)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -85,13 +87,14 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-F (.\zs05.c)(0x655DCB9C)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/zs05.o -MD)
-I (..\Core\Inc\zs05.h)(0x655DCFF8)
+F (.\zs05.c)(0x656A0EFC)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/zs05.o -MD)
+I (..\Core\Inc\zs05.h)(0x6569F6D1)
 I (..\Core\Inc\i2c.h)(0x653B7941)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -114,13 +117,14 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-F (..\Core\Src\bmp180.c)(0x65392A8E)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/bmp180.o -MD)
-I (..\Core\Inc\bmp180.h)(0x653B6BA5)
+F (..\Core\Src\bmp180.c)(0x65392A8E)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/bmp180.o -MD)
+I (..\Core\Inc\bmp180.h)(0x6569F6E9)
 I (..\Core\Inc\i2c.h)(0x653B7941)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -143,12 +147,13 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-F (..\Core\Src\uid_hash.c)(0x651EC31C)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/uid_hash.o -MD)
+F (..\Core\Src\uid_hash.c)(0x651EC31C)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/uid_hash.o -MD)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -171,11 +176,12 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-F (..\Core\Src\crc16.c)(0x651EC830)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/crc16.o -MD)
+F (..\Core\Src\crc16.c)(0x651EC830)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/crc16.o -MD)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -198,10 +204,11 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
-F (../Core/Src/main.c)(0x6569CB9D)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/main.o -MD)
-I (..\Core\Inc\main.h)(0x655B228E)
+F (../Core/Src/main.c)(0x656A0D42)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/main.o -MD)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -224,20 +231,23 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
 I (..\Core\Inc\i2c.h)(0x653B7941)
 I (..\Core\Inc\gpio.h)(0x655DD0AD)
+I (..\Core\Inc\tim.h)(0x6569F368)
+I (..\Core\Inc\sensors.h)(0x656A1285)
 I (..\Core\Inc\lm75bd.h)(0x64F826C0)
 I (..\Core\Inc\tmp112.h)(0x651ED016)
 I (..\Core\Inc\sht3x_dis.h)(0x64F86DFD)
-I (..\Core\Inc\zs05.h)(0x655DCFF8)
-I (..\Core\Inc\bmp180.h)(0x653B6BA5)
+I (..\Core\Inc\zs05.h)(0x6569F6D1)
+I (..\Core\Inc\bmp180.h)(0x6569F6E9)
 I (..\Core\Inc\tools.h)(0x655C4CFA)
-F (../Core/Src/gpio.c)(0x655B3379)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/gpio.o -MD)
+F (../Core/Src/gpio.c)(0x6569F38A)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/gpio.o -MD)
 I (..\Core\Inc\gpio.h)(0x655DD0AD)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -260,12 +270,13 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-F (../Core/Src/i2c.c)(0x6569C987)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/i2c.o -MD)
+F (../Core/Src/i2c.c)(0x656A0FA0)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/i2c.o -MD)
 I (..\Core\Inc\i2c.h)(0x653B7941)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -288,11 +299,12 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-F (../Core/Src/usart.c)(0x6567563E)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/usart.o -MD)
-I (..\Core\Inc\usart.h)(0x656755F2)
+F (../Core/Src/usart.c)(0x6569F38A)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/usart.o -MD)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -305,7 +317,7 @@ I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_crs.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_rcc.h)(0x64F1F689)
@@ -317,15 +329,16 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_utils.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
 I (..\Core\Inc\i2c.h)(0x653B7941)
 I (..\Core\Inc\lm75bd.h)(0x64F826C0)
 I (..\Core\Inc\tmp112.h)(0x651ED016)
 I (..\Core\Inc\sht3x_dis.h)(0x64F86DFD)
-I (..\Core\Inc\zs05.h)(0x655DCFF8)
-I (..\Core\Inc\bmp180.h)(0x653B6BA5)
-F (../Core/Src/stm32f0xx_it.c)(0x656755F2)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_it.o -MD)
-I (..\Core\Inc\main.h)(0x655B228E)
+I (..\Core\Inc\zs05.h)(0x6569F6D1)
+I (..\Core\Inc\bmp180.h)(0x6569F6E9)
+F (../Core/Src/stm32f0xx_it.c)(0x656A0CD3)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_it.o -MD)
+I (..\Core\Inc\main.h)(0x6569F6F6)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -348,12 +361,87 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
-I (..\Core\Inc\usart.h)(0x656755F2)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-I (..\Core\Inc\stm32f0xx_it.h)(0x655B30A8)
+I (..\Core\Inc\stm32f0xx_it.h)(0x6569F42C)
 I (..\Core\Inc\gpio.h)(0x655DD0AD)
-F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_gpio.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_gpio.o -MD)
+I (..\Core\Inc\sensors.h)(0x656A1285)
+I (..\Core\Inc\lm75bd.h)(0x64F826C0)
+I (..\Core\Inc\i2c.h)(0x653B7941)
+I (..\Core\Inc\tmp112.h)(0x651ED016)
+I (..\Core\Inc\sht3x_dis.h)(0x64F86DFD)
+I (..\Core\Inc\zs05.h)(0x6569F6D1)
+I (..\Core\Inc\bmp180.h)(0x6569F6E9)
+I (..\Core\Inc\tools.h)(0x655C4CFA)
+F (..\Core\Src\tim.c)(0x6569FCE4)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/tim.o -MD)
+I (..\Core\Inc\tim.h)(0x6569F368)
+I (..\Core\Inc\main.h)(0x6569F6F6)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Include\core_cm0.h)(0x64F1F67B)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x63888F58)
+I (..\Drivers\CMSIS\Include\cmsis_version.h)(0x64F1F67B)
+I (..\Drivers\CMSIS\Include\cmsis_compiler.h)(0x64F1F67B)
+I (..\Drivers\CMSIS\Include\cmsis_armclang.h)(0x64F1F67B)
+I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
+I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_crs.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_rcc.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_bus.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_system.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_exti.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_cortex.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_utils.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
+I (..\Core\Inc\uid_hash.h)(0x651EC31C)
+I (..\Core\Inc\crc16.h)(0x651ECBF9)
+F (..\Core\Src\sensors.c)(0x656A11C0)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/sensors.o -MD)
+I (..\Core\Inc\sensors.h)(0x656A1285)
+I (..\Core\Inc\lm75bd.h)(0x64F826C0)
+I (..\Core\Inc\i2c.h)(0x653B7941)
+I (..\Core\Inc\main.h)(0x6569F6F6)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Include\core_cm0.h)(0x64F1F67B)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x63888F58)
+I (..\Drivers\CMSIS\Include\cmsis_version.h)(0x64F1F67B)
+I (..\Drivers\CMSIS\Include\cmsis_compiler.h)(0x64F1F67B)
+I (..\Drivers\CMSIS\Include\cmsis_armclang.h)(0x64F1F67B)
+I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
+I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_crs.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_rcc.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_bus.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_system.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_exti.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_cortex.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_utils.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Core\Inc\usart.h)(0x656A0049)
+I (..\Core\Inc\uid_hash.h)(0x651EC31C)
+I (..\Core\Inc\crc16.h)(0x651ECBF9)
+I (..\Core\Inc\tmp112.h)(0x651ED016)
+I (..\Core\Inc\sht3x_dis.h)(0x64F86DFD)
+I (..\Core\Inc\zs05.h)(0x6569F6D1)
+I (..\Core\Inc\bmp180.h)(0x6569F6E9)
+I (..\Core\Inc\tools.h)(0x655C4CFA)
+I (..\Core\Inc\gpio.h)(0x655DD0AD)
+F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_gpio.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_gpio.o -MD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -366,7 +454,7 @@ I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_bus.h)(0x64F1F689)
-F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_i2c.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_i2c.o -MD)
+F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_i2c.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_i2c.o -MD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_i2c.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -379,7 +467,7 @@ I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_bus.h)(0x64F1F689)
-F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dma.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_dma.o -MD)
+F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_dma.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_dma.o -MD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_dma.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -392,7 +480,7 @@ I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_bus.h)(0x64F1F689)
-F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rcc.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_rcc.o -MD)
+F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_rcc.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_rcc.o -MD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_rcc.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -404,7 +492,7 @@ I (..\Drivers\CMSIS\Include\cmsis_armclang.h)(0x64F1F67B)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
-F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_utils.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_utils.o -MD)
+F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_utils.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_utils.o -MD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_rcc.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -418,7 +506,7 @@ I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_utils.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_system.h)(0x64F1F689)
-F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_exti.o -MD)
+F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_exti.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_exti.o -MD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_exti.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -430,7 +518,7 @@ I (..\Drivers\CMSIS\Include\cmsis_armclang.h)(0x64F1F67B)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
-F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_pwr.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_pwr.o -MD)
+F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_pwr.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_pwr.o -MD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_pwr.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -443,7 +531,7 @@ I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
 I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_bus.h)(0x64F1F689)
-F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_usart.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_usart.o -MD)
+F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_ll_usart.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_usart.o -MD)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_usart.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
@@ -457,7 +545,20 @@ I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_rcc.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_bus.h)(0x64F1F689)
-F (../Core/Src/system_stm32f0xx.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/system_stm32f0xx.o -MD)
+F (..\Drivers\STM32F0xx_HAL_Driver\Src\stm32f0xx_ll_tim.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/stm32f0xx_ll_tim.o -MD)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
+I (..\Drivers\CMSIS\Include\core_cm0.h)(0x64F1F67B)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x63888F58)
+I (..\Drivers\CMSIS\Include\cmsis_version.h)(0x64F1F67B)
+I (..\Drivers\CMSIS\Include\cmsis_compiler.h)(0x64F1F67B)
+I (..\Drivers\CMSIS\Include\cmsis_armclang.h)(0x64F1F67B)
+I (C:\Keil_v5\ARM\ARMCLANG\include\arm_compat.h)(0x63888F58)
+I (C:\Keil_v5\ARM\ARMCLANG\include\arm_acle.h)(0x63888F58)
+I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h)(0x64F1F689)
+I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_bus.h)(0x64F1F689)
+F (../Core/Src/system_stm32f0xx.c)(0x64F1F689)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/system_stm32f0xx.o -MD)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Device\ST\STM32F0xx\Include\stm32f031x6.h)(0x64F1F689)
 I (..\Drivers\CMSIS\Include\core_cm0.h)(0x64F1F67B)

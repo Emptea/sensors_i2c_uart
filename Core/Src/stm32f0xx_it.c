@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "gpio.h"
+#include "sensors.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -232,8 +233,39 @@ void USART1_IRQHandler(void)
         LL_USART_ClearFlag_ORE(USART1);
         LL_GPIO_SetOutputPin(GPIO_LED, PIN_RED_LED);
     }
+    
+    if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
+    {
+        flags.usart1_tx_busy = 1;
+        send_hdr.cmd = cmd;
+        
+        switch(send_hdr.cmd)
+        {
+            case CMD_ANS_WHOAMI:
+                chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
+                break;
+            case CMD_ANS_DATA:
+                chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
+                break;
+            default:
+                break;
+        };
+    }
+
 }
 
 /* USER CODE BEGIN 1 */
 
+void TIM2_IRQHandler(void)
+{
+    if(LL_TIM_IsActiveFlag_UPDATE(TIM2))
+    {
+    /* Clear the update interrupt flag*/
+    LL_TIM_ClearFlag_UPDATE(TIM2);
+    }
+  
+    /* TIM2 update interrupt processing */
+    sensors_measure(data_pack);
+    flags.start_meas = 1;
+}
 /* USER CODE END 1 */
