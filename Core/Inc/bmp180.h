@@ -12,7 +12,7 @@
 #define BMP180_INVALID_DATA 0U
 #define BMP180_SUCCESS 1U
 
-extern struct p_bmp180
+struct p_bmp180
 {
 	float temp;
 	float press;
@@ -39,7 +39,7 @@ extern struct p_bmp180
 			uint8_t raw_data[2*11];
 		} data;
 	} calibr;
-}  p_bmp180;
+};
 
 void bmp180_get_cal_param(struct p_bmp180 *p_bmp180);
 void bmp180_get_uncomp_temp(struct p_bmp180 *p_bmp180);
