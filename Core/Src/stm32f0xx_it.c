@@ -242,9 +242,11 @@ void USART1_IRQHandler(void)
         switch(send_hdr.cmd)
         {
             case CMD_ANS_WHOAMI:
+                LL_mDelay(1);
                 chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
                 break;
             case CMD_ANS_DATA:
+                LL_mDelay(1);
                 chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
                 break;
             default:
