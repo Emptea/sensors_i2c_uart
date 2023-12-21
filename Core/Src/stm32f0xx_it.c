@@ -146,7 +146,27 @@ void USART1_IRQHandler(void)
 	static usart_packet recv_pack = {0};
 	
 	flags.usart1_rx_end = usart_rxne_callback(&recv_hdr, &recv_pack, &cmd, USART1);
+    #ifdef DELAY
         if(flags.usart1_rx_end) LL_TIM_EnableCounter(TIM2);
+    #else
+        if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
+        {
+            flags.usart1_tx_busy = 1;
+            send_hdr.cmd = cmd;
+            
+            switch(send_hdr.cmd)
+            {
+                case CMD_ANS_WHOAMI:
+                    chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
+                    break;
+                case CMD_ANS_DATA:
+                    chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
+                    break;
+                default:
+                    break;
+            };
+        }
+    #endif
 
     
     /**TIMEOUT**/
