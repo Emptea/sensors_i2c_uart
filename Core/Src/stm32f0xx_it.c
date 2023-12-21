@@ -121,17 +121,7 @@ void USART1_IRQHandler(void)
 	/**TRANSMISSION**/
 	if(LL_USART_IsActiveFlag_TXE(USART1) && LL_USART_IsEnabledIT_TXE(USART1) && flags.usart1_tx_busy)
 	{
-		switch(send_hdr.cmd)
-		{
-			case CMD_ANS_WHOAMI:
-				usart_txe_callback(&send_hdr, &whoami_pack, pack_crc, chunk_cnt);
-				break;
-			case CMD_ANS_DATA:
-				usart_txe_callback(&send_hdr, data_pack, pack_crc, chunk_cnt);
-				break;
-			default:
-				break;
-		};
+		usart_send_pack(&send_hdr);       
 	}
 	
 	if (LL_USART_IsActiveFlag_TC(USART1) && LL_USART_IsEnabledIT_TC(USART1))
@@ -149,23 +139,7 @@ void USART1_IRQHandler(void)
     #ifdef DELAY
         if(flags.usart1_rx_end) LL_TIM_EnableCounter(TIM2);
     #else
-        if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
-        {
-            flags.usart1_tx_busy = 1;
-            send_hdr.cmd = cmd;
-            
-            switch(send_hdr.cmd)
-            {
-                case CMD_ANS_WHOAMI:
-                    chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
-                    break;
-                case CMD_ANS_DATA:
-                    chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
-                    break;
-                default:
-                    break;
-            };
-        }
+        usart_send_pack(&send_hdr); 
     #endif
 
     
@@ -189,22 +163,6 @@ void TIM2_IRQHandler(void)
         LL_TIM_ClearFlag_UPDATE(TIM2);
         LL_TIM_DisableCounter(TIM2);
         LL_TIM_SetCounter(TIM2,0);
-        if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
-        {
-            flags.usart1_tx_busy = 1;
-            send_hdr.cmd = cmd;
-            
-            switch(send_hdr.cmd)
-            {
-                case CMD_ANS_WHOAMI:
-                    chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
-                    break;
-                case CMD_ANS_DATA:
-                    chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
-                    break;
-                default:
-                    break;
-            };
-        }
+        usart_send_pack(&send_hdr);
     }
 }

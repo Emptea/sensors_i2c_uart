@@ -163,6 +163,27 @@ void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc_sen
 	}
 }
 
+void usart_send_pack (usart_header *hdr)
+{
+    if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
+    {
+        flags.usart1_tx_busy = 1;
+        send_hdr.cmd = cmd;
+        
+        switch(hdr->cmd)
+        {
+            case CMD_ANS_WHOAMI:
+                chunk_cnt = usart_start_data_sending (hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
+                break;
+            case CMD_ANS_DATA:
+                chunk_cnt = usart_start_data_sending (hdr, data_pack, &pack_crc, sensor_type);
+                break;
+            default:
+                break;
+        };
+    }
+}
+
 /** RXNE FUNCTIONS **/
 static uint32_t usart_receiving(uint8_t *data, USART_TypeDef *USARTx, uint32_t sz)
 {
