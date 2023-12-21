@@ -6,9 +6,9 @@
 #include "tools.h"
 #include "gpio.h"
 
-#define LM75BD
+//#define LM75BD
 //#define ZS05
-//#define BMP180
+#define BMP180
 //#define WET_SENSOR
 
 void sensors_init(void);

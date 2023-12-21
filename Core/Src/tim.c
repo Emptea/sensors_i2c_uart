@@ -1,4 +1,3 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    tim.c
@@ -16,37 +15,23 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "tim.h"
 
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
 
 /* TIM2 init function */
 void MX_TIM2_Init(void)
 {
-
-  /* USER CODE BEGIN TIM2_Init 0 */
-
-  /* USER CODE END TIM2_Init 0 */
-
   LL_TIM_InitTypeDef TIM_InitStruct = {0};
 
-  /* Peripheral clock enable */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2);
 
-  /* TIM2 interrupt Init */
   NVIC_SetPriority(TIM2_IRQn, 0);
   NVIC_EnableIRQ(TIM2_IRQn);
 
-  /* USER CODE BEGIN TIM2_Init 1 */
-
-  /* USER CODE END TIM2_Init 1 */
-  TIM_InitStruct.Prescaler = 8000;
+  TIM_InitStruct.Prescaler = 16-1;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-  TIM_InitStruct.Autoreload = 100;
+  TIM_InitStruct.Autoreload = 1000-1;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
   LL_TIM_Init(TIM2, &TIM_InitStruct);
   LL_TIM_DisableARRPreload(TIM2);
@@ -54,10 +39,6 @@ void MX_TIM2_Init(void)
   LL_TIM_SetTriggerOutput(TIM2, LL_TIM_TRGO_RESET);
   LL_TIM_DisableMasterSlaveMode(TIM2);
 
-  /* Enable the update interrupt */
+  LL_TIM_EnableCounter(TIM2);
   LL_TIM_EnableIT_UPDATE(TIM2);
 }
-
-/* USER CODE BEGIN 1 */
-
-/* USER CODE END 1 */

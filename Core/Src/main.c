@@ -1,4 +1,3 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file           : main.c
@@ -15,37 +14,13 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
 #include "tim.h"
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 #include "sensors.h"
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE BEGIN PV */
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
@@ -61,18 +36,8 @@ enum cmd cmd = CMD_NONE;
 uint16_t pack_crc = 0;
 
 struct flags flags = {0};
-/* USER CODE END PV */
 
-/* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
@@ -80,10 +45,6 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -93,16 +54,8 @@ int main(void)
   /* SysTick_IRQn interrupt configuration */
   NVIC_SetPriority(SysTick_IRQn, 3);
 
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
   /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
     MX_GPIO_Init();
@@ -112,7 +65,6 @@ int main(void)
     MX_USART1_UART_Init();
     sensors_init();
     MX_TIM2_Init();
-  /* USER CODE BEGIN 2 */
     
 	send_hdr.protocol = PROTOCOL_AURA;
 	send_hdr.src = uid_hash();
@@ -130,16 +82,12 @@ int main(void)
     #ifndef ZS05
         LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
     #endif
-  /* USER CODE END 2 */
-    //LL_TIM_EnableCounter(TIM2);
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+
   while (1)
   {
     LL_mDelay(50);
     sensors_measure(data_pack);
   }
-  /* USER CODE END 3 */
 }
 
 /**
@@ -182,9 +130,6 @@ void SystemClock_Config(void)
   LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_SYSCLK);
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -192,8 +137,6 @@ void SystemClock_Config(void)
   */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
   while (1)
   {
@@ -202,7 +145,6 @@ void Error_Handler(void)
 		LL_GPIO_ResetOutputPin(GPIO_LED, PIN_RED_LED);
 		LL_mDelay(500);
   }
-  /* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT

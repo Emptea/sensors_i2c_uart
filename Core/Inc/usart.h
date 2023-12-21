@@ -30,11 +30,6 @@ extern "C" {
 #include "uid_hash.h"
 #include "crc16.h"
 
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* USER CODE BEGIN Private defines */
 #define PC_ID 0x00000000
 
 #define HEADER_SIZE 20
@@ -144,12 +139,11 @@ extern struct flags
 {
 	uint32_t usart1_tx_busy : 1;
 	uint32_t usart1_rx_end : 1;
-    uint32_t start_meas : 1;
 } flags;
 
 extern uint32_t chunk_cnt;
 extern uint32_t sensor_type;
-/* USER CODE END Private defines */
+
 
 void MX_USART1_UART_Init(void);
 
@@ -158,14 +152,11 @@ void usart_calc_data_sz (usart_header *hdr, usart_packet pack[], uint32_t chunk_
 
 uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *cmd, USART_TypeDef *USARTx);
 void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc_send, uint32_t pack_count);
+void usart_send_pack (usart_header *hdr);
 
 uint32_t usart_start_data_sending (usart_header *hdr, usart_packet pack[], uint16_t *crc, uint32_t sensor_type);
 
 void usart_recv_timeout_callback(USART_TypeDef *USARTx);
-
-/* USER CODE BEGIN Prototypes */
-
-/* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }

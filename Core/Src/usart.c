@@ -1,4 +1,3 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    usart.c
@@ -16,7 +15,6 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
 #include "i2c.h"
@@ -26,18 +24,10 @@
 #include "zs05.h"
 #include "bmp180.h"
 
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
 /* USART1 init function */
 
 void MX_USART1_UART_Init(void)
 {
-
-  /* USER CODE BEGIN USART1_Init 0 */
-
-  /* USER CODE END USART1_Init 0 */
 
   LL_USART_InitTypeDef USART_InitStruct = {0};
 
@@ -76,14 +66,10 @@ void MX_USART1_UART_Init(void)
   GPIO_InitStruct.Alternate = LL_GPIO_AF_1;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /* USART1 interrupt Init */
   NVIC_SetPriority(USART1_IRQn, 0);
   NVIC_EnableIRQ(USART1_IRQn);
 
-  /* USER CODE BEGIN USART1_Init 1 */
-
-  /* USER CODE END USART1_Init 1 */
-  USART_InitStruct.BaudRate = 115200;
+  USART_InitStruct.BaudRate = 19200;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -101,9 +87,6 @@ void MX_USART1_UART_Init(void)
   LL_USART_EnableIT_RTO(USART1);
   
   LL_USART_Enable(USART1);
-  /* USER CODE BEGIN USART1_Init 2 */
-
-  /* USER CODE END USART1_Init 2 */
 
 }
 static enum usart_rcv_state usart_rcv_state = {STATE_RCV_HEADER};
@@ -122,7 +105,6 @@ void usart_recv_timeout_callback(USART_TypeDef *USARTx)
     usart_stop_recv();
 }
 
-/* USER CODE BEGIN 1 */
 static uint32_t usart_sending (const void *data, uint32_t sz)
 {
 	static uint32_t cnt = 0;
@@ -307,4 +289,3 @@ uint32_t usart_start_data_sending (usart_header *hdr, usart_packet pack[], uint1
 	LL_USART_EnableIT_TXE(USART1);
 	return cnt;
 }
-/* USER CODE END 1 */

@@ -2,16 +2,7 @@
 
 void tmp112_read(uint8_t* data, uint32_t nbytes)
 {
-//	if(i2c1_start_read(TMP112_ADDR,nbytes))
-//	{
-//		for (uint32_t i = 0; i < nbytes; i++)
-//		{
-//			LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-//			while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
-//			*data++ = LL_I2C_ReceiveData8(I2C1);
-//		}
-//	}
-//	LL_I2C_GenerateStopCondition(I2C1);
+    /* TODO */
 }
 
 int32_t two_complement_13bits(uint32_t num)

@@ -1,4 +1,3 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    gpio.c
@@ -16,22 +15,12 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "gpio.h"
-
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
 
 /*----------------------------------------------------------------------------*/
 /* Configure GPIO                                                             */
 /*----------------------------------------------------------------------------*/
-/* USER CODE BEGIN 1 */
-
-/* USER CODE END 1 */
-
 /** Configure pins as
         * Analog
         * Input
@@ -140,11 +129,9 @@ void MX_GPIO_Init(void)
 
 }
 
-/* USER CODE BEGIN 2 */
 void GPIO_EXTI_Enable()
 {
-	LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_14);
-  NVIC_SetPriority(EXTI4_15_IRQn, 0);
-  NVIC_EnableIRQ(EXTI4_15_IRQn);
+    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_14);
+    NVIC_SetPriority(EXTI4_15_IRQn, 0);
+    NVIC_EnableIRQ(EXTI4_15_IRQn);
 }
-/* USER CODE END 2 */

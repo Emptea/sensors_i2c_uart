@@ -16,10 +16,6 @@ static void zs05_data_processing(float res[2], uint8_t *buf)
 	else 	res[0] = *buf++;
 	buf++;
 	res[1] = *buf++;
-	
-//	res->temp = *buf++;
-//	if (*buf++ & 0x80) 
-//		res->temp = -res->temp;
 }
 
 uint32_t zs05_read(float res[2])

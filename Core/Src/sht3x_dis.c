@@ -111,15 +111,6 @@ void sht3x_dis_single_meas_stretching (struct sht3x_dis_temp_hum *data,enum meas
 	
 	
 	//TODO wait for releasing of SCL line
-//	if (i2c1_start_read(SHT3X_DIS_ADDR, 6))
-//	{	
-//		for (uint32_t i = 0; i < 6; i++)
-//			{
-//				LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-//				while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
-//				buf[i] = LL_I2C_ReceiveData8(I2C1);
-//			}
-//	}
 	sht3x_dis_data_processing(data, buf);
 }
 
@@ -132,15 +123,6 @@ uint32_t sht3x_dis_fetch_data (struct sht3x_dis_temp_hum *data)
 {
 	uint32_t buf[6] = {0};
 	sht3x_dis_send_cmd(SHT3X_DIS_CMD_FETCH);
-//	if (i2c1_start_read(SHT3X_DIS_ADDR, 6))
-//	{
-//		for (uint32_t i = 0; i < 6; i++)
-//		{
-//			LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-//			while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
-//			buf[i] = LL_I2C_ReceiveData8(I2C1);
-//		}
-//	}
 	sht3x_dis_data_processing(data, buf);
 	return 1;
 }
@@ -169,15 +151,6 @@ void sht3x_dis_read_status(void)
 {
 	uint32_t buf[3] = {0};
 	sht3x_dis_send_cmd(SHT3X_DIS_CMD_READ_STATUS);
-//	if (i2c1_start_read(SHT3X_DIS_ADDR, 3))
-//	{
-//		for (uint32_t i = 0; i < 3; i++)
-//		{
-//			LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_ACK);
-//			while(!LL_I2C_IsActiveFlag_RXNE(I2C1)){};
-//			buf[i] = LL_I2C_ReceiveData8(I2C1);
-//		}
-//  }
 	if (sht3x_dis_check_crc (buf[2], buf, 2))
 	{
 		//TODO parse status data and trasmit them to user;

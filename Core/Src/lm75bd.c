@@ -14,7 +14,6 @@ static uint32_t lm75bd_read(uint8_t* data, uint32_t nbytes)
 		cnt++;
 	}
 	
-	//LL_I2C_AcknowledgeNextData(I2C1, LL_I2C_NACK);
 	while(!LL_I2C_IsActiveFlag_RXNE(I2C1));
 	*data-- = LL_I2C_ReceiveData8(I2C1);
 	cnt++;

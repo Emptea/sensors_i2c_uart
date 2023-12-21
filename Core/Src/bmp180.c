@@ -31,14 +31,6 @@ uint32_t bmp180_read_uncomp(void)
 {
 
 	uint8_t buf[2] = {0};
-//	LL_I2C_HandleTransfer(I2C1, (BMP180_ADDR << 1), LL_I2C_ADDRSLAVE_7BIT, 2, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_START_WRITE);
-//	
-//	LL_I2C_HandleTransfer(I2C1, (BMP180_ADDR << 1), LL_I2C_ADDRSLAVE_7BIT, 2, LL_I2C_MODE_AUTOEND, LL_I2C_GENERATE_RESTART_7BIT_READ);
-//	for (uint32_t i = 0; i < 2; i++)
-//	{
-//		while(!LL_I2C_IsActiveFlag_RXNE(I2C1));
-//		buf[i] = LL_I2C_ReceiveData8(I2C1);
-//	}
 	i2c1_pointer_read(buf+1,BMP180_ADDR,0xF6,2);
 	return ((buf[1] <<8) + buf[0]);
 }

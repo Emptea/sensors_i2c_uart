@@ -46,31 +46,11 @@ extern "C" {
 #endif /* USE_FULL_ASSERT */
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 #include "usart.h"
-/* USER CODE END Includes */
-
-/* Exported types ------------------------------------------------------------*/
-/* USER CODE BEGIN ET */
-
-/* USER CODE END ET */
-
-/* Exported constants --------------------------------------------------------*/
-/* USER CODE BEGIN EC */
-
-/* USER CODE END EC */
-
-/* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
-
-/* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
-/* USER CODE BEGIN EFP */
-
-/* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
 #ifndef NVIC_PRIORITYGROUP_0
@@ -86,9 +66,7 @@ void Error_Handler(void);
                                                                  0 bit  for subpriority */
 #endif
 
-/* USER CODE BEGIN Private defines */
 extern struct usart_data_header data_header;
-/* USER CODE END Private defines */
 
 #ifdef __cplusplus
 }
