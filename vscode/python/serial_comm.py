@@ -52,9 +52,9 @@ cmd_write_exp.extend(crc16(cmd_write_exp).to_bytes(2,'little'))
 
 
 ser = serial.Serial()
-ser.baudrate= 115200
+ser.baudrate= 19200
 ser.port = 'COM6'
-ser.timeout = 0.03
+ser.timeout = 0.05
 ser.open()
 
 # for i in range (10):
@@ -66,35 +66,35 @@ ser.open()
 #     response  = ser.read(20+8+2) #data from temp sens
 #     print(' '.join(format(x, '02x') for x in response))
 
-for i in range(20):
+for i in range(10):
     if i%2 == 0:
         ser.write(cmd_whoami)
-        print('whoami expander')
-        response  = ser.read(30) #whoami from expander
-        print(' '.join(format(x, '02x') for x in response))
-        # for k in range(2):
-        #     print('whoami sensor', k)
-        #     response  = ser.read(20+8+8+2) #whoami from sensor
-        #     print(' '.join(format(x, '02x') for x in response))
+        # print('whoami expander')
+        # response  = ser.read(30) #whoami from expander
+        # print(' '.join(format(x, '02x') for x in response))
+        for k in range(1):
+            print('whoami sensor', k)
+            response  = ser.read(20+8+2) #whoami from sensor
+            print(' '.join(format(x, '02x') for x in response))
 
     else:
         ser.write(cmd_data)
 
-        print('data expander')
-        response  = ser.read(20)
-        print(' '.join(format(x, '02x') for x in response))
-        response  = ser.read(6)
-        print(' '.join(format(x, '02x') for x in response))
-        response  = ser.read(6)
-        print(' '.join(format(x, '02x') for x in response))
-        response  = ser.read(6)
-        print(' '.join(format(x, '02x') for x in response))
-        response  = ser.read(6)
-        print(' '.join(format(x, '02x') for x in response))
-        response  = ser.read(2)
-        print(' '.join(format(x, '02x') for x in response))
+        # print('data expander')
+        # response  = ser.read(20)
+        # print(' '.join(format(x, '02x') for x in response))
+        # response  = ser.read(6)
+        # print(' '.join(format(x, '02x') for x in response))
+        # response  = ser.read(6)
+        # print(' '.join(format(x, '02x') for x in response))
+        # response  = ser.read(6)
+        # print(' '.join(format(x, '02x') for x in response))
+        # response  = ser.read(6)
+        # print(' '.join(format(x, '02x') for x in response))
+        # response  = ser.read(2)
+        # print(' '.join(format(x, '02x') for x in response))
 
-#         for r in range(2):
-#             print('data sensor', r)
-#             response  = ser.read(20 + 2*8 + 2)
-#             print(' '.join(format(x, '02x') for x in response))
+        for r in range(1):
+            print('data sensor', r)
+            response  = ser.read(20 + 8+ 2)
+            print(' '.join(format(x, '02x') for x in response))
