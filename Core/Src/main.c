@@ -144,10 +144,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-		LL_GPIO_SetOutputPin(GPIO_LED, PIN_RED_LED);
-		LL_mDelay(500);
-		LL_GPIO_ResetOutputPin(GPIO_LED, PIN_RED_LED);
-		LL_mDelay(500);
+		blink_red();
   }
 }
 

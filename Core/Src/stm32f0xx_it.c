@@ -125,7 +125,6 @@ void EXTI4_15_IRQHandler(void)
   */
 void USART1_IRQHandler(void)
 {	
-    LL_GPIO_ResetOutputPin(GPIO_LED, PIN_RED_LED);
 	/**TRANSMISSION**/
 	if(LL_USART_IsActiveFlag_TXE(USART1) && LL_USART_IsEnabledIT_TXE(USART1) && flags.usart1_tx_busy)
 	{

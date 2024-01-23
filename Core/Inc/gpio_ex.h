@@ -1,3 +1,5 @@
+#ifndef __GPIO_EX_H__
+#define __GPIO_EX_H__
 #include "gpio.h"
 
 inline static void blink_red()
@@ -27,3 +29,4 @@ inline static void turn_green_off()
 {
     LL_GPIO_ResetOutputPin(GPIO_LED, PIN_GREEN_LED);
 }
+#endif /*__GPIO_EX_H__*/
