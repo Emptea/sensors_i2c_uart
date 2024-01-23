@@ -53,7 +53,7 @@ cmd_write_exp.extend(crc16(cmd_write_exp).to_bytes(2,'little'))
 
 ser = serial.Serial()
 ser.baudrate= 19200
-ser.port = 'COM6'
+ser.port = 'COM13'
 ser.timeout = 0.05
 ser.open()
 
@@ -96,5 +96,5 @@ for i in range(10):
 
         for r in range(1):
             print('data sensor', r)
-            response  = ser.read(20 + 8+ 2)
+            response  = ser.read(20 + 8 + 8 + 2)
             print(' '.join(format(x, '02x') for x in response))
