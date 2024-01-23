@@ -157,23 +157,7 @@ void USART1_IRQHandler(void)
     #ifdef DELAY
         if(flags.usart1_rx_end) LL_TIM_EnableCounter(TIM2);
     #else
-        if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
-        {
-            flags.usart1_tx_busy = 1;
-            send_hdr.cmd = cmd;
-            
-            switch(send_hdr.cmd)
-            {
-                case CMD_ANS_WHOAMI:
-                    chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
-                    break;
-                case CMD_ANS_DATA:
-                    chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
-                    break;
-                default:
-                    break;
-            };
-        }
+        usart_start_sending_routine(&send_hdr, &pack_crc, sensor_type);
     #endif
 
     
@@ -197,22 +181,6 @@ void TIM2_IRQHandler(void)
         LL_TIM_ClearFlag_UPDATE(TIM2);
         LL_TIM_DisableCounter(TIM2);
         LL_TIM_SetCounter(TIM2,0);
-        if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
-        {
-            flags.usart1_tx_busy = 1;
-            send_hdr.cmd = cmd;
-            
-            switch(send_hdr.cmd)
-            {
-                case CMD_ANS_WHOAMI:
-                    chunk_cnt = usart_start_data_sending (&send_hdr, &whoami_pack, &pack_crc, SENSOR_TYPE_NONE);
-                    break;
-                case CMD_ANS_DATA:
-                    chunk_cnt = usart_start_data_sending (&send_hdr, data_pack, &pack_crc, sensor_type);
-                    break;
-                default:
-                    break;
-            };
-        }
+        usart_start_sending_routine(&send_hdr, &pack_crc, sensor_type);
     }
 }

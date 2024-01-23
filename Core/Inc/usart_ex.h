@@ -131,4 +131,5 @@ void usart_send_pack (usart_header *hdr);
 uint32_t usart_start_data_sending (usart_header *hdr, usart_packet pack[], uint16_t *crc, uint32_t sensor_type);
 
 void usart_recv_timeout_callback(USART_TypeDef *USARTx);
+void usart_start_sending_routine(usart_header *hdr, uint16_t *crc, uint32_t sensor_type);
 #endif /* __USART_EX_H__ */

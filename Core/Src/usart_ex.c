@@ -206,3 +206,23 @@ uint32_t usart_start_data_sending (usart_header *hdr, usart_packet pack[], uint1
 	LL_USART_EnableIT_TXE(USART1);
 	return cnt;
 }
+
+void usart_start_sending_routine(usart_header *hdr, uint16_t *crc, uint32_t sensor_type)
+{
+    if(flags.usart1_rx_end&&!flags.usart1_tx_busy)
+    {
+        flags.usart1_tx_busy = 1;
+        send_hdr.cmd = cmd;
+        switch(send_hdr.cmd)
+        {
+            case CMD_ANS_WHOAMI:
+                chunk_cnt = usart_start_data_sending (hdr, &whoami_pack, crc, SENSOR_TYPE_NONE);
+                break;
+            case CMD_ANS_DATA:
+                chunk_cnt = usart_start_data_sending (hdr, data_pack, crc, sensor_type);
+                break;
+            default:
+                break;
+        };
+    }
+}

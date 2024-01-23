@@ -66,7 +66,7 @@ ser.open()
 #     response  = ser.read(20+8+2) #data from temp sens
 #     print(' '.join(format(x, '02x') for x in response))
 
-for i in range(10):
+for i in range(100):
     if i%2 == 0:
         ser.write(cmd_whoami)
         # print('whoami expander')
