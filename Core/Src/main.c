@@ -19,6 +19,7 @@
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
+#include "gpio_ex.h"
 #include "tim.h"
 #include "sensors.h"
 
@@ -45,19 +46,19 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-  /* MCU Configuration--------------------------------------------------------*/
+    /* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  LL_APB1_GRP2_EnableClock(LL_APB1_GRP2_PERIPH_SYSCFG);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    LL_APB1_GRP2_EnableClock(LL_APB1_GRP2_PERIPH_SYSCFG);
+    LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
-  /* SysTick_IRQn interrupt configuration */
-  NVIC_SetPriority(SysTick_IRQn, 3);
+    /* SysTick_IRQn interrupt configuration */
+    NVIC_SetPriority(SysTick_IRQn, 3);
 
-  /* Configure the system clock */
-  SystemClock_Config();
+    /* Configure the system clock */
+    SystemClock_Config();
 
-  /* Initialize all configured peripherals */
+    /* Initialize all configured peripherals */
     MX_GPIO_Init();
 	#ifndef WET_SENSOR
 		MX_I2C1_Init();
@@ -65,6 +66,8 @@ int main(void)
     MX_USART1_UART_Init();
     sensors_init();
     MX_TIM2_Init();
+    
+    turn_red_on(); //signal that power on
     
 	send_hdr.protocol = PROTOCOL_AURA;
 	send_hdr.src = uid_hash();
@@ -79,14 +82,14 @@ int main(void)
 	LL_USART_EnableIT_RXNE(USART1);
 	
 	GPIO_EXTI_Enable();
-    #ifndef ZS05
-        LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
-    #endif
+//    #ifndef ZS05
+//        LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
+//    #endif
 
   while (1)
   {
-    LL_mDelay(50);
     sensors_measure(data_pack);
+    LL_mDelay(50);
   }
 }
 

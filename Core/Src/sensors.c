@@ -1,4 +1,5 @@
 #include "sensors.h"
+#include "gpio_ex.h"
 
 static float zs05_data[2] = {0};
 static struct p_bmp180 p_bmp180 = {0};
@@ -89,20 +90,27 @@ void sensors_measure(usart_packet p[])
 {
     #ifdef LM75BD
         lm75bd_temp = lm75bd_read_temp();
+        if (lm75bd_temp) 
+            turn_green_on();
+        else turn_green_off();
         memcpy_u8(&lm75bd_temp, p[0].data, 4);
     #endif
 		
     #ifdef ZS05
         if(zs05_read(zs05_data))
-            LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
+            turn_green_on();
+        else turn_green_off();
         memcpy_u8(&zs05_data[0], p[0].data, 4);
         memcpy_u8(&zs05_data[1], p[1].data, 4);
     #endif
     
     #ifdef BMP180
-        bmp180_get_temp(&p_bmp180);
-        bmp180_get_press(&p_bmp180, oss);
-        memcpy_u8(&p_bmp180.temp, p[0].data, 4);
-        memcpy_u8(& p_bmp180.press, p[1].data, 4);
+        if (bmp180_get_temp(&p_bmp180) && bmp180_get_press(&p_bmp180, oss))
+        {
+            turn_green_on();
+            memcpy_u8(&p_bmp180.temp, p[0].data, 4);
+            memcpy_u8(& p_bmp180.press, p[1].data, 4);
+        }
+        else turn_green_off();
     #endif
 }

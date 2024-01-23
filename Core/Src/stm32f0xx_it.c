@@ -19,6 +19,7 @@
 #include "stm32f0xx_it.h"
 
 #include "gpio.h"
+#include "gpio_ex.h"
 #include "sensors.h"
 
 
@@ -32,6 +33,7 @@ void NMI_Handler(void)
 {
   while (1)
   {
+        blink_red();
   }
 
 }
@@ -43,10 +45,7 @@ void HardFault_Handler(void)
 {
   while (1)
   {
-		LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_13);
-		LL_mDelay(500);
-		LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_13);
-		LL_mDelay(500);
+        blink_red();
   }
 }
 
@@ -55,7 +54,10 @@ void HardFault_Handler(void)
   */
 void SVC_Handler(void)
 {
-
+  while (1)
+  {
+        blink_red();
+  }
 }
 
 /**
@@ -63,7 +65,10 @@ void SVC_Handler(void)
   */
 void PendSV_Handler(void)
 {
-
+  while (1)
+  {
+        blink_red();
+  }
 }
 
 /**
@@ -71,7 +76,10 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-
+  while (1)
+  {
+        blink_red();
+  }
 }
 
 /******************************************************************************/
@@ -97,7 +105,6 @@ void EXTI4_15_IRQHandler(void)
         {
             wetsens_state = WETSENS_STATE_DRY;
         }
-        
     }
     
     if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_14) != RESET)
