@@ -14,6 +14,7 @@
 "sensors_i2c_uart\stm32f0xx_it.o"
 "sensors_i2c_uart\tim.o"
 "sensors_i2c_uart\sensors.o"
+"sensors_i2c_uart\usart_ex.o"
 "sensors_i2c_uart\stm32f0xx_ll_gpio.o"
 "sensors_i2c_uart\stm32f0xx_ll_i2c.o"
 "sensors_i2c_uart\stm32f0xx_ll_dma.o"

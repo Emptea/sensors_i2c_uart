@@ -464,6 +464,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\sensors.c</FilePath>
             </File>
+            <File>
+              <FileName>usart_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\usart_ex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

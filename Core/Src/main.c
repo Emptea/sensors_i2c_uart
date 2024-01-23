@@ -18,6 +18,7 @@
 #include "main.h"
 #include "i2c.h"
 #include "usart.h"
+#include "usart_ex.h"
 #include "gpio.h"
 #include "gpio_ex.h"
 #include "tim.h"

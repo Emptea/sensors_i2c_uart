@@ -4,7 +4,7 @@
 #include "zs05.h"
 #include "bmp180.h"
 #include "tools.h"
-#include "gpio.h"
+#include "usart_ex.h"
 
 //#define LM75BD
 #define ZS05

@@ -20,6 +20,7 @@
 
 #include "gpio.h"
 #include "gpio_ex.h"
+#include "usart_ex.h"
 #include "sensors.h"
 
 
