@@ -23,6 +23,7 @@
 #include "gpio_ex.h"
 #include "tim.h"
 #include "sensors.h"
+#include "iwdg.h"
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
@@ -65,6 +66,7 @@ int main(void)
 		MX_I2C1_Init();
 	#endif
     MX_USART1_UART_Init();
+    MX_IWDG_Init();
     sensors_init();
     MX_TIM2_Init();
     

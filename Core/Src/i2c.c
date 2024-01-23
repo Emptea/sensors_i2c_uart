@@ -99,6 +99,7 @@ uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint3
 {
     static uint32_t fault_cnt = 0;
 	uint32_t cnt = 0;
+    LL_IWDG_ReloadCounter(IWDG);
 	LL_I2C_HandleTransfer(I2C1, (addr << 1), LL_I2C_ADDRSLAVE_7BIT, 1, LL_I2C_MODE_SOFTEND, LL_I2C_GENERATE_START_WRITE);
 	
 	while(!LL_I2C_IsActiveFlag_TXIS(I2C1))
@@ -119,12 +120,13 @@ uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint3
         {
             if (!(timeout--))
             {
-                fault_cnt++;
-                if (fault_cnt > 9) NVIC_SystemReset();
+//                fault_cnt++;
+//                if (fault_cnt > 9) NVIC_SystemReset();
                 return 0;
             }
         }
 		*data-- = LL_I2C_ReceiveData8(I2C1);
+        fault_cnt = 0;
 		cnt++;
 	}
 	
