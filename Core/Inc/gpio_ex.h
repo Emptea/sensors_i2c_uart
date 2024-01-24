@@ -29,4 +29,9 @@ inline static void turn_green_off()
 {
     LL_GPIO_ResetOutputPin(GPIO_LED, PIN_GREEN_LED);
 }
+
+inline static uint32_t is_green_on()
+{
+    return LL_GPIO_IsOutputPinSet(GPIO_LED, PIN_GREEN_LED);
+}
 #endif /*__GPIO_EX_H__*/
