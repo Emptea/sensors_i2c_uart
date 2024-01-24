@@ -7,8 +7,8 @@
 #include "usart_ex.h"
 
 //#define LM75BD
-#define ZS05
-//#define BMP180
+//#define ZS05
+#define BMP180
 //#define WET_SENSOR
 
 void sensors_init(void);

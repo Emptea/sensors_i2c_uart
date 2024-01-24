@@ -25,6 +25,8 @@
 #include "sensors.h"
 #include "iwdg.h"
 
+#define DEBUG
+
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
 uint32_t chunk_cnt = 0;
@@ -37,9 +39,9 @@ usart_packet whoami_pack = {.chunk_hdr.id = CHUNK_ID_TYPE,
 usart_packet data_pack[2];
                             
 usart_packet error_pack = {.chunk_hdr.id = CHUNK_ID_ERROR, 
-                                .chunk_hdr.type = DATA_TYPE_UINT8, 
-                                .chunk_hdr.payload_sz = 1,
-                                .data[0] = 0x00,
+                                .chunk_hdr.type = DATA_TYPE_UINT16, 
+                                .chunk_hdr.payload_sz = 2,
+                                .data = {0},
                                 };
 
 uint32_t sensor_type = 0;
@@ -77,7 +79,9 @@ int main(void)
 		MX_I2C1_Init();
 	#endif
     MX_USART1_UART_Init();
-    MX_IWDG_Init();
+    #ifndef DEBUG
+        MX_IWDG_Init();
+    #endif
     sensors_init();
     MX_TIM2_Init();
     
@@ -100,7 +104,9 @@ int main(void)
     while (1)
     {
         sensors_measure(data_pack);
-        if(is_green_on()) LL_IWDG_ReloadCounter(IWDG);
+        #ifndef DEBUG
+            if(is_green_on()) LL_IWDG_ReloadCounter(IWDG);
+        #endif
         LL_mDelay(50);
     }
 }

@@ -1,10 +1,6 @@
 #include "usart_ex.h"
 #include "i2c.h"
-#include "lm75bd.h"
-#include "tmp112.h"
-#include "sht3x_dis.h"
-#include "zs05.h"
-#include "bmp180.h"
+#include "sensors.h"
 
 static enum usart_rcv_state usart_rcv_state = {STATE_RCV_HEADER};
 static uint32_t recv_cnt = {0};
@@ -130,6 +126,37 @@ static uint32_t check_adr(usart_header *hdr)
     else return 0;
 }
     
+static void write_cmd_processing(usart_packet pack[], usart_packet *err_pack)
+{
+    static uint16_t err = 0xFF;
+    switch(pack->chunk_hdr.id)
+    {
+        case CHUNK_ID_TEMP:
+            #ifdef WET_SENS
+                memcpy_u16(&err, err_pack->data, 2);
+            #else
+                offset.temp = *((float *) pack->data);
+            #endif
+            break;
+        case CHUNK_ID_HUM:
+            #ifndef ZS05
+                memcpy_u16(&err, err_pack->data, 2);
+            #else
+                offset.hum = *((float *) pack->data);
+            #endif
+            break;
+        case CHUNK_ID_PRESS:
+            #ifndef BMP180
+                memcpy_u16(&err, err_pack->data, 2);
+            #else
+                offset.press = *((float *) pack->data);
+            #endif
+            break;
+        default:
+            break;
+    };
+}
+    
 uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *cmd, USART_TypeDef *USARTx)
 {
 	
@@ -158,12 +185,10 @@ uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *c
 			break;
 		case STATE_RCV_LOOP_CHUNK:
 			if (cnt < hdr->data_sz-1)
-			{
 				usart_rcv_state = STATE_RCV_CHUNK_HEADER;
-				chunk_cnt++;
-			}
 			else
 				usart_rcv_state = STATE_RCV_CRC;
+            chunk_cnt++;
 			break;
 		case STATE_RCV_CRC:
 			if (usart_receiving((uint8_t *)&crc, USARTx, 2))
@@ -174,20 +199,7 @@ uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *c
                     *cmd = hdr->cmd+1; //switch from req to ans
                     if (hdr->cmd == CMD_WRITE && pack->chunk_hdr.type == DATA_TYPE_FLOAT32)
                     {
-                        switch(pack->chunk_hdr.id)
-                        {
-                            case CHUNK_ID_TEMP:
-                                offset.temp = *((float *) pack->data);
-                                break;
-                            case CHUNK_ID_HUM:
-                                offset.hum = *((float *) pack->data);
-                                break;
-                            case CHUNK_ID_PRESS:
-                                offset.press = *((float *) pack->data);
-                                break;
-                            default:
-                                break;
-                        };
+                        write_cmd_processing(pack, &error_pack);
                     }
                     usart_rcv_state = STATE_RCV_HEADER;
                     return 1;

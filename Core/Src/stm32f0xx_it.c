@@ -136,6 +136,9 @@ void USART1_IRQHandler(void)
 			case CMD_ANS_DATA:
 				usart_txe_callback(&send_hdr, data_pack, pack_crc, chunk_cnt);
 				break;
+            case CMD_ANS_WRITE:
+                usart_txe_callback(&send_hdr, &error_pack, pack_crc, chunk_cnt);
+				break;
 			default:
 				break;
 		};
