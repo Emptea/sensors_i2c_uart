@@ -85,13 +85,11 @@ int main(void)
 	LL_USART_EnableIT_RXNE(USART1);
 	
 	GPIO_EXTI_Enable();
-//    #ifndef ZS05
-//        LL_GPIO_SetOutputPin(GPIO_LED, PIN_GREEN_LED);
-//    #endif
 
   while (1)
   {
     sensors_measure(data_pack);
+    if(is_green_on()) LL_IWDG_ReloadCounter(IWDG);
     LL_mDelay(50);
   }
 }

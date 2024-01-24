@@ -20,36 +20,17 @@
 /* Includes ------------------------------------------------------------------*/
 #include "iwdg.h"
 
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
 /* IWDG init function */
 void MX_IWDG_Init(void)
 {
-
-  /* USER CODE BEGIN IWDG_Init 0 */
-
-  /* USER CODE END IWDG_Init 0 */
-
-  /* USER CODE BEGIN IWDG_Init 1 */
-
-  /* USER CODE END IWDG_Init 1 */
   LL_IWDG_Enable(IWDG);
   LL_IWDG_EnableWriteAccess(IWDG);
-  LL_IWDG_SetPrescaler(IWDG, LL_IWDG_PRESCALER_4);
+  LL_IWDG_SetPrescaler(IWDG, LL_IWDG_PRESCALER_128);
   LL_IWDG_SetReloadCounter(IWDG, 1000);
   while (LL_IWDG_IsReady(IWDG) != 1)
   {
   }
 
-  LL_IWDG_SetWindow(IWDG, 0);
-  /* USER CODE BEGIN IWDG_Init 2 */
-
-  /* USER CODE END IWDG_Init 2 */
-
+  //LL_IWDG_SetWindow(IWDG, 0);
+  LL_IWDG_ReloadCounter(IWDG);
 }
-
-/* USER CODE BEGIN 1 */
-
-/* USER CODE END 1 */
