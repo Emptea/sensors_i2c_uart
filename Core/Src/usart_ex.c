@@ -172,6 +172,23 @@ uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *c
                 if(check_crc(hdr, pack, crc, chunk_cnt)&&check_adr(hdr))
                 {
                     *cmd = hdr->cmd+1; //switch from req to ans
+                    if (hdr->cmd == CMD_WRITE && pack->chunk_hdr.type == DATA_TYPE_FLOAT32)
+                    {
+                        switch(pack->chunk_hdr.id)
+                        {
+                            case CHUNK_ID_TEMP:
+                                offset.temp = *((float *) pack->data);
+                                break;
+                            case CHUNK_ID_HUM:
+                                offset.hum = *((float *) pack->data);
+                                break;
+                            case CHUNK_ID_PRESS:
+                                offset.press = *((float *) pack->data);
+                                break;
+                            default:
+                                break;
+                        };
+                    }
                     usart_rcv_state = STATE_RCV_HEADER;
                     return 1;
                 }
@@ -194,7 +211,7 @@ uint32_t usart_start_data_sending (usart_header *hdr, usart_packet pack[], uint1
 {
 	uint32_t cnt = 0;
 	hdr->data_sz = 0;
-	if(sensor_type > SENSOR_TYPE_TMP112 && sensor_type < SENSOR_TYPE_DOORKNOT)
+	if(sensor_type > SENSOR_TYPE_TMP112 && sensor_type < SENSOR_TYPE_DOORKNOT && pack->chunk_hdr.id != CHUNK_ID_ERROR)
 		cnt = 2;
 	else
 		cnt = 1;
@@ -220,6 +237,9 @@ void usart_start_sending_routine(usart_header *hdr, uint16_t *crc, uint32_t sens
                 break;
             case CMD_ANS_DATA:
                 chunk_cnt = usart_start_data_sending (hdr, data_pack, crc, sensor_type);
+                break;
+            case CMD_ANS_WRITE:
+                chunk_cnt = usart_start_data_sending(hdr, &error_pack, crc, sensor_type);
                 break;
             default:
                 break;

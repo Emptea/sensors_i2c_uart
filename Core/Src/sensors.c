@@ -90,6 +90,7 @@ void sensors_measure(usart_packet p[])
 {
     #ifdef LM75BD
         lm75bd_temp = lm75bd_read_temp();
+        lm75bd_temp += offset.temp;
         if (lm75bd_temp) 
             turn_green_on();
         else turn_green_off();
@@ -98,7 +99,11 @@ void sensors_measure(usart_packet p[])
 		
     #ifdef ZS05
         if(zs05_read(zs05_data))
+        {
             turn_green_on();
+            zs05_data[0] += offset.temp;
+            zs05_data[1] += offset.hum;
+        }
         else turn_green_off();
         memcpy_u8(&zs05_data[0], p[0].data, 4);
         memcpy_u8(&zs05_data[1], p[1].data, 4);
@@ -107,6 +112,8 @@ void sensors_measure(usart_packet p[])
     #ifdef BMP180
         if (bmp180_get_temp(&p_bmp180) & bmp180_get_press(&p_bmp180, oss))
         {
+            p_bmp180.temp += offset.temp;
+            p_bmp180.press += offset.press;
             turn_green_on();
             memcpy_u8(&p_bmp180.temp, p[0].data, 4);
             memcpy_u8(& p_bmp180.press, p[1].data, 4);
