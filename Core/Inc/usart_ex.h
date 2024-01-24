@@ -35,7 +35,8 @@ enum chunk_id
 	CHUNK_ID_TEMP,
 	CHUNK_ID_HUM,
 	CHUNK_ID_PRESS,
-	CHUNK_ID_WETSENS
+	CHUNK_ID_WETSENS,
+    CHUNK_ID_ERROR,
 };
 
 enum sensor_type
@@ -59,6 +60,10 @@ enum cmd
 	CMD_ANS_WHOAMI,
 	CMD_REQ_DATA,
 	CMD_ANS_DATA,
+    CMD_WRITE,
+    CMD_ANS_WRITE,
+    CMD_READ,
+    CMD_ANS_READ,
 	CMD_CNT
 };
 extern enum cmd cmd;
@@ -106,9 +111,9 @@ typedef struct
 typedef struct
 {
 	usart_chunk_head chunk_hdr;
-	uint8_t data[16];
+	uint8_t data[4];
 } usart_packet;
-extern usart_packet data_pack[2], whoami_pack;
+extern usart_packet data_pack[2], whoami_pack, error_pack;
 
 extern uint16_t pack_crc;
 
@@ -120,6 +125,13 @@ extern struct flags
 
 extern uint32_t chunk_cnt;
 extern uint32_t sensor_type;
+
+extern struct offset
+{
+    float temp;
+    float hum;
+    float press;
+} offset;
 
 uint16_t usart_calc_crc (usart_header *hdr, usart_packet pack[], uint32_t chunk_cnt);
 void usart_calc_data_sz (usart_header *hdr, usart_packet pack[], uint32_t chunk_cnt);

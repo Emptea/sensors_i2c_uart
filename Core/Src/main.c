@@ -30,13 +30,24 @@ struct p_bmp180 p_bmp180 = {0};
 uint32_t chunk_cnt = 0;
 
 usart_header send_hdr = {0};
-usart_packet whoami_pack;
+usart_packet whoami_pack = {.chunk_hdr.id = CHUNK_ID_TYPE,
+                            .chunk_hdr.type = DATA_TYPE_UINT32,
+                            .chunk_hdr.payload_sz = 4,};
+
 usart_packet data_pack[2];
+                            
+usart_packet error_pack = {.chunk_hdr.id = CHUNK_ID_ERROR, 
+                                .chunk_hdr.type = DATA_TYPE_UINT8, 
+                                .chunk_hdr.payload_sz = 1,
+                                .data[0] = 0x00,
+                                };
 
 uint32_t sensor_type = 0;
 enum wetsens_state wetsens_state = 0;
 enum cmd cmd = CMD_NONE;
 uint16_t pack_crc = 0;
+
+struct offset offset = {0};
 
 struct flags flags = {0};
 
@@ -77,21 +88,21 @@ int main(void)
 	send_hdr.dest = PC_ID;
 	send_hdr.cnt = 0;
 	
-	whoami_pack.chunk_hdr.id = CHUNK_ID_TYPE;
-	whoami_pack.chunk_hdr.type = DATA_TYPE_UINT32;
-	whoami_pack.chunk_hdr.payload_sz = 4;
+//	whoami_pack.chunk_hdr.id = CHUNK_ID_TYPE;
+//	whoami_pack.chunk_hdr.type = DATA_TYPE_UINT32;
+//	whoami_pack.chunk_hdr.payload_sz = 4;
 	memcpy_u8(&sensor_type, whoami_pack.data, 4);
     
 	LL_USART_EnableIT_RXNE(USART1);
 	
 	GPIO_EXTI_Enable();
 
-  while (1)
-  {
-    sensors_measure(data_pack);
-    if(is_green_on()) LL_IWDG_ReloadCounter(IWDG);
-    LL_mDelay(50);
-  }
+    while (1)
+    {
+        sensors_measure(data_pack);
+        if(is_green_on()) LL_IWDG_ReloadCounter(IWDG);
+        LL_mDelay(50);
+    }
 }
 
 /**
