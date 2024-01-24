@@ -105,7 +105,7 @@ void sensors_measure(usart_packet p[])
     #endif
     
     #ifdef BMP180
-        if (bmp180_get_temp(&p_bmp180) && bmp180_get_press(&p_bmp180, oss))
+        if (bmp180_get_temp(&p_bmp180) & bmp180_get_press(&p_bmp180, oss))
         {
             turn_green_on();
             memcpy_u8(&p_bmp180.temp, p[0].data, 4);

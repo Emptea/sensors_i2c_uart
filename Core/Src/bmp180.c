@@ -118,6 +118,6 @@ uint32_t bmp180_get_press(struct p_bmp180 *p_bmp180, uint32_t oss)
 	/** PRESSURE IN Pa **/
 	p += ((x1 + x2 + 3791) >> 4);
 	p_bmp180->press = p;
-	return SUCCESS;
+	return BMP180_SUCCESS;
 }
 
