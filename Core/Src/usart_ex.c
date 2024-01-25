@@ -1,6 +1,7 @@
 #include "usart_ex.h"
 #include "i2c.h"
 #include "sensors.h"
+#include "calibration.h"
 
 static enum usart_rcv_state usart_rcv_state = {STATE_RCV_HEADER};
 static uint32_t recv_cnt = {0};
@@ -134,6 +135,7 @@ static void write_cmd_processing(usart_packet pack[], usart_packet *err_pack)
         case CHUNK_ID_TEMP:
             #ifdef WET_SENS
                 memcpy_u16(&err, err_pack->data, 2);
+                return;
             #else
                 offset.temp = *((float *) pack->data);
             #endif
@@ -141,6 +143,7 @@ static void write_cmd_processing(usart_packet pack[], usart_packet *err_pack)
         case CHUNK_ID_HUM:
             #ifndef ZS05
                 memcpy_u16(&err, err_pack->data, 2);
+                return;
             #else
                 offset.hum = *((float *) pack->data);
             #endif
@@ -148,13 +151,16 @@ static void write_cmd_processing(usart_packet pack[], usart_packet *err_pack)
         case CHUNK_ID_PRESS:
             #ifndef BMP180
                 memcpy_u16(&err, err_pack->data, 2);
+                return;
             #else
                 offset.press = *((float *) pack->data);
             #endif
             break;
         default:
+            return;
             break;
     };
+    calibration_save(&offset);
 }
     
 uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *cmd, USART_TypeDef *USARTx)

@@ -24,8 +24,9 @@
 #include "tim.h"
 #include "sensors.h"
 #include "iwdg.h"
+#include "calibration.h"
 
-#define DEBUG
+//#define DEBUG
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
@@ -49,7 +50,7 @@ enum wetsens_state wetsens_state = 0;
 enum cmd cmd = CMD_NONE;
 uint16_t pack_crc = 0;
 
-struct offset offset = {0};
+union offset offset = {0};
 
 struct flags flags = {0};
 
@@ -91,15 +92,14 @@ int main(void)
 	send_hdr.src = uid_hash();
 	send_hdr.dest = PC_ID;
 	send_hdr.cnt = 0;
-	
-//	whoami_pack.chunk_hdr.id = CHUNK_ID_TYPE;
-//	whoami_pack.chunk_hdr.type = DATA_TYPE_UINT32;
-//	whoami_pack.chunk_hdr.payload_sz = 4;
+
 	memcpy_u8(&sensor_type, whoami_pack.data, 4);
     
 	LL_USART_EnableIT_RXNE(USART1);
-	
+    
 	GPIO_EXTI_Enable();
+    
+    offset = calibration_init();
 
     while (1)
     {

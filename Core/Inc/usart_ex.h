@@ -126,11 +126,14 @@ extern struct flags
 extern uint32_t chunk_cnt;
 extern uint32_t sensor_type;
 
-extern struct offset
+extern union offset
 {
-    float temp;
-    float hum;
-    float press;
+    struct {
+        float temp;
+        float hum;
+        float press;
+    };
+    uint32_t raw[3];
 } offset;
 
 uint16_t usart_calc_crc (usart_header *hdr, usart_packet pack[], uint32_t chunk_cnt);

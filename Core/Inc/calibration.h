@@ -3,9 +3,9 @@
 #include "main.h"
 #include "usart_ex.h"
 
-void calibration_init(void);
+union offset calibration_init(void);
 uint32_t calibration_get_count(void);
-uint32_t calibration_save(struct offset *offset);
+void calibration_save(union offset *offset);
 uint32_t calibration_clear(void);
 
 #endif /* __CALIBRATION_H */

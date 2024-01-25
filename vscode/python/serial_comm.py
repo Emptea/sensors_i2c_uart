@@ -78,7 +78,7 @@ cmd_write_hum_sens = bytearray(28)
 # H - u16
 # B - u8
 # f - f32
-struct.pack_into('4s I I I H H B B H f', cmd_write_hum_sens, 0, b'AURA', 1, 0, press_addr, 5, 8, 5, 7, 4, 10)
+struct.pack_into('4s I I I H H B B H f', cmd_write_hum_sens, 0, b'AURA', 1, 0, press_addr, 5, 8, 4, 7, 4, 5.5)
 cmd_write_hum_sens.extend(crc16(cmd_write_hum_sens).to_bytes(2,'little'))
 print(' '.join(format(x, '02x') for x in cmd_write_hum_sens))
 
@@ -108,9 +108,9 @@ ser.open()
 #     response  = ser.read(20+8+2) #data from temp sens
 #     print(' '.join(format(x, '02x') for x in response))
 
-for i in range(3):
+for i in range(2):
     if i%2 == 1:
-        ser.write(cmd_write_hum_sens)
+        # ser.write(cmd_write_hum_sens)
 #         # print('whoami expander')
 #         # response  = ser.read(30) #whoami from expander
 #         # print(' '.join(format(x, '02x') for x in response))
@@ -138,7 +138,7 @@ for i in range(3):
 #         # print(' '.join(format(x, '02x') for x in response))
 
         for r in range(1):
-            print('data sensor', r)
+            print('data sensor')
             response  = ser.read(data_ans_hum_press_sz)
             if response: print(struct.unpack('4s I I I H H B B H f B B H f H', response))
             # print(' '.join(format(x, '02x') for x in response))
