@@ -10,9 +10,7 @@
 #include "usart_ex.h"
 
 #define SENSORS_CNT 5
-//#define LM75BD
-//#define ZS05
-//#define BMP180
+
 //#define WET_SENSOR
 
 enum sensor_type

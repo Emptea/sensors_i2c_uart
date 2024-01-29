@@ -241,7 +241,7 @@ I (..\Core\Inc\crc16.h)(0x651ECBF9)
 I (..\Core\Inc\gpio.h)(0x658406C2)
 I (..\Core\Inc\gpio_ex.h)(0x65B0C6B1)
 I (..\Core\Inc\tim.h)(0x6569F368)
-I (..\Core\Inc\sensors.h)(0x65B76BCC)
+I (..\Core\Inc\sensors.h)(0x65B77453)
 I (..\Core\Inc\lm75bd.h)(0x64F826C0)
 I (..\Core\Inc\tmp112.h)(0x651ED016)
 I (..\Core\Inc\sht3x_dis.h)(0x64F86DFD)
@@ -367,7 +367,7 @@ I (..\Core\Inc\gpio_ex.h)(0x65B0C6B1)
 I (..\Core\Inc\usart_ex.h)(0x65B76BBB)
 I (..\Core\Inc\uid_hash.h)(0x651EC31C)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
-I (..\Core\Inc\sensors.h)(0x65B76BCC)
+I (..\Core\Inc\sensors.h)(0x65B77453)
 I (..\Core\Inc\lm75bd.h)(0x64F826C0)
 I (..\Core\Inc\i2c.h)(0x65B75BA6)
 I (..\Core\Inc\tmp112.h)(0x651ED016)
@@ -404,7 +404,7 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_gpio.h)(0x64F1F689)
 I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
 I (..\Core\Inc\usart.h)(0x65AFD3A1)
 F (..\Core\Src\sensors.c)(0x65B773C2)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0 -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I./RTE/_sensors_i2c_uart-IC:/Users/Veronika/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-IC:/Users/Veronika/AppData/Local/Arm/Packs/Keil/STM32F0xx_DFP/2.1.1/Drivers/CMSIS/Device/ST/STM32F0xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F031x6 -D_RTE_ -DUSE_FULL_LL_DRIVER -DSTM32F031x6 -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DHSI_VALUE="8000000" -DLSI_VALUE="40000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="0" -DDATA_CACHE_ENABLE="0"-o sensors_i2c_uart/sensors.o -MD)
-I (..\Core\Inc\sensors.h)(0x65B76BCC)
+I (..\Core\Inc\sensors.h)(0x65B77453)
 I (..\Core\Inc\lm75bd.h)(0x64F826C0)
 I (..\Core\Inc\i2c.h)(0x65B75BA6)
 I (..\Core\Inc\main.h)(0x65AFDFB0)
@@ -475,7 +475,7 @@ I (..\Drivers\STM32F0xx_HAL_Driver\Inc\stm32f0xx_ll_tim.h)(0x64F1F689)
 I (..\Core\Inc\usart.h)(0x65AFD3A1)
 I (..\Core\Inc\crc16.h)(0x651ECBF9)
 I (..\Core\Inc\i2c.h)(0x65B75BA6)
-I (..\Core\Inc\sensors.h)(0x65B76BCC)
+I (..\Core\Inc\sensors.h)(0x65B77453)
 I (..\Core\Inc\lm75bd.h)(0x64F826C0)
 I (..\Core\Inc\tmp112.h)(0x651ED016)
 I (..\Core\Inc\sht3x_dis.h)(0x64F86DFD)
