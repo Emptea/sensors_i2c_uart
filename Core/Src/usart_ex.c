@@ -127,39 +127,49 @@ static uint32_t check_adr(usart_header *hdr)
     else return 0;
 }
     
-static void write_cmd_processing(usart_packet pack[], usart_packet *err_pack)
+static void write_cmd_processing(usart_packet pack[], usart_packet *err_pack, uint32_t chunk_cnt, uint32_t sensor_type)
 {
     static uint16_t err = 0xFF;
-    switch(pack->chunk_hdr.id)
+    while(chunk_cnt--)
     {
-        case CHUNK_ID_TEMP:
-            #ifdef WET_SENS
-                memcpy_u16(&err, err_pack->data, 2);
+        switch(pack->chunk_hdr.id)
+        {
+            case CHUNK_ID_TEMP:
+                #ifdef WET_SENS
+                    memcpy_u16(&err, err_pack->data, 2);
+                    return;
+                #else
+                    offset.temp = *((float *) pack->data);
+                #endif
+                break;
+            case CHUNK_ID_HUM:
+                if (sensor_type == SENSOR_TYPE_ZS05)
+                {
+                    offset.hum = *((float *) pack->data);
+                }
+                else
+                {
+                    memcpy_u16(&err, err_pack->data, 2);
+                    return;
+                }
+                break;
+            case CHUNK_ID_PRESS:
+                if (sensor_type == SENSOR_TYPE_BMP180)
+                {
+                    offset.press = *((float *) pack->data);
+                }
+                else
+                {
+                    memcpy_u16(&err, err_pack->data, 2);
+                    return;
+                }
+                break;
+            default:
                 return;
-            #else
-                offset.temp = *((float *) pack->data);
-            #endif
-            break;
-        case CHUNK_ID_HUM:
-            #ifndef ZS05
-                memcpy_u16(&err, err_pack->data, 2);
-                return;
-            #else
-                offset.hum = *((float *) pack->data);
-            #endif
-            break;
-        case CHUNK_ID_PRESS:
-            #ifndef BMP180
-                memcpy_u16(&err, err_pack->data, 2);
-                return;
-            #else
-                offset.press = *((float *) pack->data);
-            #endif
-            break;
-        default:
-            return;
-            break;
-    };
+                break;
+        };
+        pack++;
+    }
     calibration_save(&offset);
 }
     
@@ -178,7 +188,7 @@ uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *c
 			crc = 0;
 			break;
 		case STATE_RCV_CHECK_SZ:
-			if (!hdr->data_sz) usart_rcv_state = STATE_RCV_CRC;
+			if (!hdr->data_sz || hdr->data_sz > MAX_DATA_SZ) usart_rcv_state = STATE_RCV_CRC;
 			else usart_rcv_state = STATE_RCV_CHUNK_HEADER;
 			break;
 		case STATE_RCV_CHUNK_HEADER:
@@ -205,7 +215,7 @@ uint32_t usart_rxne_callback(usart_header *hdr, usart_packet pack[], enum cmd *c
                     *cmd = hdr->cmd+1; //switch from req to ans
                     if (hdr->cmd == CMD_WRITE && pack->chunk_hdr.type == DATA_TYPE_FLOAT32)
                     {
-                        write_cmd_processing(pack, &error_pack);
+                        write_cmd_processing(pack, &error_pack, chunk_cnt, sensor_type);
                     }
                     usart_rcv_state = STATE_RCV_HEADER;
                     return 1;

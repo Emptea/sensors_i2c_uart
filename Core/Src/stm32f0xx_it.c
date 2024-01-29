@@ -153,9 +153,9 @@ void USART1_IRQHandler(void)
 
 	/**RECEPTION**/
 	static usart_header recv_hdr = {0};
-	static usart_packet recv_pack = {0};
+	static usart_packet recv_pack[2] = {0};
 	
-	flags.usart1_rx_end = usart_rxne_callback(&recv_hdr, &recv_pack, &cmd, USART1);
+	flags.usart1_rx_end = usart_rxne_callback(&recv_hdr, recv_pack, &cmd, USART1);
     #ifdef DELAY
         if(flags.usart1_rx_end) LL_TIM_EnableCounter(TIM2);
     #else

@@ -2,7 +2,7 @@
 #include "flash.h"
 #include "tools.h"
 
-#define CALIBRATION_PAGE_NUM 30
+#define CALIBRATION_PAGE_NUM 31
 #define CALIBRATION_PAGE_SIZE     FLASH_PAGE_SIZE
 #define CALIBRATION_PAGE_ADDR     (flash_get_page_addr(CALIBRATION_PAGE_NUM))
 #define CALIBRATION_PAGE_ADDR_END (CALIBRATION_PAGE_ADDR + CALIBRATION_PAGE_SIZE - 1)
@@ -15,7 +15,7 @@
 #define __place2flash __attribute__((section(".keys")))
 #endif
 
-struct calibration_head
+volatile struct calibration_head
 {
     uint32_t cnt;
     union offset *new_offset;
@@ -46,10 +46,15 @@ union offset calibration_init(void)
         offset++;
         calibration_head.cnt++;
     }
-    calibration_head.new_offset = offset--;
+    calibration_head.new_offset = offset;
     
-    if (calibration_head.cnt) return *offset;
-    else return null_offset;
+    if (calibration_head.cnt)
+    {
+        offset--;
+        return *offset;
+    }
+    else
+        return null_offset;
 }
 
 uint32_t calibration_get_count(void)

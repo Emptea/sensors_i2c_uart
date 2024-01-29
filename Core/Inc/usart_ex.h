@@ -10,6 +10,8 @@
 #define HEADER_SIZE 20
 #define CHUNK_HEADER_SIZE 4
 
+#define MAX_DATA_SZ 16
+
 #define PROTOCOL_AURA 0x41525541
 
 #define DELAY
