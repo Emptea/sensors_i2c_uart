@@ -1,4 +1,5 @@
 #include "bmp180.h"
+#include "i2c_ex.h"
 
 /*
 \params mode - BMP180_CMD_MEAS_TEMP

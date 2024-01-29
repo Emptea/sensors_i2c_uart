@@ -1,4 +1,5 @@
 #include "lm75bd.h"
+#include "i2c_ex.h"
 
 static uint32_t lm75bd_read(uint8_t* data, uint32_t nbytes)
 {

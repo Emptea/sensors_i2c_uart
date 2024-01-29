@@ -1,4 +1,5 @@
 #include "zs05.h"
+#include "i2c_ex.h"
 
 static uint32_t zs05_check_crc(uint8_t *data, uint32_t len, uint8_t sent_crc)
 {

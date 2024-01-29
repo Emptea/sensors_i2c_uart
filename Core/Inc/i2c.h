@@ -28,23 +28,8 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* USER CODE BEGIN Private defines */
-
-/* USER CODE END Private defines */
-
 void MX_I2C1_Init(void);
 
-/* USER CODE BEGIN Prototypes */
-void i2c1_send (uint8_t data);
-uint32_t i2c1_read(uint8_t *data, uint32_t addr, uint32_t nbytes);
-uint32_t i2c1_pointer_read(uint8_t *data, uint32_t addr, uint32_t pointer, uint32_t nbytes);
-
-
-/* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }

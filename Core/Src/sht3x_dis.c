@@ -1,4 +1,5 @@
 #include "sht3x_dis.h"
+#include "i2c_ex.h"
 
 void sht3x_dis_send_cmd (uint32_t cmd)
 {
