@@ -1,5 +1,36 @@
 #include "i2c_ex.h"
 
+static uint32_t i2c1_init(uint8_t *addr)
+{
+    static uint32_t timeout = 10000;
+    timeout = 10000;
+    LL_I2C_HandleTransfer(I2C1, (*addr << 1), LL_I2C_ADDRSLAVE_7BIT, 1, LL_I2C_MODE_AUTOEND, LL_I2C_GENERATE_START_WRITE);
+    while(!LL_I2C_IsActiveFlag_TXIS(I2C1))
+    {
+        if (!timeout--) 
+            return 0;
+        
+        if (LL_I2C_IsActiveFlag_NACK(I2C1))
+		{
+			LL_I2C_ClearFlag_NACK(I2C1);
+			return 0;     
+		}
+    }
+    LL_I2C_TransmitData8(I2C1, 0);
+    return 1;
+}
+
+uint32_t i2c1_scan(uint8_t *addreses, uint32_t cnt)
+{
+    static uint32_t timeout = 10000;
+    for (uint32_t i = 1; i < cnt+1; i++)
+    {
+        if(i2c1_init(addreses++))
+            return i;
+    }
+    return 0;
+}
+
 void i2c1_send (uint8_t data)
 {	
 	while (!LL_I2C_IsActiveFlag_TXIS(I2C1))

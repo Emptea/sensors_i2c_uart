@@ -17,6 +17,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
+#include "i2c_ex.h"
 #include "usart.h"
 #include "usart_ex.h"
 #include "gpio.h"
@@ -83,7 +84,7 @@ int main(void)
     #ifndef DEBUG
         MX_IWDG_Init();
     #endif
-    sensors_init();
+    sensor_type = sensors_init();
     MX_TIM2_Init();
     
     turn_red_on(); //signal that power on
@@ -98,12 +99,13 @@ int main(void)
 	LL_USART_EnableIT_RXNE(USART1);
     
 	GPIO_EXTI_Enable();
+  
     
     offset = calibration_init();
 
     while (1)
     {
-        sensors_measure(data_pack);
+        sensors_measure(data_pack, sensor_type);
         #ifndef DEBUG
             if(is_green_on()) LL_IWDG_ReloadCounter(IWDG);
         #endif
