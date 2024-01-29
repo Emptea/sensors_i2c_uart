@@ -56,14 +56,14 @@ void usart_txe_callback(usart_header *hdr, usart_packet pack[], uint16_t crc_sen
 			break;
 		case STATE_SEND_LOOP_CHUNK:
 			if(pack_counter < pack_count - 1)
-				{
-					usart_send_state = STATE_SEND_CHUNK_HDR;
-					pack_counter++;
-				}
-				else
-				{
-					usart_send_state = STATE_SEND_CRC;
-				}
+            {
+                usart_send_state = STATE_SEND_CHUNK_HDR;
+                pack_counter++;
+            }
+            else
+            {
+                usart_send_state = STATE_SEND_CRC;
+            }
 			break;
 		case STATE_SEND_CRC:
 			usart_send_state += usart_sending(&crc_send, 2);

@@ -18,6 +18,7 @@
 "sensors_i2c_uart\iwdg.o"
 "sensors_i2c_uart\flash.o"
 "sensors_i2c_uart\calibration.o"
+"sensors_i2c_uart\debug.o"
 "sensors_i2c_uart\stm32f0xx_ll_gpio.o"
 "sensors_i2c_uart\stm32f0xx_ll_i2c.o"
 "sensors_i2c_uart\stm32f0xx_ll_dma.o"
