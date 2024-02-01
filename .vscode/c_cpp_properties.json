@@ -13,9 +13,10 @@
                 "USE_FULL_LL_DRIVER"
             ],
             "cStandard": "gnu23",
-            "compilerPath": "C:/ProgramData/chocolatey/lib/gcc-arm-embedded/tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc.exe -std=c2x",
+            "compilerPath": "${env:GCC_PATH}/arm-none-eabi-gcc.exe -std=c2x",
             "intelliSenseMode": "gcc-arm"
         }
     ],
     "version": 4
+    
 }
