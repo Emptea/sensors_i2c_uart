@@ -15,16 +15,17 @@ exp_addr = int.from_bytes(exp_addr, byteorder='little', signed=False)
 format_header = '4s I I I H H'
 format_data_hdr = 'B B H'
 format_u16 = format_data_hdr + 'H'
+format_u32 = format_data_hdr + 'I'
 format_f32 = format_data_hdr + 'f'
 
 err_ans_sz = 20+6+2
 err_ans_format = format_header + format_u16 + 'H'
 
-whoami_ans_exp_sz = 20+6+8+2*6+2
-whoami_ans_exp_format = format_header + format_u16  + format_f32 + format_u16 + format_u16 + 'H'
+data_ans_exp_sz = 20+6+6+2*6+2
+data_ans_exp_format = format_header + format_u16  + format_u16 + format_u16 + format_u16 + 'H'
 
 whoami_ans_sens_sz = 20+8+2
-whoami_ans_sens_format = format_header + format_f32 + format_f32 + 'H'
+whoami_ans_sens_format = format_header + format_u32 + 'H'
 
 data_ans_hum_press_sz = 20+8+8+2
 data_ans_hum_press_format = format_header + format_f32 + format_f32 + 'H'
@@ -65,14 +66,12 @@ print(' '.join(format(x, '02x') for x in cmd_write_sens_2meas))
 def ask(cmd, ans_format, ans_sz):
     ser.write(cmd)
     response=ser.read(ans_sz)
-    if response: print(struct.unpack(ans_format, response))
     print(' '.join(format(x, '02x') for x in response))
-
-
+    if response: print(struct.unpack(ans_format, response))
 
 ser = serial.Serial()
 ser.baudrate= 19200
-ser.port = 'COM7'
+ser.port = 'COM13'
 ser.timeout = 0.05
 ser.open()
 
@@ -84,7 +83,8 @@ ser.open()
 #         if response: print(struct.unpack('4s I I I H H B B H H H', response))
 #         print(' '.join(format(x, '02x') for x in response))
 
-ask(cmd_whoami, whoami_ans_exp_format, whoami_ans_exp_sz)
+ask(cmd_whoami, whoami_ans_sens_format, 30)
+ask(cmd_data, data_ans_exp_format, data_ans_exp_sz)
 
 # for i in range(10):
 #     if i%2 == 1:
