@@ -71,11 +71,12 @@ def ask(cmd, ans_format, ans_sz):
 
 ser = serial.Serial()
 ser.baudrate= 19200
-ser.port = 'COM13'
+ser.port = 'COM18'
 ser.timeout = 0.05
 ser.open()
 
 # for i in range(1):
+
 #     ser.write(cmd_write_sens_2meas)
 #     for k in range(1):
 #         print('err ans sensor', k)
@@ -84,7 +85,8 @@ ser.open()
 #         print(' '.join(format(x, '02x') for x in response))
 
 ask(cmd_whoami, whoami_ans_sens_format, 30)
-ask(cmd_data, data_ans_exp_format, data_ans_exp_sz)
+ask(cmd_data, data_ans_temp_format, data_ans_temp_sz)
+#ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
 
 # for i in range(10):
 #     if i%2 == 1:

@@ -28,6 +28,7 @@
 #include "calibration.h"
 
 // #define DEBUG
+#define WET_SENSOR
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
@@ -87,7 +88,12 @@ int main(void)
 #ifndef DEBUG
     MX_IWDG_Init();
 #endif
+
+#ifndef WET_SENSOR
     sensor_type = sensors_init();
+ #else
+    sensor_type = SENSOR_TYPE_WETSENS;
+ #endif
     MX_TIM2_Init();
 
     turn_red_on(); // signal that power on
