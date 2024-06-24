@@ -14,6 +14,7 @@ exp_addr = int.from_bytes(exp_addr, byteorder='little', signed=False)
 
 format_header = '4s I I I H H'
 format_data_hdr = 'B B H'
+format_u8 = format_data_hdr + 'B'
 format_u16 = format_data_hdr + 'H'
 format_u32 = format_data_hdr + 'I'
 format_f32 = format_data_hdr + 'f'
@@ -32,6 +33,9 @@ data_ans_hum_press_format = format_header + format_f32 + format_f32 + 'H'
 
 data_ans_temp_sz = 20+8+2
 data_ans_temp_format = format_header + format_f32 + 'H'
+
+data_ans_wetsens_sz = 20+6+2
+data_ans_wetsens_format = format_header + format_u8 + 'H'
 
 #whoami
 cmd_whoami = bytearray(20)
@@ -67,7 +71,12 @@ def ask(cmd, ans_format, ans_sz):
     ser.write(cmd)
     response=ser.read(ans_sz)
     print(' '.join(format(x, '02x') for x in response))
-    if response: print(struct.unpack(ans_format, response))
+    if response:
+        unpacked_response = struct.unpack(ans_format, response)
+        print(unpacked_response)  # For debugging or verification
+        return unpacked_response
+    else:
+        return None  # or handle the case where response is empty
 
 ser = serial.Serial()
 ser.baudrate= 19200
@@ -84,9 +93,21 @@ ser.open()
 #         if response: print(struct.unpack('4s I I I H H B B H H H', response))
 #         print(' '.join(format(x, '02x') for x in response))
 
-ask(cmd_whoami, whoami_ans_sens_format, 30)
-ask(cmd_data, data_ans_temp_format, data_ans_temp_sz)
-#ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
+resp_whoami = ask(cmd_whoami, whoami_ans_sens_format, 30)
+if resp_whoami[9] == 1:
+    ask(cmd_data, data_ans_temp_format, data_ans_temp_sz)
+    print('temp sens')
+elif resp_whoami[9] == 9:
+    ask(cmd_data, data_ans_wetsens_format, data_ans_wetsens_sz)
+    print('wet sens')
+elif resp_whoami[9] == 5:
+    ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
+    print('press+temp sens')
+elif resp_whoami[9] == 4:
+    ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
+    print('hum+temp sens')
+else:
+    print('not a sens')
 
 # for i in range(10):
 #     if i%2 == 1:
