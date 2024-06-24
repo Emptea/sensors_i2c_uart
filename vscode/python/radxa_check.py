@@ -69,31 +69,44 @@ print(' '.join(format(x, '02x') for x in cmd_write_sens_2meas))
 
 def ask(cmd, ans_format, ans_sz):
     ser.write(cmd)
-    response=ser.read(ans_sz)
+    response = ser.read(ans_sz)
     print(' '.join(format(x, '02x') for x in response))
     if response:
-        unpacked_response = struct.unpack(ans_format, response)
-        print(unpacked_response)  # For debugging or verification
-        return unpacked_response
+        try:
+            unpacked_response = struct.unpack(ans_format, response)
+            print(unpacked_response)  # For debugging or verification
+            return unpacked_response
+        except struct.error as e:
+            print(f"Can't unpack struct: {e}")
+            return None
     else:
         return None  # or handle the case where response is empty
-    
+
+
 def ask_sens():
     resp_whoami = ask(cmd_whoami, whoami_ans_sens_format, 30)
-    if resp_whoami[9] == 1:
-        ask(cmd_data, data_ans_temp_format, data_ans_temp_sz)
-        print('temp sens')
-    elif resp_whoami[9] == 9:
-        ask(cmd_data, data_ans_wetsens_format, data_ans_wetsens_sz)
-        print('wet sens')
-    elif resp_whoami[9] == 5:
-        ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
-        print('press+temp sens')
-    elif resp_whoami[9] == 4:
-        ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
-        print('hum+temp sens')
-    else:
-        print('not a sens')
+    if resp_whoami is None:
+        print("Failed to unpack response for WHOAMI")
+        return
+
+    try:
+        if resp_whoami[9] == 1:
+            ask(cmd_data, data_ans_temp_format, data_ans_temp_sz)
+            print('temp sens')
+        elif resp_whoami[9] == 9:
+            ask(cmd_data, data_ans_wetsens_format, data_ans_wetsens_sz)
+            print('wet sens')
+        elif resp_whoami[9] == 5:
+            ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
+            print('press+temp sens')
+        elif resp_whoami[9] == 4:
+            ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
+            print('hum+temp sens')
+        else:
+            print('not a sens')
+    except IndexError as e:
+        print(f"Error accessing field in response: {e}")
+
 
 ports = [f'/dev/ttyUSB{i}' for i in range(8)]
 
@@ -108,5 +121,9 @@ for port in ports:
         ser.open()
         ask_sens()
         ser.close()
-    except:
-        print('port closed or no sens connected')
+    except serial.SerialException as e:
+        print(f"Port {port} closed: {e}")
+    except Exception as e:
+        print(f"Unexpected error on port {port}: {e}")
+    finally:
+        if ser.is_open: ser.close()
