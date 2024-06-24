@@ -93,6 +93,7 @@ int main(void)
     sensor_type = sensors_init();
  #else
     sensor_type = SENSOR_TYPE_WETSENS;
+    init_wetsens();
  #endif
     MX_TIM2_Init();
 

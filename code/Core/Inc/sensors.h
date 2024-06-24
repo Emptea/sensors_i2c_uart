@@ -28,5 +28,6 @@ enum sensor_type {
 
 uint32_t sensors_init(void);
 void sensors_measure(usart_packet p[], uint32_t sensor_type);
+void init_wetsens(void);
 
 #endif /* __SENSORS_H__ */
