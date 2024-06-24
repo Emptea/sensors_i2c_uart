@@ -37,7 +37,7 @@ data_ans_temp_format = format_header + format_f32 + 'H'
 data_ans_wetsens_sz = 20+6+2
 data_ans_wetsens_format = format_header + format_u8 + 'H'
 
-data_ans_handle_sz = 20 +6+6+2
+data_ans_handle_sz = 20+6+6+2
 data_ans_handle_format = format_header + format_u16 + format_u16 + 'H'
 
 #whoami

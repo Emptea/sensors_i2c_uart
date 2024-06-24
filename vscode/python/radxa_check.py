@@ -37,6 +37,9 @@ data_ans_temp_format = format_header + format_f32 + 'H'
 data_ans_wetsens_sz = 20+6+2
 data_ans_wetsens_format = format_header + format_u8 + 'H'
 
+data_ans_handle_sz = 20+6+6+2
+data_ans_handle_format = format_header + format_u16 + format_u16 + 'H'
+
 #whoami
 cmd_whoami = bytearray(20)
 struct.pack_into(format_header, cmd_whoami, 0, b'AURA', 1, own_addr, 0, 1, 0)
@@ -101,6 +104,9 @@ def ask_sens():
         elif resp_whoami[9] == 4:
             ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
             print('hum+temp sens')
+        elif resp_whoami[9] == 7:
+            ask(cmd_data, data_ans_handle_format, data_ans_handle_sz)
+            print('door handle')
         else:
             print('not a sens')
     except IndexError as e:
