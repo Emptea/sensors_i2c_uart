@@ -65,13 +65,12 @@ cmd_write_sens_1meas.extend(crc16(cmd_write_sens_1meas).to_bytes(2,'little'))
 cmd_write_sens_2meas = bytearray(36)
 struct.pack_into(format_header + format_f32 + format_f32, cmd_write_sens_2meas, 0, b'AURA', 1, 0, press_addr, 5, 16, 4, 7, 4, 5.5, 4, 7, 4, 0)
 cmd_write_sens_2meas.extend(crc16(cmd_write_sens_2meas).to_bytes(2,'little'))
-print(' '.join(format(x, '02x') for x in cmd_write_sens_2meas))
 
 def ask(cmd, ans_format, ans_sz):
     ser.write(cmd)
     response = ser.read(ans_sz)
-    print(' '.join(format(x, '02x') for x in response))
     if response:
+        print(' '.join(format(x, '02x') for x in response))
         try:
             unpacked_response = struct.unpack(ans_format, response)
             print(unpacked_response)  # For debugging or verification
@@ -111,11 +110,11 @@ def ask_sens():
 ports = [f'/dev/ttyUSB{i}' for i in range(8)]
 
 ser = serial.Serial()
-ser.baudrate= 19200
+ser.baudrate = 19200
 ser.timeout = 0.05
-ser.open()
 
 for port in ports:
+    print(port)
     try:
         ser.port = port
         ser.open()
@@ -126,4 +125,6 @@ for port in ports:
     except Exception as e:
         print(f"Unexpected error on port {port}: {e}")
     finally:
-        if ser.is_open: ser.close()
+        if ser.is_open:
+            ser.close()
+    print()
