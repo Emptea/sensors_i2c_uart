@@ -14,7 +14,7 @@
 
 #define PROTOCOL_AURA     0x41525541
 
-#define DELAY
+// #define DELAY
 
 enum data_type {
     DATA_TYPE_INT8 = 1,

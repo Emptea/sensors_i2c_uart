@@ -3,7 +3,7 @@
 <title>Static Call Graph - [sensors_i2c_uart\sensors_i2c_uart.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image sensors_i2c_uart\sensors_i2c_uart.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Mon Jun 24 15:13:41 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Tue Jun 25 11:09:17 2024
 <BR><P>
 <H3>Maximum Stack Usage =        140 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -551,6 +551,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = USART1_IRQHandler &rArr; usart_rxne_callback &rArr; write_cmd_processing &rArr; calibration_save &rArr; flash_memcpy_u16 &rArr; _debug_error_handler &rArr; LL_mDelay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_recv_timeout_callback
+<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_start_sending_routine
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_rxne_callback
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_txe_callback
 </UL>
@@ -665,7 +666,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensors_measure
 </UL>
 
-<P><STRONG><a name="[27]"></a>main</STRONG> (Thumb, 192 bytes, Stack size 16 bytes, main.o(.text.main))
+<P><STRONG><a name="[27]"></a>main</STRONG> (Thumb, 188 bytes, Stack size 16 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 140<LI>Call Chain = main &rArr; MX_USART1_UART_Init &rArr; LL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensors_measure
@@ -733,6 +734,7 @@ Global Symbols
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc16
 </UL>
 <BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
+<LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
 <P><STRONG><a name="[4a]"></a>usart_txe_callback</STRONG> (Thumb, 284 bytes, Stack size 20 bytes, usart_ex.o(.text.usart_txe_callback))

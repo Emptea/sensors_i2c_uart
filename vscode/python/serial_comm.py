@@ -81,7 +81,7 @@ def ask(cmd, ans_format, ans_sz):
         return None  # or handle the case where response is empty
 
 ser = serial.Serial()
-ser.baudrate= 19200
+ser.baudrate= 115200
 ser.port = 'COM18'
 ser.timeout = 0.05
 ser.open()
