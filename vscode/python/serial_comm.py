@@ -1,84 +1,7 @@
 import serial
-import crcmod
-import struct
-from collections import namedtuple
-
-crc16 = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
-
-temp_addr = bytearray([0xd6,0x5e, 0x9b, 0x4f])
-press_addr = 0x86C97864
-own_addr = 0x00000000
-handle_addr = 0x00
-exp_addr = bytearray([97, 52, 232, 28])
-exp_addr = int.from_bytes(exp_addr, byteorder='little', signed=False)
-
-format_header = '4s I I I H H'
-format_data_hdr = 'B B H'
-format_u8 = format_data_hdr + 'B'
-format_u16 = format_data_hdr + 'H'
-format_u32 = format_data_hdr + 'I'
-format_f32 = format_data_hdr + 'f'
-
-err_ans_sz = 20+6+2
-err_ans_format = format_header + format_u16 + 'H'
-
-data_ans_exp_sz = 20+6+6+2*6+2
-data_ans_exp_format = format_header + format_u16  + format_u16 + format_u16 + format_u16 + 'H'
-
-whoami_ans_sens_sz = 20+8+2
-whoami_ans_sens_format = format_header + format_u32 + 'H'
-
-data_ans_hum_press_sz = 20+8+8+2
-data_ans_hum_press_format = format_header + format_f32 + format_f32 + 'H'
-
-data_ans_temp_sz = 20+8+2
-data_ans_temp_format = format_header + format_f32 + 'H'
-
-data_ans_wetsens_sz = 20+6+2
-data_ans_wetsens_format = format_header + format_u8 + 'H'
-
-data_ans_handle_sz = 20+6+6+2
-data_ans_handle_format = format_header + format_u16 + format_u16 + 'H'
-
-#whoami
-cmd_whoami = bytearray(20)
-struct.pack_into(format_header, cmd_whoami, 0, b'AURA', 1, own_addr, 0, 1, 0)
-cmd_whoami.extend(crc16(cmd_whoami).to_bytes(2,'little'))
-
-#data req
-cmd_data = bytearray(20)
-struct.pack_into(format_header, cmd_data, 0, b'AURA', 1, own_addr, 0, 3, 0)
-cmd_data.extend(crc16(cmd_data).to_bytes(2,'little'))
-
-#write req for handle
-cmd_write_handle = bytearray(20)
-struct.pack_into(format_header, cmd_write_handle, 0, b'AURA', 1, 0, handle_addr, 7, 0)
-cmd_write_handle.extend(crc16(cmd_write_handle).to_bytes(2,'little'))
-
-#write req for expander
-cmd_write_exp = bytearray(26)
-struct.pack_into(format_header + format_u16, cmd_write_exp, 0, b'AURA', 1, 0, exp_addr, 5, 6, 4, 4, 2, 0x00FF)
-cmd_write_exp.extend(crc16(cmd_write_exp).to_bytes(2,'little'))
-
-#write req for sens
-cmd_write_sens_1meas = bytearray(28)
-struct.pack_into(format_header + format_f32, cmd_write_sens_1meas, 0, b'AURA', 1, 0, press_addr, 5, 8, 4, 7, 4, 5.5)
-cmd_write_sens_1meas.extend(crc16(cmd_write_sens_1meas).to_bytes(2,'little'))
-
-cmd_write_sens_2meas = bytearray(36)
-struct.pack_into(format_header + format_f32 + format_f32, cmd_write_sens_2meas, 0, b'AURA', 1, 0, press_addr, 5, 16, 4, 7, 4, 5.5, 4, 7, 4, 0)
-cmd_write_sens_2meas.extend(crc16(cmd_write_sens_2meas).to_bytes(2,'little'))
-
-def ask(cmd, ans_format, ans_sz):
-    ser.write(cmd)
-    response=ser.read(ans_sz)
-    print(' '.join(format(x, '02x') for x in response))
-    if response:
-        unpacked_response = struct.unpack(ans_format, response)
-        print(unpacked_response)  # For debugging or verification
-        return unpacked_response
-    else:
-        return None  # or handle the case where response is empty
+from formats import *
+from com import *
+import time
 
 ser = serial.Serial()
 ser.baudrate= 115200
@@ -86,47 +9,26 @@ ser.port = 'COM18'
 ser.timeout = 0.05
 ser.open()
 
-# for i in range(1):
+time.sleep(1)
+addr = com_req_whoami(ser)
+# print(addr)
+com_req_data(ser)
 
-#     ser.write(cmd_write_sens_2meas)
-#     for k in range(1):
-#         print('err ans sensor', k)
-#         response  = ser.read(err_ans_sz)
-#         if response: print(struct.unpack('4s I I I H H B B H H H', response))
-#         print(' '.join(format(x, '02x') for x in response))
+# com_handle_open(ser, addr, lock.unlock)
 
-resp_whoami = ask(cmd_whoami, whoami_ans_sens_format, 30)
-if resp_whoami[9] == 1:
-    ask(cmd_data, data_ans_temp_format, data_ans_temp_sz)
-    print('temp sens')
-elif resp_whoami[9] == 9:
-    ask(cmd_data, data_ans_wetsens_format, data_ans_wetsens_sz)
-    print('wet sens')
-elif resp_whoami[9] == 5:
-    ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
-    print('press+temp sens')
-elif resp_whoami[9] == 4:
-    ask(cmd_data, data_ans_hum_press_format, data_ans_hum_press_sz)
-    print('hum+temp sens')
-elif resp_whoami[9] == 7:
-    ask(cmd_data, data_ans_handle_format, data_ans_handle_sz)
-    print('door handle')
-else:
-    print('unrecognised device')
+# com_handle_erase_cards(ser, addr)
+# cards = list([7, b"4\x11\x9ci4'\xe6", 
+#               4, b"\xa5\x82<\x9a\x00\x00\x00"])
+# com_handle_write_uids(ser, addr, cards, 2)
 
-# for i in range(10):
-#     if i%2 == 1:
-#         ser.write(cmd_write_sens_2meas)
-#         for k in range(1):
-#             print('err ans sensor', k)
-#             response  = ser.read(err_ans_sz)
-#             if response: print(struct.unpack('4s I I I H H B B H H H', response))
+# com_handle_write_uids(ser, addr, cards, 2)
 
-#     else:
-#         ser.write(cmd_data)
+# n_cards = 5
+# com_handle_read_uids(ser, addr, id_data_handle.read_saved_uids, n_cards)
 
-#         for r in range(1):
-#             print('data sensor')
-#             response  = ser.read(data_ans_hum_press_sz)
-#             if response: print(struct.unpack('4s I I I H H B B H f B B H f H', response))
-#             print(' '.join(format(x, '02x') for x in response))
+# n_cards = 3
+# com_handle_read_uids(ser, addr, id_data_handle.read_new_uids, n_cards)
+
+# com_handle_read_last_uid(ser, addr, 2)
+
+# com_handle_write_time(ser, addr, 10)
