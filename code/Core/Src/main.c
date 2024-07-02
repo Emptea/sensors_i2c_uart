@@ -28,7 +28,7 @@
 #include "calibration.h"
 
 // #define DEBUG
-#define WET_SENSOR
+// #define WET_SENSOR
 
 struct zs05_data zs05_data = {0};
 struct p_bmp180 p_bmp180 = {0};
@@ -81,19 +81,20 @@ int main(void)
 
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
-#ifndef WET_SENSOR
-    MX_I2C1_Init();
-#endif
+    uint8_t i2c_on = LL_GPIO_IsInputPinSet(I2C_GPIO, I2C_SCL);
+    if (i2c_is_on()) {
+        MX_I2C1_Init();
+    } 
     MX_USART1_UART_Init();
 #ifndef DEBUG
     MX_IWDG_Init();
 #endif
 
-#ifndef WET_SENSOR
-    sensor_type = sensors_init();
- #else
-    init_wetsens();
- #endif
+    if(i2c_is_on()){
+        sensor_type = sensors_init();
+    } else {
+        init_wetsens();
+    }
     MX_TIM2_Init();
 
     turn_red_on(); // signal that power on

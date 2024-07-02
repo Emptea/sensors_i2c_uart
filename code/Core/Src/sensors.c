@@ -74,6 +74,7 @@ void init_wetsens(void)
     sensor_type = SENSOR_TYPE_WETSENS;
 
     LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
+    turn_green_on();
 }
 
 uint32_t sensors_init(void)
