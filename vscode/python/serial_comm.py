@@ -9,7 +9,7 @@ ser.port = 'COM18'
 ser.timeout = 0.05
 ser.open()
 
-time.sleep(1)
+time.sleep(4)
 addr = com_req_whoami(ser)
 # print(addr)
 com_req_data(ser)
