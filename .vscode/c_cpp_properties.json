@@ -7,7 +7,8 @@
             ],
             "defines": [
                 "DEBUG",
-                "STM32F031x6",
+                // "STM32F031x6",
+                "STM32F051x8",
                 "USE_LOGGER=LOGGER_ON",
                 "ST25R3911",
                 "USE_FULL_LL_DRIVER"
