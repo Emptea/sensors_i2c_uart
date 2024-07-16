@@ -25,6 +25,19 @@
 extern "C" {
 #endif
 
+
+#ifdef STM32F031x6
+    #define USART_GPIO  GPIOA
+    #define USART_DE_PIN LL_GPIO_PIN_1
+    #define USART_TX_PIN  LL_GPIO_PIN_2
+    #define USART_RX_PIN  LL_GPIO_PIN_3
+#elif STM32F051x8
+    #define USART_GPIO  GPIOA
+    #define USART_DE_PIN LL_GPIO_PIN_12
+    #define USART_TX_PIN  LL_GPIO_PIN_9
+    #define USART_RX_PIN  LL_GPIO_PIN_10
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx_ll_usart.h"
 
