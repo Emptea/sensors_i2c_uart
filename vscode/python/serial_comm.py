@@ -13,7 +13,10 @@ time.sleep(4)
 addr = com_req_whoami(ser)
 # print(addr)
 com_req_data(ser)
-
+com_write_sens_1meas(ser, addr, 5.5)
+#com_write_sens_2meas(ser, addr, id_data_sens.hum, 3.5, 5.5)
+time.sleep(1)
+com_req_data(ser)
 # com_handle_open(ser, addr, lock.unlock)
 
 # com_handle_erase_cards(ser, addr)

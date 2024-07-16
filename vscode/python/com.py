@@ -38,29 +38,30 @@ def com_write_exp(ser, addr):
     ask(ser, cmd_write_exp)
 
 #write req for sens
-def com_write_sens_1meas(ser, addr):
+def com_write_sens_1meas(ser, addr, data):
     cmd = create_hdr(fcn_id.WRITE_REQ, addr, 8)
     struct.pack_into(format_f32, cmd, sz_header,
                     id_data_sens.temp, 
                     data_type.f32, 
                     4, 
-                    5.5)
+                    data)
     cmd.extend(crc16(cmd).to_bytes(2,'little'))
     ask(ser, cmd)
 
-def com_write_sens_2meas(ser, addr, id_data_2nd):
+def com_write_sens_2meas(ser, addr, id_data_2nd, data1, data2):
     cmd = create_hdr(fcn_id.WRITE_REQ, addr, 16)
     struct.pack_into(format_f32, cmd, sz_header,
                     id_data_sens.temp, 
                     data_type.f32, 
                     4, 
-                    5.5)
+                    data1)
     struct.pack_into(format_f32,cmd, sz_header +sz_data_hdr+ 4,
                     id_data_2nd, 
                     data_type.f32, 
                     4, 
-                    1.5)
+                    data2)
     cmd.extend(crc16(cmd).to_bytes(2,'little'))
+    ask(ser, cmd)
 
 #write cards req for handle
 def com_handle_write_uids(ser, addr, cards, n_cards):
