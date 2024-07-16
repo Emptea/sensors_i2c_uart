@@ -134,12 +134,7 @@ static void write_cmd_processing(usart_packet pack[], usart_packet *err_pack, ui
     while (chunk_cnt--) {
         switch (pack->chunk_hdr.id) {
         case CHUNK_ID_TEMP:
-#ifdef WET_SENS
-            memcpy_u16(&err, err_pack->data, 2);
-            return;
-#else
             offset.temp = *((float *)pack->data);
-#endif
             break;
         case CHUNK_ID_HUM:
             if (sensor_type == SENSOR_TYPE_ZS05) {
@@ -158,6 +153,7 @@ static void write_cmd_processing(usart_packet pack[], usart_packet *err_pack, ui
             }
             break;
         default:
+            memcpy_u16(&err, err_pack->data, 2);
             return;
             break;
         };
